@@ -6,10 +6,11 @@ import apiUrl from '../config/config';
 const DO_SOMETHING = 'DO_SOMETHING';
 const FETCH_MEMORIES = 'FETCH_MEMORIES';
 const RECEIVE_MEMORIES = 'RECEIVE_MEMORIES';
-const LOGIN_REQUEST = 'LOGIN_REQUEST';
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-const LOGIN_FAILURE = 'LOGIN_FAILURE';
+
 const REGISTER_USER = 'REGISTER_USER';
+const REGISTER_REQUEST = 'REGISTER_REQUEST';
+const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+const REGISTER_FAIL = 'REGISTER_FAIL';
 const VERIFY_REQUEST = 'VERIFY_REQUEST';
 const VERIFY_SUCCESS = 'VERIFY_SUCCESS';
 const VERIFY_FAIL = 'VERIFY_FAIL';
@@ -46,6 +47,32 @@ const doSomething = (text) => {
     }
 
 }
+
+const registerRequest = () => {
+
+}
+
+const registerSuccess = () => {
+
+}
+
+const registerFail = () => {
+
+}
+
+const verifyRequest = () => {
+
+}
+
+const verifySuccess = () => {
+
+}
+
+const verifyFail = () => {
+
+}
+
+
 
 
 

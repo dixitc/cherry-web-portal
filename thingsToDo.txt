@@ -17,12 +17,15 @@ thingsToDo (down the line) :
 	- setup testing environment
 
 
+AUTH FLOW :
+
 auth state transition in login
 
 auth : {
 	isFetching : false,
 	isAuthenticated : false,
-	isRegistered : false
+	isRegistered : false,
+	profile : {}
 }
 
 onSubmit => (handleRegistration) => dispatch(registerRequest)
