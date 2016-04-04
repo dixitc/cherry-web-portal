@@ -1,6 +1,6 @@
 let initState = {
     id: 1,
-    title: "click this memory"
+    title: "Login"
 }
 
 let updateTitle = "cherry memories";

@@ -4,19 +4,11 @@ import doSomething from '../actions/actions';
 import TextField from 'material-ui/lib/text-field';
 
 
-
-
-
-
-
-
-
-
-const MessageText = (props) => {
+const MessageText = () => {
 
 	return (
 		<div>
-			<span> yolo {props.text} </span>
+
 			<div>
 				<MyInputField />
 			</div>
@@ -28,17 +20,19 @@ const MessageText = (props) => {
 
 const Message = ({memory , clickHandler}) => (
 	<div>
-	<p style={{color : 'red'}} onClick={() => clickHandler(memory)}>  {memory.title}  </p>
-	<MessageText text={memory.title}>
+	<p style={{color : 'red'}} onClick={() => clickHandler(memory)}>  user is authenticated</p>
+	<MessageText>
 	</MessageText>
 
 	</div>
 )
 
+
+
 const MyInputField = () => {
 	return (
 
-		<TextField hintText="Hint Text"/>
+		<TextField hintText="Enter your mobile number"/>
 	)
 }
 
@@ -75,4 +69,4 @@ const SmartMessage = connect(
 	mapDispatchToProps
 )(Message) ;
 
-export default SmartMessage;
+export  {SmartMessage};

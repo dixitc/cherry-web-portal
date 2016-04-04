@@ -14,7 +14,68 @@ MY_USER :
 
 thingsToDo (down the line) :
 	- npm-shrinkwrap
-	- integrate testing
+	- setup testing environment
+
+
+auth state transition in login
+
+auth : {
+	isFetching : false,
+	isAuthenticated : false,
+	isRegistered : false
+}
+
+onSubmit => (handleRegistration) => dispatch(registerRequest)
+
+|
+V
+update state
+auth : {
+	isFetching : true,
+	isAuthenticated : false,
+	isRegistered : false
+}
+
+        <== {"verificationId" : "_id"} (from server)
+onResponse => dispatch(registerSuccess(verificationId))
+
+|
+V
+
+update state
+auth : {
+	isFetching : false,
+	isAuthenticated : false,
+	isRegistered : true
+}
+
+dispatch(verifyRequest(verificationId,OTP))
+
+|
+V
+update state
+
+auth : {
+	isFetching : true,
+	isAuthenticated : false,
+	isRegistered : true
+}
+		<== json = {"authToken" : "_token" , "profile" : {profileObject}}
+onResponse => dispatch(verifySuccess(json))
+
+|
+V
+update state
+
+auth : {
+	isFetching : false,
+	isAuthenticated : true,
+	isRegistered : true,
+	profile : {profileObject}
+}
+
+set LocalStorage  , localStoreage.setItem('cherry_user',auth)
+redirectToHome (or the default authenticated route)
 
 
 
@@ -22,19 +83,19 @@ thingsToDo (down the line) :
 FLOW:
 
 USER INPUTS PHONE NUMBER : {
- 	DISPATCH ACTION REGISTER_USER :{
-		ON SUCCESS DISPATCH REGISTER_SUCCESS : {
-		 	DISPATCH VERIFY_USER : {
-				ON SUCCESS DISPATCH VERIFY_SUCCESS : {
-					SET isAuthnenticated , profile , authoken , save to localStorage
+ 	DISPATCH ACTION REGISTER_USER(creds) : {
+		ON SUCCESS DISPATCH REGISTER_SUCCESS(verificationId) : {
+		 	DISPATCH VERIFY_USER(verificationId , otp) : {
+				ON SUCCESS DISPATCH VERIFY_SUCCESS(response) : {
+					SET authState fields - isAuthnenticated , profile , authoken , save authState to localStorage
 				},
-				ON FAIL DISPATCH VERIFY_FAIL : {
-
+				ON FAIL DISPATCH VERIFY_FAIL(errorCode) : {
+					HANDLE FAILURE - SHOW UI FEEDBACK TO USER
 				}
 			}
 		},
-		ON FAIL DISPATCH REGISTER_FAIL : {
-
+		ON FAIL DISPATCH REGISTER_FAIL(errorCode) : {
+			HANDLE FAILURE - SHOW UI FEEDBACK TO USER
 		}
 	}
 }

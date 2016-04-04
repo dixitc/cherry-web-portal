@@ -10,8 +10,13 @@ const LOGIN_REQUEST = 'LOGIN_REQUEST';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_FAILURE = 'LOGIN_FAILURE';
 const REGISTER_USER = 'REGISTER_USER';
+const VERIFY_REQUEST = 'VERIFY_REQUEST';
+const VERIFY_SUCCESS = 'VERIFY_SUCCESS';
+const VERIFY_FAIL = 'VERIFY_FAIL';
+
 
 /*
+// API CALLS  => ASYNC ACTIONS
 async action types
 {
 type : 'FETCH_MEMORIES',
@@ -50,9 +55,10 @@ const registerUser = (creds) => {
 		headers: {'Content-Type':'application/x-www-form-urlencoded'},
 		body: 'identifier=${creds.identifier}&identifierType=${creds.identifierType}&verificationMode=${creds.verificationMode}'
 	}
-	let url = apiUrl + "register.json"l;
+	let url = apiUrl + "register.json";
+
 	return dispatch => {
-		// We dispatch requestLogin to kickoff the call to the API
+		// We dispatch requestLogin to kickoff the call to the API . THIS WILL DEPEND ON THE AUTH FLOW WE DECIDE EVENTUALLY , JUST REGISTER_USER FOR NOW.
 		dispatch(requestLogin(creds))
 
 		return fetch(url , config)

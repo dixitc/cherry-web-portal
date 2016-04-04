@@ -33,9 +33,9 @@ console.log(this.props);
    />
 <Link to="/">home</Link>
 <br/>
-<Link to="/foo">foo</Link>
+<Link to="/login">login</Link>
 <br/>
-<Link to="/bar">bar</Link>
+<Link to="/authenticated">authenticated</Link>
 <br/>
       <h1 style={{color:'blue'}} >Cherry react</h1>
 	  {this.props.children}
