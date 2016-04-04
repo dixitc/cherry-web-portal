@@ -1,0 +1,60 @@
+Cherry-web notes:
+
+development-tools :
+
+react-hot-loader
+npm
+webpack
+
+Things-to-decide :
+authentication flow (mobile/email etc)
+backend for authentication
+future deployment ? (server or client-side)
+
+
+stack :
+
+UI - react + material-ui (in react)
+routing - react-router
+state management - redux
+authentication  - redux-auth (authGlobals integrates with reat-route for
+		  authenticated routes)
+gridview (album) - react-grid-layout (https://github.com/STRML/react-grid-layout)
+
+
+Testing :
+expect library for assertions(https://github.com/mjackson/expect)
+mocha
+
+screens :
+/login (default unauthenticated)
+/memories (default authenticated)
+/memory/:memory-title
+/profile
+/settings
+/user/:user-name (other users profile)
+
+user-actions:
+like a memory
+like a moment
+comment on a memory
+comment on a moment
+join/dismiss a memory
+upload new moments to an existing memory
+
+data-fetching :
+fetch (that comes with redux-auth)
+
+
+task 1.
+integrate react-router with hot-loader
+task 2.
+integrate redux-auth into react-router
+task 3.
+get authentication to work.
+task 4.
+setup authenticated routes
+task 5.
+integrate material-ui
+task 6.
+start individual screens

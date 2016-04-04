@@ -1,0 +1,94 @@
+
+render ({
+	let name = this.props.product.stocked ?
+	this.props.product.name :
+	<span style={{color : 'red'}}>
+	this.props.product.name
+	</span>
+	return (
+		<div>{{name}}</div>
+	);
+})
+
+
+const todo = (state , action) => {
+	switch (action.type) {
+		case 'TOGGLE_TODO':
+
+		default:
+			return state;
+	}
+}
+
+
+
+
+
+
+Setup checklist
+
+create package.json
+install react
+get minimal app up and running
+install redux , react-redux , redux-devtools
+configure App with provider and connect
+install webpack
+config webpack.config.js
+get some minimal app running client side (setup webpack dev server)
+install redux-hot-loader
+get it working with hot-loader
+install material-ui
+install react-router
+configure basic react-router
+
+
+
+configure react-router with redux (use react-router-redux)
+
+
+/*import { routerMiddleware, push } from 'react-router-redux'
+
+// Apply the middleware to the store
+const middleware = routerMiddleware(browserHistory)
+const store = createStore(
+  reducers,
+  applyMiddleware(middleware)
+)
+
+// Dispatch from anywhere like normal.
+store.dispatch(push('/foo'))*/
+
+write an action for route transition
+fetch data on route transition (use redux-thunk for async actions https://github.com/gaearon/redux-thunk)
+get this minmal app running with routes
+
+
+done till here
+
+
+install redux-auth
+integrate redux-auth with redux and react-router
+get some minimal app with authentication working
+get minimal app to work with cherry backend
+finalize directory structure
+start building static components
+fetch data from cherry (use redux-async-connect) with no interactivity
+add user-interactions
+
+// FUTURE THINGS TODO
+
+PROFILE APP
+
+//text animation on cherry site
+-webkit-animation : txtSlideUp 1.5s ease forwards
+@keyframes txtSlideUp {
+  0% {
+    top: 120%;
+    opacity: 0;
+  }
+
+  100% {
+    top: 20%;
+    opacity: 1;
+  }
+}

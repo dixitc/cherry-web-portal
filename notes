@@ -1,0 +1,181 @@
+Need to normalize state shape  (use normalizer https://github.com/gaearon/normalizr)
+
+state shape {
+    "memories": {
+        "isFetching": false,
+        "didInvalidate": false,
+        "lastUpdated": "",
+        "memories": [{
+            "id": 0,
+            "coverlUrl": "",
+			owner : "",
+			members : [0,1], // list of user ids
+			"moments" : [1,2]  // list of moment ids
+        }, {
+            "id": 1,
+            "coverUrl": "",
+			owner : "",
+			"moments" : [3]
+        }]
+    },
+    "moments": {     // entire moments tree
+        1: {
+		"URL" : "asdfasdf",
+		"memoryId" : "0",
+		"like" : false
+		},
+		2 : {
+		"URL" : "asdfasdf",
+		"memoryId" : "0",
+		"like" : true
+		},
+		3 : {
+		"URL" : "asdfasdf",
+		"memoryId" : "1",
+		"like" : false
+		}
+    },
+    "users": [{    // all user list
+        "id": 0,
+        "name": "",
+        "avatar": ""
+    }, {
+        "id": 1,
+        "name": "",
+        "avatar": ""
+    }],
+    "authenticatedUser": {  // authenticated or signed-in user
+        "name": "",
+        "avatar": "",
+        "id": 1
+    }
+
+}
+
+
+APIS used:
+
+    {
+        "Purpose": "like a a moment",
+        "Path": "POST v1/memory/{id}/like/{momentId}.json"
+    }
+
+
+{
+    "purpose": "get user memories",
+    "path": "GET /memrousel/v2/memory/allmemories.json",
+    "urlParams": {
+        "moments": "momentsCount",
+        "page": "",
+        "rp": ""
+    },
+	response : {
+		"memories" : [],
+		"count" : "number of memories"
+	}
+}
+
+{
+    "purpose": "get a single memory",
+    "Path": "GET v1/memory/{id}.json",
+    "Path -Params": "id* - memory Id",
+    "UrlParams": {
+
+        "moments": "moment count",
+        "deleted": true("if memory is deleted, else false")
+    },
+    "Response": {
+
+        "data": "will contain 2 params",
+        "memory": " json of memory",
+        "moments": "if moments count is not null and greater than 0"
+    }
+
+}
+
+{
+    "purpose": "get moments",
+    "path": "GET v1/memory/{id}/moments.json",
+    "response": {
+        "moments": [],
+        "momentsCount": 0
+    }
+}
+
+{
+    "purpose": "add chat message to a memory",
+    "path": "POST v1/memory/{memoryId}/chatmessage.json",
+    "path params": "id* - memoryId",
+    "response": {
+        "data": "chat message object"
+    }
+}
+
+
+{
+    "purpose": "add chat message to a moment",
+    "path": "POST v1/memory/{memoryId}/moment/{momentId}/chatmessage.json",
+    "url-params": {
+        "memoryId ": "memoryId",
+        "momentId": "momentId"
+    },
+    "response": {
+        "data": "chat message object"
+    }
+
+}
+
+{
+    "Purpose": "Download Memory  ",
+    "Path": " GET v1/memory/{id}/download.json",
+    "Path Params": "id* - memoryId",
+    "Url Params": {
+        "page": "number of page (zero-based page index)",
+        "rp": "the size of the page to be returned "
+    },
+    "Response": {
+        "images": "list of image ids",
+        "count": "number of image ids "
+    }
+}
+
+
+
+Router
+const App = React.createClass({
+	getInitialState() {
+		return {
+			route : windown.location.hash.substr(1)
+		}
+	}
+
+	componentDidiMount () {
+		window.addEventListener('hashchange' , () => {
+			this.setState ({
+				route:window.location.hash.substr(1)
+				})
+			} )
+	}
+	render () {
+		return ()
+	}
+
+})
+
+render(<App /> , document.body);
+
+ReactDOM.render({
+	<Router history={history}>
+		</Route path="/" component={App}>
+		</Route>
+		</Route path="memories" component={memories}>
+		</Route>
+		</Route path="/memories/:memory-title" component={moments}>
+		</Route>
+		<IndexRoute component={Memories}></IndexRoute>
+
+	</Router>
+})
+
+
+<Router path="/" component={App}>
