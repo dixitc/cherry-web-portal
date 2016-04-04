@@ -1,3 +1,4 @@
+
 Cherry-web notes:
 
 development-tools :
@@ -24,10 +25,10 @@ gridview (album) - react-grid-layout (https://github.com/STRML/react-grid-layout
 
 Testing :
 expect library for assertions(https://github.com/mjackson/expect)
-mocha
+Some comprehensive testing framework .
 
 screens :
-/login (default unauthenticated)
+/login (default unauthenticated for login or signup)
 /memories (default authenticated)
 /memory/:memory-title
 /profile
@@ -35,7 +36,7 @@ screens :
 /user/:user-name (other users profile)
 
 user-actions:
-like a memory
+
 like a moment
 comment on a memory
 comment on a moment
@@ -44,7 +45,6 @@ upload new moments to an existing memory
 
 data-fetching :
 fetch (that comes with redux-auth)
-
 
 task 1.
 integrate react-router with hot-loader

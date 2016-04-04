@@ -10,7 +10,8 @@ import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import App from './App';
 import doSomething from './actions/actions'
-import { testReducer , inputReducer } from './reducers/reducers';
+import { testReducer } from './reducers/reducers';
+import { authReducer } from './reducers/auth';
 import SmartMessage from './components/components';
 import createLogger from 'redux-logger';
 
@@ -28,7 +29,7 @@ const loggerMiddleware = createLogger();
 
 const rootReducer = combineReducers({
 	memory:testReducer,
-	inputvalue:inputReducer,
+	auth:authReducer,
 	routing: routerReducer
 })
 

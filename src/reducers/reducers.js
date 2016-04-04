@@ -1,41 +1,43 @@
-
-
-let initState =  {
-		id:1,
-		title:"click this memory"
-	}
+let initState = {
+    id: 1,
+    title: "click this memory"
+}
 
 let updateTitle = "cherry memories";
 
-const testReducer = (state=initState , action) => {
-	switch (action.type) {
-		case 'DO_SOMETHING':
-			console.log("action : do_something is running");
+const testReducer = (state = initState, action) => {
+    switch (action.type) {
+        case 'DO_SOMETHING':
+            console.log("reducer: testReducer DO_SOMETHING");
+            console.log(state);
+            return Object.assign({}, {
+                title: "cherry memory clicked",
+                id: action.text.id
+            })
+        case 'HANDLE_INPUT':
+            console.log("reducer: testReducer HANDLE_INPUT");
 			console.log(state);
-			return Object.assign({},{title:"cherry memory clicked",id : action.text.id})
-		case 'HANDLE_INPUT':
-			console.log("action : handle_input is running");
-			console.log(state);
-		default:
-			return state;
-
-	}
+        case 'VERIFY_USER':
+            console.log("reducer: testReducer VERIFY_USER");
+        default:
+            return state;
+    }
 }
 
-const inputReducer = (state="" , action) => {
-	switch (action.type) {
-		case 'HANDLE_INPUT':
-			return action.text;
+const inputReducer = (state = "", action) => {
+    switch (action.type) {
+        case 'HANDLE_INPUT':
+            return action.text;
 
-		default:
-			return state
+        default:
+            return state
 
-	}
+    }
 }
 
 
 
 
 export { testReducer };
-export { inputReducer };
+
 //export inputReducer;

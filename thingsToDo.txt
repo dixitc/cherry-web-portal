@@ -1,0 +1,40 @@
+MY_USER :
+{
+  "passwordRequired": true,
+  "blockedCount": 0,
+  "authToken": "57023d3d830827f668012819",
+  "profile": {
+    "name": null,
+    "photo": null,
+    "id": "57023cfe830827f668012816"
+  }
+}
+
+
+
+thingsToDo (down the line) :
+	- npm-shrinkwrap
+	- integrate testing
+
+
+
+
+FLOW:
+
+USER INPUTS PHONE NUMBER : {
+ 	DISPATCH ACTION REGISTER_USER :{
+		ON SUCCESS DISPATCH REGISTER_SUCCESS : {
+		 	DISPATCH VERIFY_USER : {
+				ON SUCCESS DISPATCH VERIFY_SUCCESS : {
+					SET isAuthnenticated , profile , authoken , save to localStorage
+				},
+				ON FAIL DISPATCH VERIFY_FAIL : {
+
+				}
+			}
+		},
+		ON FAIL DISPATCH REGISTER_FAIL : {
+
+		}
+	}
+}
