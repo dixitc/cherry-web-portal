@@ -16,6 +16,7 @@ thingsToDo (down the line) :
 	- npm-shrinkwrap
 	- setup testing environment
 	- login redirect should include the original(authenticated) url that the user was trying to access and redirect accordingly
+	- separate configs for dev and prod
 
 
 AUTH FLOW :
@@ -58,7 +59,7 @@ dispatch(verifyRequest(verificationId,OTP))
 |
 V
 update state
-
+We sent you an OTP on this number message to user
 auth : {
 	isFetching : true,
 	isAuthenticated : false,

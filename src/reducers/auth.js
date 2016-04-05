@@ -14,6 +14,8 @@ const initAuth = {
 }
 
 
+
+
 const authReducer = (state=initAuth , action) => {
 	switch (action.type) {
 		case 'REGISTER_USER':
@@ -22,7 +24,6 @@ const authReducer = (state=initAuth , action) => {
 		case 'REGISTER_REQUEST':
 			console.log("reducer: authReducer REGISTER_REQUEST");
 			return Object.assign({},state,{isFetching : true});
-			//return state
 		case 'VERIFY_USER':
 			console.log("reducer: authReducer VERIFY_USER");
 			return state;

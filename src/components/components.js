@@ -4,37 +4,17 @@ import doSomething from '../actions/actions';
 import TextField from 'material-ui/lib/text-field';
 
 
-const MessageText = () => {
-
-	return (
-		<div>
-
-			<div>
-				<MyInputField />
-			</div>
-		</div>
-	)
-}
-
-
-
 const Message = ({memory , clickHandler}) => (
 	<div>
 	<p style={{color : 'blue'}} onClick={() => clickHandler(memory)}>default home screen </p>
-	<MessageText>
-	</MessageText>
+
 
 	</div>
 )
 
 
 
-const MyInputField = () => {
-	return (
 
-		<TextField hintText="Enter your mobile number"/>
-	)
-}
 
 
 Message.propTypes = {

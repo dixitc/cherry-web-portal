@@ -76,6 +76,7 @@ const registerUser = (creds) => {
 					dispatch(verifyUser(response.verificationId));
 				}
 			})
+			.catch()
 	}
 
 }
