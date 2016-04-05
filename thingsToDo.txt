@@ -15,6 +15,7 @@ MY_USER :
 thingsToDo (down the line) :
 	- npm-shrinkwrap
 	- setup testing environment
+	- login redirect should include the original(authenticated) url that the user was trying to access and redirect accordingly
 
 
 AUTH FLOW :

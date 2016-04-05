@@ -20,7 +20,7 @@ const MessageText = () => {
 
 const Message = ({memory , clickHandler}) => (
 	<div>
-	<p style={{color : 'red'}} onClick={() => clickHandler(memory)}>  user is authenticated</p>
+	<p style={{color : 'blue'}} onClick={() => clickHandler(memory)}>default home screen </p>
 	<MessageText>
 	</MessageText>
 
@@ -69,4 +69,4 @@ const SmartMessage = connect(
 	mapDispatchToProps
 )(Message) ;
 
-export  {SmartMessage};
+export default SmartMessage;

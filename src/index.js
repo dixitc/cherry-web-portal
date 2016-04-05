@@ -6,14 +6,14 @@ import { Provider } from 'react-redux';
 import { createStore , applyMiddleware } from 'redux';
 import { combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import App from './App';
 import doSomething from './actions/actions'
 import { testReducer } from './reducers/reducers';
 import { authReducer } from './reducers/auth';
-import { SmartMessage } from './components/components';
-import { Login } from './components/Login';
+import SmartMessage from './components/components';
+import Login from './components/Login';
 import { AuthenticatedComponent } from './components/AuthenticatedComponent';
 import createLogger from 'redux-logger';
 
@@ -63,8 +63,9 @@ render( < Provider store = {store}>
 	{ /* Tell the Router to use our enhanced history */ }
       <Router history={history}>
         <Route path="/" component={App}>
-          <Route path="login" component={Login}/>
-          <Route path="authenticated" component={SmartMessage} onEnter={requireAuth}/>
+			<IndexRoute component={SmartMessage}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/authenticated" component={SmartMessage} onEnter={requireAuth}/>
         </Route>
       </Router>
 	</Provider>, rootEl);

@@ -48,35 +48,15 @@ const doSomething = (text) => {
 
 }
 
-const registerRequest = () => {
-
-}
-
-const registerSuccess = () => {
-
-}
-
-const registerFail = () => {
-
-}
-
-const verifyRequest = () => {
-
-}
-
-const verifySuccess = () => {
-
-}
-
-const verifyFail = () => {
-
-}
-
-
-
-
 
 const registerUser = (creds) => {
+	/*	return async action perhaps ???
+	return dispatch => {
+			dispatch(registerRequest(data))
+			return fetch(apiUrl,config)
+				.then(response => response.json())
+				.then(json => dispatch(registerSuccess(json)))
+	}*/
 	let config = {
 		method: "POST",
 		headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -86,7 +66,7 @@ const registerUser = (creds) => {
 
 	return dispatch => {
 		// We dispatch requestLogin to kickoff the call to the API . THIS WILL DEPEND ON THE AUTH FLOW WE DECIDE EVENTUALLY , JUST REGISTER_USER FOR NOW.
-		dispatch(requestLogin(creds))
+		dispatch(registerRequest(creds))
 
 		return fetch(url , config)
 			.then((response) => {
@@ -100,7 +80,69 @@ const registerUser = (creds) => {
 
 }
 
+const registerRequest = (data) => {
+	// return async action using thunk middleware
+	return {
+		type: 'REGISTER_REQUEST',
+		data: data
+	}
+
+}
+
+
+const getUserProfile = (data) => {
+	//use this function to fetch user data when authToken is already present on initial page load
+	//save this data as auth
+}
+
+const registerSuccess = (data) => {
+	return {
+		type: 'REGISTER_SUCCESS',
+		data: data
+	}
+}
+
+const registerFail = (data) => {
+	return {
+		type: 'REGISTER_FAIL',
+		data: data
+	}
+}
+
+const verifyRequest = (data) => {
+	//update state , actual network call made in verifyUser()
+	return {
+		type: 'VERIFY_REQUEST',
+		data: data
+	}
+
+}
+
+const verifySuccess = (data) => {
+	return {
+		type: 'VERIFY_SUCCESS',
+		data: data
+	}
+
+}
+
+const verifyFail = (data) => {
+	return {
+		type: 'VERIFY_FAIl',
+		data: data
+	}
+}
+
+
 const verifyUser = (id) => {
+	/*
+	return dispatch => {
+		dispatch(verifyRequest(data));
+		return fetch(apiUrl,config)
+			.then(response = response.json())
+			.then(json => dispatch(verifySuccess(json)))
+	}
+	*/
 	let url = apiUrl + "verify/"+id+".json";
 	let config = {
 		method: "POST",
@@ -139,4 +181,5 @@ const receiveMemories = (json) => {
 }
 
 //export action creator and call like dispatch(actionCreator(a,b))
-export default doSomething;
+//eventually move all action names into constants
+export { doSomething , registerRequest , registerFail , registerSuccess , verifyUser , verifyFail , verifySuccess };

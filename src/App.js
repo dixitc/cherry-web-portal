@@ -19,26 +19,26 @@ export default class App extends Component {
 console.log(this.props);
     return (
 		<div>
-		<AppBar
-  title="Cherry react"
-  iconClassNameRight="muidocs-icon-navigation-expand-more"
-/>
-<RefreshIndicator
-	 size={50}
-	 left={70}
-	 top={0}
-	 loadingColor={"#FF9800"}
-	 status={this.props.isFetching ?'loading' : 'hide'}
-	 style={style.refresh}
-   />
-<Link to="/">home</Link>
-<br/>
-<Link to="/login">login</Link>
-<br/>
-<Link to="/authenticated">authenticated</Link>
-<br/>
-      <h1 style={{color:'blue'}} >Cherry react</h1>
-	  {this.props.children}
+			<AppBar
+				title="Cherry react"
+				iconClassNameRight="muidocs-icon-navigation-expand-more"
+			/>
+			<RefreshIndicator
+				 size={50}
+				 left={70}
+				 top={0}
+				 loadingColor={"#FF9800"}
+				 status={this.props.isFetching ?'loading' : 'hide'}
+				 style={style.refresh}
+			/>
+			<Link to="/">home</Link>
+			<br/>
+			<Link to="/login">login</Link>
+			<br/>
+			<Link to="/authenticated">authenticated</Link>
+			<br/>
+		    <h1 style={{color:'blue'}} >Cherry react</h1>
+			{this.props.children}
 	  </div>
     );
   }
