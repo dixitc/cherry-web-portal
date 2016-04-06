@@ -9,12 +9,13 @@ console.log(countryCodes[1]);
 const items = [];
 for (let i = 0; i < countryCodes.length; i++ ) {
 
-  items.push(<MenuItem value={i} key={i} primaryText={countryCodes[i].name + ' '+countryCodes[i].dial_code}/>);
+  items.push(<MenuItem value={i} key={i} primaryText={countryCodes[i].code + ' '+countryCodes[i].dial_code}/>);
 }
 
 const style= {
 	inlineDiv: {
-		display: "inline-block"
+		display: "inline-block",
+        width:'100px'
 	}
 }
 
@@ -30,7 +31,7 @@ export default class SelectFieldExampleSimple extends React.Component {
   render() {
     return (
       <div style={style.inlineDiv}>
-	  <SelectField floatingLabelText="Country code" value={this.state.value} onChange={this.handleChange}>
+	  <SelectField floatingLabelText="Country code" value={this.state.value} onChange={this.handleChange} style={style.inlineDiv}>
    {items}
  </SelectField>
         <br />

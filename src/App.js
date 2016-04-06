@@ -10,10 +10,10 @@ export default class App extends Component {
 	console.log(this.props);
     return (
 		<div>
-			<AppBar
+			{/*<AppBar
 				title="Cherry react"
 				iconClassNameRight="muidocs-icon-navigation-expand-more"
-			/>
+			/>*/}
 
 			<Link to="/">home</Link>
 			<br/>

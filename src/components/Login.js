@@ -40,7 +40,9 @@ const style = {
 	textField: {
 		display:'inline-block',
 		top:'8px',
-		marginLeft:'10px'
+		marginLeft:'20px',
+		width:'200px',
+		fontSize:'16px'
 	},
 	button : {
 		margin:'10px'
@@ -54,7 +56,7 @@ const LoginComponent = ({auth , handleRegisterUser , handleVerifyUser}) => {
 
 		if(!auth.isRegistered){
 			conditionalDisplay = (<div >
-
+<div>
 				<SelectFieldExampleSimple value={100} />
 				<TextField hintText="Enter your mobile number"
 				style={style.textField}
@@ -62,8 +64,9 @@ const LoginComponent = ({auth , handleRegisterUser , handleVerifyUser}) => {
 
 				  errorStyle={style.errorStyle}
 				floatingLabelText="Mobile Number"/>
+				</div>
 				<div>
-				<RaisedButton style={style.button} label="REGISTER" primary={true} onClick={() => handleRegisterUser(auth)}/>
+				<RaisedButton style={style.button} disabled={true} label="REGISTER" primary={true} onClick={() => handleRegisterUser(auth)}/>
 				</div>
 				</div>)
 			}else {
