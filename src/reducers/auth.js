@@ -41,11 +41,11 @@ const authReducer = (state=initAuth , action) => {
 		case 'VERIFY_REQUEST':
 			console.log("reducer: authReducer VERIFY_REQUEST");
 			//on sending a verify request to verify api update state (show loading icon etc)
-			/*return Object.assign({} , state , {
+			return Object.assign({} , state , {
 				isFetching : true,
 				isAuthenticated : false
-			})*/
-			return state;
+			})
+
 		case 'VERIFY_FAIL':
 			console.log("reducer: authReducer VERIFY_FAIL");
 			// on verify request fail , update state and redirect to login ???

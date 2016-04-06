@@ -14,9 +14,11 @@ MY_USER :
 
 thingsToDo (down the line) :
 	- npm-shrinkwrap
-	- setup testing environment
+	- setup testing environment (doing)
+		- dynamically generating tests for reducers and actions  (https://mochajs.org/#dynamically-generating-tests)
+		- consider replacing expect with chai
 	- login redirect should include the original(authenticated) url that the user was trying to access and redirect accordingly
-	- separate configs for dev and prod
+	- separate configs for dev and prod 
 
 
 AUTH FLOW :

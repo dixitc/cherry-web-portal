@@ -40,12 +40,10 @@ creds: {
 //action creators
 
 const doSomething = (text) => {
-
-    return {
+	return {
         type: 'DO_SOMETHING',
         text: text
     }
-
 }
 
 
