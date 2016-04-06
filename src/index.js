@@ -1,5 +1,6 @@
 import 'babel-polyfill';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -17,6 +18,7 @@ import Login from './components/Login';
 import { AuthenticatedComponent } from './components/AuthenticatedComponent';
 import createLogger from 'redux-logger';
 
+injectTapEventPlugin();
 let initState = {
 	memory : {
 		id:1,
@@ -36,7 +38,7 @@ const rootReducer = combineReducers({
 
 let store = createStore(rootReducer,
 	{},
-	window.devToolsExtension ? window.devToolsExtension() : undefined,
+	//window.devToolsExtension ? window.devToolsExtension() : undefined,
 	applyMiddleware(thunkMiddleware , loggerMiddleware)
 );
 

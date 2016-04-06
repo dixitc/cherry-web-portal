@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 
 export default class App extends Component {
   render() {
-console.log(this.props);
+	console.log(this.props);
     return (
 		<div>
 			<AppBar
@@ -25,4 +25,7 @@ console.log(this.props);
 	  </div>
     );
   }
+  componentDidMount() {
+ console.log("App initialized. (App component mounted , do some fetching data)");
+}
 }

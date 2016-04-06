@@ -10,15 +10,18 @@ MY_USER :
   }
 }
 
+IMPORTAN NOTES :
+	- yes user registration
 
-
-thingsToDo (down the line) :
-	- npm-shrinkwrap
-	- setup testing environment (doing)
+thingsToDo  :
+	- use npm-shrinkwrap
+	- setup testing environment (done unit-tests mocha , karma , need integration , e2e testing nightwatch http://nightwatchjs.org/)
 		- dynamically generating tests for reducers and actions  (https://mochajs.org/#dynamically-generating-tests)
 		- consider replacing expect with chai
 	- login redirect should include the original(authenticated) url that the user was trying to access and redirect accordingly
-	- separate configs for dev and prod 
+	- separate configs for dev and prod
+	- handle all error messages using material TextField and snackbar centrally ??
+	- use spread operators wherever possible
 
 
 AUTH FLOW :

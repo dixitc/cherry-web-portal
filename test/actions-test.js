@@ -16,7 +16,7 @@ import {
 
 describe('actions test suite', function() {
 
-    it('actions REGISTER_REQUEST', function() {
+    it('actions registerRequest()', function() {
         expect(registerRequest("asdf")).toEqual({
             type: "REGISTER_REQUEST",
             data: "asdf"

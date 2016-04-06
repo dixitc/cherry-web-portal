@@ -2,9 +2,11 @@
 import React , {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/lib/text-field';
-import {registerRequest} from '../actions/actions';
+import {registerRequest ,registerUser } from '../actions/actions';
 import RaisedButton from 'material-ui/lib/raised-button';
 import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+import cc from '../constants/country-codes';
+import SelectFieldExampleSimple from './SelectCountry';
 
 
 const style = {
@@ -12,46 +14,69 @@ const style = {
 
 		textAlign : 'center'
 	},
+	errorStyle: {
+		textAlign : 'left'
+	},
 	container: {
 		position: 'relative',
 	},
 	refresh: {
 		display: 'block',
 		position: 'relative',
+		transform: 'none',
+		margin : '0px',
+		margin: 'auto',
+		left: '0px',
+		top: '0px'
 	}
 }
 
 
+const LoginComponent = ({auth , handleRegisterUser , handleVerifyUser}) => {
+	let conditionalDisplay;
+	if(!auth.isFetching){
 
-const LoginComponent = ({auth , handleRegisterUser}) => {
+		if(!auth.isRegistered){
+			conditionalDisplay = (<div>
+				<p>We will send an OTP on this mobile number</p>
+				<TextField hintText="Enter your mobile number"
+				errorText={auth.isRegistered?"asdf":""}
+
+				  errorStyle={style.errorStyle}
+				floatingLabelText="Mobile Number"/>
+				<RaisedButton label="REGISTER" primary={true} onClick={() => handleRegisterUser(auth)}/>
+				</div>)
+			}else {
+				conditionalDisplay = (				<div>
+					<TextField hintText="Enter OTP here"
+					errorText={auth.isRegistered?"asdf":""}
+					  errorStyle={style.errorStyle}
+					/>
+					<RaisedButton label="VERIFY OTP" primary={true} onClick={() => handleVerifyUser(auth)}/>
+					</div>)
+				}
+	}
 	return (
 		<div style={style.Login}>
 
-			<p>We will send an OTP on this mobile number</p>
-			{!auth.isRegistered &&
-				<div>
-				<TextField hintText="Enter your mobile number"
-				errorText=""
-				floatingLabelText="Mobile Number"/>
-				<RaisedButton label="REGISTER" primary={true} onClick={() => handleRegisterUser(auth)}/>
-				</div>
-			}
-			{auth.isRegistered &&
-				<div>
-				<TextField hintText="Enter OTP here"
-				errorText=""
+			{auth.isFetching &&
+
+				<RefreshIndicator
+				size={50}
+				left={70}
+				top={0}
+				loadingColor={"#FF9800"}
+				status={auth.isFetching ?'loading' : 'hide'}
+				style={style.refresh}
 				/>
-				<RaisedButton label="VERIFY OTP" primary={true} onClick={() => handleRegisterUser(auth)}/>
-				</div>
 			}
-			<RefreshIndicator
-				 size={50}
-				 left={70}
-				 top={0}
-				 loadingColor={"#FF9800"}
-				 status={auth.isFetching ?'loading' : 'hide'}
-				 style={style.refresh}
-			/>
+<SelectFieldExampleSimple value={4} />
+
+				{conditionalDisplay}
+
+
+
+
 			{/* Need to have some UI here explaining how this works */}
 		</div>
 	)
@@ -59,10 +84,12 @@ const LoginComponent = ({auth , handleRegisterUser}) => {
 
 LoginComponent.propTypes = {
 	handleRegisterUser : PropTypes.func.isRequired,
+	handleVerifyUser : PropTypes.func.isRequired,
 	auth : PropTypes.shape({
 		authToken : PropTypes.number,
 		isAuthenticated : PropTypes.bool.isRequired,
-		profile : PropTypes.object
+		profile : PropTypes.object,
+		errorMessage : PropTypes.string
 	}).isRequired
 }
 
@@ -76,7 +103,17 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		handleRegisterUser: (auth) => {
-			dispatch(registerRequest(auth));
+			let creds = {
+				identifier : "%2b919620418303",
+				identifierType : "PHONE",
+				verificationMode : "OTP_MSG"
+
+			}
+			dispatch(registerUser(creds))
+			//dispatch(registerRequest(auth));
+		},
+		handleVerifyUser : (auth) => {
+			dispatch(verifyUser())
 		}
 	}
 }
