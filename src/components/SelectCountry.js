@@ -6,27 +6,33 @@ import DropDownMenu from 'material-ui/lib/DropDownMenu';
 
 console.log(countryCodes[1]);
 
+const items = [];
+for (let i = 0; i < countryCodes.length; i++ ) {
+
+  items.push(<MenuItem value={i} key={i} primaryText={countryCodes[i].name + ' '+countryCodes[i].dial_code}/>);
+}
+
+const style= {
+	inlineDiv: {
+		display: "inline-block"
+	}
+}
+
+
 export default class SelectFieldExampleSimple extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {value: 2};
+    this.state = {value: 87};
   }
     handleChange = (event, index, value) => this.setState({value});
 
   render() {
     return (
-      <div>
-        <SelectField menuItems={countryCodes} onChange={this.handleChange}/>
-
-
-		<DropDownMenu value={this.state.value} onChange={this.handleChange}>
-   <MenuItem value={1} primaryText="Never"/>
-   <MenuItem value={2} primaryText="Every Night"/>
-   <MenuItem value={3} primaryText="Weeknights"/>
-   <MenuItem value={4} primaryText="Weekends"/>
-   <MenuItem value={5} primaryText="Weekly"/>
- </DropDownMenu>
+      <div style={style.inlineDiv}>
+	  <SelectField floatingLabelText="Country code" value={this.state.value} onChange={this.handleChange}>
+   {items}
+ </SelectField>
         <br />
 
       </div>

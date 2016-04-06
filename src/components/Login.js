@@ -7,12 +7,17 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import RefreshIndicator from 'material-ui/lib/refresh-indicator';
 import cc from '../constants/country-codes';
 import SelectFieldExampleSimple from './SelectCountry';
+import AutoCompleteCountry from './AutoCompleteCountry';
+
+
+
 
 
 const style = {
 	Login: {
 
-		textAlign : 'center'
+		textAlign : 'center',
+		marginTop:'100px'
 	},
 	errorStyle: {
 		textAlign : 'left'
@@ -28,6 +33,17 @@ const style = {
 		margin: 'auto',
 		left: '0px',
 		top: '0px'
+	},
+	inlineDiv: {
+		display:'inline-block'
+	},
+	textField: {
+		display:'inline-block',
+		top:'8px',
+		marginLeft:'10px'
+	},
+	button : {
+		margin:'10px'
 	}
 }
 
@@ -37,22 +53,27 @@ const LoginComponent = ({auth , handleRegisterUser , handleVerifyUser}) => {
 	if(!auth.isFetching){
 
 		if(!auth.isRegistered){
-			conditionalDisplay = (<div>
-				<p>We will send an OTP on this mobile number</p>
+			conditionalDisplay = (<div >
+
+				<SelectFieldExampleSimple value={100} />
 				<TextField hintText="Enter your mobile number"
+				style={style.textField}
 				errorText={auth.isRegistered?"asdf":""}
 
 				  errorStyle={style.errorStyle}
 				floatingLabelText="Mobile Number"/>
-				<RaisedButton label="REGISTER" primary={true} onClick={() => handleRegisterUser(auth)}/>
+				<div>
+				<RaisedButton style={style.button} label="REGISTER" primary={true} onClick={() => handleRegisterUser(auth)}/>
+				</div>
 				</div>)
 			}else {
 				conditionalDisplay = (				<div>
 					<TextField hintText="Enter OTP here"
 					errorText={auth.isRegistered?"asdf":""}
 					  errorStyle={style.errorStyle}
-					/>
-					<RaisedButton label="VERIFY OTP" primary={true} onClick={() => handleVerifyUser(auth)}/>
+					/><div>
+					<RaisedButton style={style.button} label="VERIFY OTP" primary={true} onClick={() => handleVerifyUser(auth)}/>
+					</div>
 					</div>)
 				}
 	}
@@ -70,7 +91,8 @@ const LoginComponent = ({auth , handleRegisterUser , handleVerifyUser}) => {
 				style={style.refresh}
 				/>
 			}
-<SelectFieldExampleSimple value={4} />
+{/*<AutoCompleteCountry value={4} />*/}
+
 
 				{conditionalDisplay}
 
