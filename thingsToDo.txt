@@ -22,6 +22,7 @@ thingsToDo  :
 	- separate configs for dev and prod
 	- handle all error messages using material TextField and snackbar centrally ??
 	- use spread operators wherever possible
+	- country code number validation
 
 
 AUTH FLOW :

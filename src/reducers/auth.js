@@ -5,7 +5,7 @@ const initAuth = {
     didInvalidate: false,
     isRegistered: false,
     lastUpdated: null,
-	errorMessage : null,
+	errorMessage : "",
     profile: {
         name: null,
         id: null,
@@ -23,28 +23,27 @@ const authReducer = (state = initAuth, action) => {
             return state;
         case 'REGISTER_REQUEST':
             //console.log("reducer: authReducer REGISTER_REQUEST");
-            return Object.assign({}, state, {
+            return {...state,
                 isFetching: true
-            });
+            };
 		case 'REGISTER_SUCCESS':
 			//console.log("reducer: authReducer REGISTER_SUCCESS");
 			// on receiving the verification token from the server set verificationId somewhere
-			return Object.assign({}, state, {
+			return {...state,
                 isFetching: false,
 				isRegistered : true
-            });
+            };
 			return state;
 		case 'REGISTER_FAIL':
 			//console.log("reducer: authReducer REGISTER_FAIL");
 
-			return Object.assign({} , state , {
+			return{ ...state,
             	isFetching : false,
             	isAuthenticated : false,
 				isRegistered : false,
-				errorMessage : action.error,
-            	authToken : action.data.authToken,
-            	profile : actions.data.profile
-            })
+				errorMessage : action.error
+
+            }
 
 			//return state;
         case 'VERIFY_USER':
@@ -64,10 +63,10 @@ const authReducer = (state = initAuth, action) => {
         case 'VERIFY_REQUEST':
             //console.log("reducer: authReducer VERIFY_REQUEST");
             //on sending a verify request to verify api update state (show loading icon etc)
-            return Object.assign({}, state, {
+            return  {...state,
                 isFetching: true,
                 isAuthenticated: false
-            })
+            };
 
         case 'VERIFY_FAIL':
             //console.log("reducer: authReducer VERIFY_FAIL");

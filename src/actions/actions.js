@@ -78,11 +78,15 @@ const registerUser = (creds) => {
             .then((json) => {
 				console.log(json);
                 if (!json.verificationId) {
-                    dispatch(loginFailure(json));
+                    dispatch(registerFail(json));
                 } else {
                     dispatch(registerSuccess(json.verificationId));
                 }
             })
+			.catch((json) => {
+				console.log(json);
+				    dispatch(registerFail(json));
+			})
 
     }
 

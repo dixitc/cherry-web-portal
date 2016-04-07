@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">52.94% </span>
+        <span class="strong">41.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>9/17</span>
+        <span class='fraction'>10/24</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">38.46% </span>
+        <span class="strong">35.29% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>5/13</span>
+        <span class='fraction'>6/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>1/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">52.94% </span>
+        <span class="strong">55.56% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>9/17</span>
+        <span class='fraction'>10/18</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -135,10 +135,15 @@
 90
 91
 92
-93</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+93
+94
+95</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -180,7 +185,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -232,6 +236,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+&nbsp;
+var _extends = Object.assign || <span class="fstat-no" title="function not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >function (target) {</span> <span class="cstat-no" title="statement not covered" >for (var i = 1; i &lt; arguments.length; i++) { <span class="cstat-no" title="statement not covered" >var source = arguments[i]; <span class="cstat-no" title="statement not covered" ></span>for (var key in source) { <span class="cstat-no" title="statement not covered" >if (Object.prototype.hasOwnProperty.call(source, key)) { <span class="cstat-no" title="statement not covered" >target[key] = source[key]; </span>} </span>} </span>} <span class="cstat-no" title="statement not covered" ></span>return target; </span>};</span>
+&nbsp;
 var initAuth = {
     authToken: null,
     isAuthenticated: false,
@@ -239,7 +246,7 @@ var initAuth = {
     didInvalidate: false,
     isRegistered: false,
     lastUpdated: null,
-    errorMessage: null,
+    errorMessage: "",
     profile: {
         name: null,
         id: null,
@@ -257,13 +264,13 @@ var authReducer = function authReducer() {
 <span class="cstat-no" title="statement not covered" >            return state;</span>
         case 'REGISTER_REQUEST':
             //console.log("reducer: authReducer REGISTER_REQUEST");
-            return Object.assign({}, state, {
+            return _extends({}, state, {
                 isFetching: true
             });
 <span class="branch-2 cbranch-no" title="branch not covered" >        case 'REGISTER_SUCCESS':</span>
             //console.log("reducer: authReducer REGISTER_SUCCESS");
             // on receiving the verification token from the server set verificationId somewhere
-<span class="cstat-no" title="statement not covered" >            return Object.assign({}, state, {</span>
+<span class="cstat-no" title="statement not covered" >            return _extends({}, state, {</span>
                 isFetching: false,
                 isRegistered: true
             });
@@ -271,13 +278,12 @@ var authReducer = function authReducer() {
 <span class="branch-3 cbranch-no" title="branch not covered" >        case 'REGISTER_FAIL':</span>
             //console.log("reducer: authReducer REGISTER_FAIL");
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return Object.assign({}, state, {</span>
+<span class="cstat-no" title="statement not covered" >            return _extends({}, state, {</span>
                 isFetching: false,
                 isAuthenticated: false,
                 isRegistered: false,
-                errorMessage: action.error,
-                authToken: action.data.authToken,
-                profile: actions.data.profile
+                errorMessage: action.error
+&nbsp;
             });
 &nbsp;
         //return state;
@@ -298,7 +304,7 @@ var authReducer = function authReducer() {
         case 'VERIFY_REQUEST':
             //console.log("reducer: authReducer VERIFY_REQUEST");
             //on sending a verify request to verify api update state (show loading icon etc)
-            return Object.assign({}, state, {
+            return _extends({}, state, {
                 isFetching: true,
                 isAuthenticated: false
             });
@@ -325,7 +331,7 @@ exports.authReducer = authReducer;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 06 2016 21:58:20 GMT+0530 (IST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 07 2016 17:47:47 GMT+0530 (IST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
