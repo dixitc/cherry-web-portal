@@ -128,11 +128,12 @@ class LoginComponent extends React.Component {
 			onSelect={this.checkForTab}
 			errorStyle={style.errorStyle}
 			underlineFocusStyle={style.cherry}
+			floatingLabelStyle={style.cherry}
 			floatingLabelText="Mobile Number" />
 			</div>
 
 			<div>
-			<RaisedButton style={style.button} disabled={false} label="REGISTER" primary={true} onClick={() => handleRegisterUser()}/>
+			<RaisedButton style={style.button} disabled={false} label="REGISTER" onClick={() => handleRegisterUser()}/>
 			</div>
 			</div>
 

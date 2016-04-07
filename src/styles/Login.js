@@ -30,7 +30,8 @@ const style = {
 		fontSize:'16px'
 	},
 	button : {
-		margin:'10px'
+		margin:'10px',
+		color: 'orange',
 	},
 	cherry : {
 		borderColor: 'orange'
