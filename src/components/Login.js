@@ -69,6 +69,10 @@ class LoginComponent extends React.Component {
 		    });
 
 		    break;
+		case (e.keyCode == 13):
+			console.log("yadayadayadayada");
+			this.props.handleRegisterUser(this.state.formattedNumber);
+			break;
 		case (e.keyCode == 8):
 		console.log(this.state.formattedNumber);
 			let newNumber = this.state.formattedNumber.substr(0, this.state.formattedNumber.length - 1);
@@ -114,26 +118,33 @@ class LoginComponent extends React.Component {
 				/>
 			}
 			{/*<AutoCompleteCountry value={4} />*/}
+			{/*	<ReactPhoneInput defaultCountry={'us'} /> */}
 
 
 			<div >
-			<div>
-		{/*	<ReactPhoneInput defaultCountry={'us'} /> */}
-			<SelectFieldExampleSimple countryValue={this.state.countryCode}  setCountry={this.setDialCode}/>
-			<TextField hintText={formattedNumber.length ? "Enter your mobile number" : ""}
-			style={style.textField}
-			errorText={errorMessage}
-			value={this.formatNumber(this.state.formattedNumber)}
-			onKeyDown={this.handleChange}
-			onSelect={this.checkForTab}
-			errorStyle={style.errorStyle}
-			underlineFocusStyle={style.cherry}
-			floatingLabelStyle={style.cherry}
-			floatingLabelText="Mobile Number" />
+			<div style={style.wrapperDiv}>
+		<div style={style.inlineDiv}>
+
+		<SelectFieldExampleSimple countryValue={this.state.countryCode}  setCountry={this.setDialCode}/>
+		</div>
+		<div  style={style.inlineDiv}>
+
+		<TextField hintText={formattedNumber.length ? "Enter your mobile number" : ""}
+		style={style.textField}
+		errorText={errorMessage}
+		value={this.formatNumber(this.state.formattedNumber)}
+		onKeyDown={this.handleChange}
+		onSelect={this.checkForTab}
+		errorStyle={style.errorStyle}
+		underlineFocusStyle={style.cherry}
+		floatingLabelStyle={style.cherry}
+		floatingLabelText="Mobile Number"
+		/>
+		</div>
 			</div>
 
 			<div>
-			<RaisedButton style={style.button} disabled={false} label="REGISTER" onClick={() => handleRegisterUser()}/>
+			<RaisedButton style={style.button} disabled={false} label="REGISTER" onClick={() => handleRegisterUser(this.state.formattedNumber)}/>
 			</div>
 			</div>
 
@@ -172,9 +183,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		handleRegisterUser: () => {
+		handleRegisterUser: (formattedNumber) => {
 			let creds = {
-				identifier : "%2b919620418303",
+				identifier :formattedNumber,
 				identifierType : "PHONE",
 				verificationMode : "OTP_MSG"
 

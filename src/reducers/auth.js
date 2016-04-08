@@ -41,7 +41,7 @@ const authReducer = (state = initAuth, action) => {
             	isFetching : false,
             	isAuthenticated : false,
 				isRegistered : false,
-				errorMessage : action.error
+				errorMessage : "invalid number!"
 
             }
 

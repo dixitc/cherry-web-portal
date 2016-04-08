@@ -5,7 +5,8 @@ const style = {
 		marginTop:'100px'
 	},
 	errorStyle: {
-		textAlign : 'left'
+		textAlign : 'left',
+		float:'left'
 	},
 	container: {
 		position: 'relative',
@@ -23,11 +24,14 @@ const style = {
 		display:'inline-block'
 	},
 	textField: {
-		display:'inline-block',
+
 		top:'8px',
 		marginLeft:'20px',
-		width:'200px',
+
 		fontSize:'16px'
+	},
+	wrapperDiv: {
+    paddingBottom: '50px'
 	},
 	button : {
 		margin:'10px',

@@ -46,7 +46,16 @@ const doSomething = (text) => {
         text: text
     }
 }
-
+const validateCredentials = (creds) => {
+    let phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+    let phoneNumber = phoneUtil.parse(creds.identifier, 'IN');
+    let truth =  phoneUtil.isValidNumber(phoneNumber);
+    console.log("TRUTH");;
+    console.log(truth);
+    console.log(phoneUtil.format(phoneNumber, phoneUtil.INTERNATIONAL));
+    return truth;
+    //dispatch error message action
+}
 // Meet our first thunk action creator!
 // Though its insides are different, you would use it just like any other action creator:
 // store.dispatch(fetchPosts('reactjs'))
@@ -58,6 +67,9 @@ const registerUser = (creds) => {
     			.then(response => response.json())
     			.then(json => dispatch(registerSuccess(json)))
     }*/
+
+
+    console.log(creds);
     let config = {
         method: "POST",
         headers: {
@@ -72,6 +84,13 @@ const registerUser = (creds) => {
         // We dispatch requestLogin to kickoff the call to the API . THIS WILL DEPEND ON THE AUTH FLOW WE DECIDE EVENTUALLY , JUST REGISTER_USER FOR NOW.
 
         dispatch(registerRequest(creds))
+        if(validateCredentials(creds)){
+
+        }else{
+            //don't executr if validation fails
+            dispatch(registerFail("json"));
+            return;
+        }
 
         return fetch(url, config)
 		.then((response) => response.json())
@@ -85,7 +104,7 @@ const registerUser = (creds) => {
             })
 			.catch((json) => {
 				console.log(json);
-				    dispatch(registerFail(json));
+                dispatch(registerFail(json));
 			})
 
     }

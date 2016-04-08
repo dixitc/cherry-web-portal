@@ -15,7 +15,7 @@ for (let i = 0; i < countryCodes.length; i++ ) {
 const style= {
 	inlineDiv: {
 		display: "inline-block",
-        width:'100px'
+        
 	}
 }
 
