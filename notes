@@ -163,19 +163,3 @@ const App = React.createClass({
 })
 
 render(<App /> , document.body);
-
-ReactDOM.render({
-	<Router history={history}>
-		</Route path="/" component={App}>
-		</Route>
-		</Route path="memories" component={memories}>
-		</Route>
-		</Route path="/memories/:memory-title" component={moments}>
-		</Route>
-		<IndexRoute component={Memories}></IndexRoute>
-
-	</Router>
-})
-
-
-<Router path="/" component={App}>

@@ -39,6 +39,8 @@ const style = {
 	},
 	cherry : {
 		borderColor: 'orange'
+	},red : {
+		borderColor: 'red'
 	}
 }
 

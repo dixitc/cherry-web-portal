@@ -33,7 +33,7 @@ export default class App extends Component {
     );
   }
   componentDidMount() {
- console.log("App initialized. (App component mounted , do some fetching data)");
+ console.log('App initialized. (App component mounted , do some fetching data)');
 }
 }
 

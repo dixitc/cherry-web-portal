@@ -5,7 +5,7 @@ const initAuth = {
     didInvalidate: false,
     isRegistered: false,
     lastUpdated: null,
-	errorMessage : "",
+	errorMessage : '',
     profile: {
         name: null,
         id: null,
@@ -41,11 +41,14 @@ const authReducer = (state = initAuth, action) => {
             	isFetching : false,
             	isAuthenticated : false,
 				isRegistered : false,
-				errorMessage : "invalid number!"
+				errorMessage : action.errMsg
 
             }
 
 			//return state;
+        case 'SET_ERROR_MESSAGE' :
+        //console.log("reducer: authReducer SET_ERRORMESSAGE");
+            return {...state , errorMessage : action.msg};
         case 'VERIFY_USER':
             //console.log("reducer: authReducer VERIFY_USER");
             return state;

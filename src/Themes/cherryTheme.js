@@ -12,11 +12,11 @@ export default {
     primary2Color: 'orange',
     primary3Color: 'orange',
     accent1Color: 'orange',
-    accent2Color: 'orange',
+    accent2Color: 'white',
     accent3Color: 'orange',
 	textColor:'black',
    alternateTextColor:'orange',
-	borderColor:'orange',
+//	borderColor:'orange',
    disabledColor:'grey'
   }
 };

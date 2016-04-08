@@ -63,7 +63,6 @@ fetch data on route transition (use redux-thunk for async actions https://github
 get this minmal app running with routes
 
 
-done till here
 
 
 install redux-auth
@@ -71,8 +70,11 @@ integrate redux-auth with redux and react-router
 get some minimal app with authentication working
 get minimal app to work with cherry backend
 finalize directory structure
+
+done till here
+
 start building static components
-fetch data from cherry (use redux-async-connect) with no interactivity
+fetch data from cherry (use redux-async-connect or redux-sagas) with no interactivity
 add user-interactions
 
 // FUTURE THINGS TODO

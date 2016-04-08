@@ -14,33 +14,18 @@ import ReactPhoneInput from 'react-phone-input';
 
 
 export default class PhoneLogin extends Component {
-	getInitialState: function() {
+	getInitialState() {
     return {items: [],registerErrorMessage:'', text: ''};
   }
 	handleChange(e){
-		console.log("handling change");;
+		console.log('handling change');;
 		console.log(e);
 
 	}
 	render() {
 		return (
 			<div >
-<div>
-<ReactPhoneInput defaultCountry={'us'} />
-				<SelectFieldExampleSimple value={105} />
-				<TextField hintText="Enter your mobile number"
-				style={style.textField}
-				errorText={this.state.registerErrorMessage}
-				value={this.state.text}
-				onChange={handleChange}
-				errorStyle={style.errorStyle}
-				floatingLabelText="Mobile Number" />
-				</div>
-				<p>{mobileNo}</p>
-				<div>
-				<RaisedButton style={style.button} disabled={false} label="REGISTER" primary={true} onClick={() => handleRegisterUser(auth)}/>
-				</div>
-				</div>
+			</div>
 		)
 	}
 }

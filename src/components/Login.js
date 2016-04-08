@@ -2,9 +2,9 @@
 import React , {Component , PropTypes} from 'react';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/lib/text-field';
-import {registerRequest ,registerUser } from '../actions/actions';
+import {registerRequest ,registerUser, setErrorMessage } from '../actions/actions';
 import RaisedButton from 'material-ui/lib/raised-button';
-import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+import CircularProgress from 'material-ui/lib/circular-progress';
 import cc from '../constants/country-codes';
 import SelectFieldExampleSimple from './SelectCountry';
 import AutoCompleteCountry from './AutoCompleteCountry';
@@ -29,126 +29,123 @@ Done pretty much handling all kinds
 
 
 class LoginComponent extends React.Component {
-	constructor(props) {
-      super(props);
-      this.state = {
-          isRegistered: false,
-          isFetching: false,
-          errorMessage: "",
-          dial_code: "+91",
-          countryCode: 87,
-          formattedNumber: ""
-      };
+        constructor(props) {
+            super(props);
+            this.state = {
+                isRegistered: false,
+                isFetching: false,
+                errorMessage: '',
+                dial_code: '+91',
+                countryCode: 87,
+                formattedNumber: ''
+            };
 
-      this.handleChange = this.handleChange.bind(this)
-      this.setDialCode = this.setDialCode.bind(this)
-    }
-	formatNumber(number){
-		formatter.clear();
-		let stringNumber = number.toString();
-		for (var i = 0; i < stringNumber.length; i++) {
-			formatter.inputDigit(stringNumber[i]);
-		}
-		return this.state.dial_code+' '+formatter.currentOutput_;
+            this.handleChange = this.handleChange.bind(this)
+            this.setDialCode = this.setDialCode.bind(this)
+        }
+        formatNumber(number) {
+            formatter.clear();
+            let stringNumber = number.toString();
+            for (var i = 0; i < stringNumber.length; i++) {
+                formatter.inputDigit(stringNumber[i]);
+            }
+            return this.state.dial_code + ' ' + formatter.currentOutput_;
 
-	}
-	handleChange(e){
-		switch (true) {
-		case (e.keyCode >= 48 && e.keyCode <= 57):
-		let updatedFormattedNumber;
-			{/*console.log(formatter.currentOutput_);
-			formatter.inputDigit(String.fromCharCode(e.keyCode));
-			console.log(formatter.currentOutput_);*/}
-			console.log(e.nativeEvent.selectionStart);
-			console.log(e.selectionStart);
-			console.log(e.location);
-			console.log(this.state.formattedNumber);
-			updatedFormattedNumber = this.state.formattedNumber+(String.fromCharCode(e.keyCode)).toString() ;
-		    this.setState({
-		        formattedNumber: updatedFormattedNumber
-		    });
+        }
+        handleChange(e) {
+            this.props.handleSetErrorMessage('');
+            switch (true) {
+				//ALLOW ONLY NUMBER INPUT
+                case (e.keyCode >= 48 && e.keyCode <= 57):
+                    let updatedFormattedNumber;
+                    updatedFormattedNumber = this.state.formattedNumber + (String.fromCharCode(e.keyCode)).toString();
+                    this.setState({
+                        formattedNumber: updatedFormattedNumber
+                    });
 
-		    break;
-		case (e.keyCode == 13):
-			console.log("yadayadayadayada");
-			this.props.handleRegisterUser(this.state.formattedNumber);
-			break;
-		case (e.keyCode == 8):
-		console.log(this.state.formattedNumber);
-			let newNumber = this.state.formattedNumber.substr(0, this.state.formattedNumber.length - 1);
-			console.log(newNumber);
-		    this.setState({
-		        formattedNumber: newNumber
-		    })
+                    break;
+					//HANDLE ON PRESS ENTER
+                case (e.keyCode == 13):
+                    this.props.handleRegisterUser(this.state.formattedNumber);
+                    break;
+				//HANDLE ON PRESS BACKSPACE
+                case (e.keyCode == 8):
+                    let newNumber = this.state.formattedNumber.substr(0, this.state.formattedNumber.length - 1);
+                    console.log(newNumber);
+                    this.setState({
+                        formattedNumber: newNumber
+                    })
 
-		    break;
-		default:
+                    break;
+                default:
 
-		    break;
-		}
+                    break;
+            }
 
-	}
-	setDialCode(event, index, value){
+        }
+        setDialCode(event, index, value) {
 
-		this.setState({countryCode :index})
-		this.setState({dial_code :cc[index].dial_code})
-		//this.setState({formattedNumber : ""})
-		formatter.clear();
-		formatter = new AsYouTypeFormatter((cc[index].code).toString());
-	}
-	checkForTab(e){
-		console.log(e.nativeEvent);
-	}
+            this.setState({
+                countryCode: index
+            })
+            this.setState({
+                    dial_code: cc[index].dial_code
+                })
+                //this.setState({formattedNumber : ""})
+            formatter.clear();
+            formatter = new AsYouTypeFormatter((cc[index].code).toString());
+        }
+        checkForTab(e) {
+            console.log(e.nativeEvent);
+        }
 	render(){
 
 
-		const  {isRegistered , dial_code , formattedNumber, countryCode, isFetching , handleRegisterUser , handleVerifyUser , errorMessage  } = this.props;
+		const  {isRegistered , dial_code , formattedNumber, countryCode, isFetching , handleRegisterUser , handleVerifyUser, handleSetErrorMessage , errorMessage  } = this.props;
 		return (
-			<div style={style.Login}>
+                <div style={style.Login}>
 
-			{isFetching &&
-
-				<RefreshIndicator
-				size={50}
-				left={70}
-				top={0}
-				loadingColor={"#FF9800"}
-				status={isFetching ?'loading' : 'hide'}
-				style={style.refresh}
-				/>
-			}
-			{/*<AutoCompleteCountry value={4} />*/}
-			{/*	<ReactPhoneInput defaultCountry={'us'} /> */}
+                {/*<AutoCompleteCountry value={4} />*/}
+                {/*	<ReactPhoneInput defaultCountry={'us'} /> */}
 
 
-			<div >
-			<div style={style.wrapperDiv}>
-		<div style={style.inlineDiv}>
+                <div >
+                    <div style={style.wrapperDiv}>
+                        <div style={style.inlineDiv}>
 
-		<SelectFieldExampleSimple countryValue={this.state.countryCode}  setCountry={this.setDialCode}/>
-		</div>
-		<div  style={style.inlineDiv}>
+                            <SelectFieldExampleSimple countryValue={this.state.countryCode}  setCountry={this.setDialCode}/>
+                        </div>
+                        <div  style={style.inlineDiv}>
 
-		<TextField hintText={formattedNumber.length ? "Enter your mobile number" : ""}
-		style={style.textField}
-		errorText={errorMessage}
-		value={this.formatNumber(this.state.formattedNumber)}
-		onKeyDown={this.handleChange}
-		onSelect={this.checkForTab}
-		errorStyle={style.errorStyle}
-		underlineFocusStyle={style.cherry}
-		floatingLabelStyle={style.cherry}
-		floatingLabelText="Mobile Number"
-		/>
-		</div>
-			</div>
+                            <TextField hintText={formattedNumber.length ? 'Enter your mobile number' : ''}
+                                style={style.textField}
+                                errorText={errorMessage}
+                                value={this.formatNumber(this.state.formattedNumber)}
+                                onKeyDown={this.handleChange}
+                                onSelect={this.checkForTab}
+                                errorStyle={style.errorStyle}
+                                underlineFocusStyle={style.cherry}
+                                floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
+                                floatingLabelText="Mobile Number"
+                                id="phoneText"
+                                />
+                        </div>
+                    </div>
 
-			<div>
-			<RaisedButton style={style.button} disabled={false} label="REGISTER" onClick={() => handleRegisterUser(this.state.formattedNumber)}/>
-			</div>
-			</div>
+                    <div>
 
-				</div>
+                        {isFetching &&
+
+                            <CircularProgress />
+                        }
+                        {!isFetching &&
+
+                            <RaisedButton style={style.button} labelColor="white" disabled={false} label="REGISTER" onClick={() => handleRegisterUser(this.state.formattedNumber)}/>
+                        }
+                    </div>
+                </div>
+
+            </div>
 			)
 		}
 }
@@ -156,6 +153,7 @@ class LoginComponent extends React.Component {
 LoginComponent.propTypes = {
     handleRegisterUser: PropTypes.func.isRequired,
     handleVerifyUser: PropTypes.func.isRequired,
+    handleSetErrorMessage: PropTypes.func.isRequired,
 	isRegistered: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool.isRequired,
 	errorMessage: PropTypes.string,
@@ -168,8 +166,8 @@ LoginComponent.propTypes = {
 const mapStateToProps = (state) => {
 	const { auth } = state;
 	const{ isRegistered , errorMessage , isFetching } = auth;
-	const formattedNumber = "";
-	const dial_code = "";
+	const formattedNumber = '';
+	const dial_code = '';
 	const countryCode = 0;
 	return {
 		isRegistered,
@@ -186,8 +184,8 @@ const mapDispatchToProps = (dispatch) => {
 		handleRegisterUser: (formattedNumber) => {
 			let creds = {
 				identifier :formattedNumber,
-				identifierType : "PHONE",
-				verificationMode : "OTP_MSG"
+				identifierType : 'PHONE',
+				verificationMode : 'OTP_MSG'
 
 			}
 			dispatch(registerUser(creds))
@@ -195,6 +193,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		handleVerifyUser : (auth) => {
 			dispatch(verifyUser())
+		},
+		handleSetErrorMessage : (msg) => {
+			dispatch(setErrorMessage(msg))
 		}
 	}
 }
