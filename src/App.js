@@ -6,11 +6,14 @@ import { Link } from 'react-router';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import MyRawTheme from './Themes/cherryTheme';
 
-
+/*
+NOTES :
+	-can enable app wide theme here
+*/
 
 
 export default class App extends Component {
-	getChildContext () {
+getChildContext () {
   return { muiTheme:  getMuiTheme(MyRawTheme),};
 }
   render() {

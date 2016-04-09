@@ -29,6 +29,7 @@ export default class SelectFieldExampleSimple extends React.Component {
 
 
             <SelectField
+                primary={true}
                 value={this.props.countryValue}
                 onChange={this.props.setCountry}
                 floatingLabelText='Country code'

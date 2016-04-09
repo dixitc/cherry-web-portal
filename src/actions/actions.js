@@ -1,242 +1,236 @@
-import fetch from 'isomorphic-fetch';
-import apiUrl from '../config/config';
+    import fetch from 'isomorphic-fetch';
+    import apiUrl from '../config/config';
 
-//todo get user , memories only if needed , need to make a separate thunk for this
-//actions types
-const DO_SOMETHING = 'DO_SOMETHING';
-const FETCH_MEMORIES = 'FETCH_MEMORIES';
-const RECEIVE_MEMORIES = 'RECEIVE_MEMORIES';
+    //todo get user , memories only if needed , need to make a separate thunk for this
+    //actions types
+    const DO_SOMETHING = 'DO_SOMETHING';
+    const FETCH_MEMORIES = 'FETCH_MEMORIES';
+    const RECEIVE_MEMORIES = 'RECEIVE_MEMORIES';
 
-const REGISTER_USER = 'REGISTER_USER';
-const REGISTER_REQUEST = 'REGISTER_REQUEST';
-const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-const REGISTER_FAIL = 'REGISTER_FAIL';
-const VERIFY_USER = 'VERIFY_USER';
-const VERIFY_REQUEST = 'VERIFY_REQUEST';
-const VERIFY_SUCCESS = 'VERIFY_SUCCESS';
-const VERIFY_FAIL = 'VERIFY_FAIL';
-const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
-
-
-/*
-// API CALLS  => ASYNC ACTIONS
-consider using redux-sagas
-{
-type : 'FETCH_MEMORIES',
-id : memoryId
-}
-
-{
-type: 'REGISTER_USER',
-creds: {
-	identifier:"",
-	identifierType:"PHONE",
-	verificationMode:"OTP_MSG"
-}
-}
-
-*/
+    const REGISTER_USER = 'REGISTER_USER';
+    const REGISTER_REQUEST = 'REGISTER_REQUEST';
+    const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+    const REGISTER_FAIL = 'REGISTER_FAIL';
+    const VERIFY_USER = 'VERIFY_USER';
+    const VERIFY_REQUEST = 'VERIFY_REQUEST';
+    const VERIFY_SUCCESS = 'VERIFY_SUCCESS';
+    const VERIFY_FAIL = 'VERIFY_FAIL';
+    const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 
 
-
-//action creators
-
-const doSomething = (text) => {
-    return {
-        type: 'DO_SOMETHING',
-        text: text
+    /*
+    // API CALLS  => ASYNC ACTIONS
+    consider using redux-sagas
+    {
+    type : 'FETCH_MEMORIES',
+    id : memoryId
     }
-}
-const validateCredentials = (creds) => {
-    console.log('TRUTH');
-    if(creds.identifier == null || creds.identifier == '' ){
-        return '*required field';
+
+    {
+    type: 'REGISTER_USER',
+    creds: {
+    	identifier:"",
+    	identifierType:"PHONE",
+    	verificationMode:"OTP_MSG"
     }
-    let phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-    let phoneNumber = phoneUtil.parse(creds.identifier, 'IN');
-    let truth =  phoneUtil.isValidNumber(phoneNumber);
-    console.log(truth);
-    console.log(phoneUtil.format(phoneNumber, phoneUtil.INTERNATIONAL));
-    if(truth){
-        return '';
-    }else {
-        return 'check your number';
-
     }
-    //dispatch error message action
-}
-// Meet our first thunk action creator!
-// Though its insides are different, you would use it just like any other action creator:
-// store.dispatch(fetchPosts('reactjs'))
-const registerUser = (creds) => {
-    /*	return async action */
 
-    console.log(creds);
-    let validation='';
+    */
 
 
-    return dispatch => {
-        // We dispatch requestLogin to kickoff the call to the API . THIS WILL DEPEND ON THE AUTH FLOW WE DECIDE EVENTUALLY , JUST REGISTER_USER FOR NOW.
 
-        dispatch(registerRequest(creds));
-        validation = validateCredentials(creds);
-        console.log(validation);
-        if(validation == ''){
+    //action creators
 
-        }else{
-            //don't executr if validation fails
-            dispatch(registerFail(validation));
-            return;
+    const doSomething = (text) => {
+        return {
+            type: 'DO_SOMETHING',
+            text: text
         }
+    }
+    const validateCredentials = (creds) => {
+        console.log('TRUTH');
+        if(creds.identifier == null || creds.identifier == '' ){
+            return '*required field';
+        }
+        let phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+        let phoneNumber = phoneUtil.parse(creds.identifier, 'IN');
+        let truth =  phoneUtil.isValidNumber(phoneNumber);
+        console.log(truth);
+        console.log(phoneUtil.format(phoneNumber, phoneUtil.INTERNATIONAL));
+        if(truth){
+            return '';
+        }else {
+            return 'check your number';
+
+        }
+        //dispatch error message action
+    }
+    // Meet our first thunk action creator!
+    // Though its insides are different, you would use it just like any other action creator:
+    // store.dispatch(fetchPosts('reactjs'))
+    const registerUser = (creds) => {
+        /*	return async action */
+
+        console.log(creds);
+        let validation='';
+
+
+        return dispatch => {
+            // We dispatch requestLogin to kickoff the call to the API . THIS WILL DEPEND ON THE AUTH FLOW WE DECIDE EVENTUALLY , JUST REGISTER_USER FOR NOW.
+
+            dispatch(registerRequest(creds));
+            validation = validateCredentials(creds);
+            console.log(validation);
+            if(validation == ''){
+
+            }else{
+                //don't executr if validation fails
+                dispatch(registerFail(validation));
+                return;
+            }
+            let config = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'identifier='+creds.identifier+'&identifierType='+creds.identifierType+'&verificationMode='+creds.verificationMode
+            }
+            let url = apiUrl + '/register.json';
+
+            return fetch(url, config)
+    		.then((response) => response.json())
+                .then((json) => {
+    				console.log(json);
+                    if (!json.verificationId) {
+                        //ideally see what the server sends
+                        dispatch(registerFail('invalid number'));
+                    } else {
+                        dispatch(registerSuccess(json.verificationId));
+                        // dispatch(verifyUser(json.verificationId));
+                        //need to send verifyuser request
+                    }
+                })
+    			.catch((json) => {
+    				console.log(json);
+                    dispatch(registerFail('network error'));
+    			})
+
+        }
+
+    }
+
+    const registerRequest = (data) => {
+        // return async action using thunk middleware
+        return {
+            type: REGISTER_REQUEST,
+            data: data
+        }
+
+    }
+
+
+    const getUserProfile = (data) => {
+        //use this function to fetch user data when authToken is already present on initial page load
+        //save this data as auth
+    }
+
+    const registerSuccess = (data) => {
+        return {
+            type: REGISTER_SUCCESS,
+            data: data
+        }
+    }
+
+    const registerFail = (msg) => {
+        return {
+            type: REGISTER_FAIL,
+            errMsg: msg
+        }
+    }
+
+    const setErrorMessage = (msg) => {
+        return {
+            type: SET_ERROR_MESSAGE,
+            errMsg: msg
+        }
+    }
+
+    const verifyRequest = (data) => {
+        //update state , actual network call made in verifyUser()
+        return {
+            type: VERIFY_REQUEST,
+            data: data
+        }
+
+    }
+
+    const verifySuccess = (data) => {
+        return {
+            type: VERIFY_SUCCESS,
+            data: data
+        }
+
+    }
+
+    const verifyFail = (msg) => {
+        return {
+            type: VERIFY_FAIL,
+            error: msg
+        }
+    }
+
+
+    const verifyUser = (id) => {
+
+        let url = apiUrl + 'verify/' + id + '.json';
         let config = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: 'identifier='+creds.identifier+'&identifierType='+creds.identifierType+'&verificationMode='+creds.verificationMode
+            body: 'otp=783sdf'
         }
-        let url = apiUrl + '/register.json';
-
-        return fetch(url, config)
-		.then((response) => response.json())
-            .then((json) => {
-				console.log(json);
-                if (!json.verificationId) {
-                    //ideally see what the server sends
-                    dispatch(registerFail('invalid number'));
-                } else {
-                    dispatch(registerSuccess(json.verificationId));
-                    //need to send verifyuser request
-                }
-            })
-			.catch((json) => {
-				console.log(json);
-                dispatch(registerFail('network error'));
-			})
+        return dispatch => {
+            //dispatch() dispatch requestverify
+            return fetch(url, config)
+                .then((response) => {
+                    if (resposne.authToken) {
+                        dispatch(verifySuccess(response));
+                    } else {
+                        dispatch(verifyFailed(response));
+                    }
+                })
+        }
 
     }
 
-}
 
-const registerRequest = (data) => {
-    // return async action using thunk middleware
-    return {
-        type: REGISTER_REQUEST,
-        data: data
+    // have to use redux-thunk to setup async actionCreators
+
+    const fetchMemories = (memoryId) => {
+        return {
+            type: FETCH_MEMORIES,
+            id: memoryId
+        }
     }
 
-}
-
-
-const getUserProfile = (data) => {
-    //use this function to fetch user data when authToken is already present on initial page load
-    //save this data as auth
-}
-
-const registerSuccess = (data) => {
-    return {
-        type: REGISTER_SUCCESS,
-        data: data
-    }
-}
-
-const registerFail = (msg) => {
-    return {
-        type: REGISTER_FAIL,
-        errMsg: msg
-    }
-}
-
-const setErrorMessage = (msg) => {
-    return {
-        type: SET_ERROR_MESSAGE,
-        errMsg: msg
-    }
-}
-
-const verifyRequest = (data) => {
-    //update state , actual network call made in verifyUser()
-    return {
-        type: VERIFY_REQUEST,
-        data: data
+    const receiveMemories = (json) => {
+        return {
+            type: RECEIVE_MEMORIES,
+            memories: json
+        }
     }
 
-}
-
-const verifySuccess = (data) => {
-    return {
-        type: VERIFY_SUCCESS,
-        data: data
-    }
-
-}
-
-const verifyFail = (msg) => {
-    return {
-        type: VERIFY_FAIL,
-        error: msg
-    }
-}
-
-
-const verifyUser = (id) => {
-    /*
-    return dispatch => {
-    	dispatch(verifyRequest(data));
-    	return fetch(apiUrl,config)
-    		.then(response = response.json())
-    		.then(json => dispatch(verifySuccess(json)))
-    }
-    */
-    let url = apiUrl + 'verify/' + id + '.json';
-    let config = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: 'otp=783sdf'
-    }
-    return dispatch => {
-        //dispatch() dispatch requestverify
-        return fetch(url, config)
-            .then((response) => {
-                if (resposne.authToken) {
-                    dispatch(verifySuccess(response));
-                } else {
-                    dispatch(verifyFailed(response));
-                }
-            })
-    }
-
-}
-
-
-// have to use redux-thunk to setup async actionCreators
-
-const fetchMemories = (memoryId) => {
-    return {
-        type: FETCH_MEMORIES,
-        id: memoryId
-    }
-}
-
-const receiveMemories = (json) => {
-    return {
-        type: RECEIVE_MEMORIES,
-        memories: json
-    }
-}
-
-//export action creator and call like dispatch(actionCreator(a,b))
-//eventually move all action names into constants
-export {
-    doSomething,
-	registerUser,
-    registerRequest,
-    registerFail,
-    registerSuccess,
-    verifyUser,
-    verifyFail,
-    verifySuccess,
-    setErrorMessage
-};
+    //export action creator and call like dispatch(actionCreator(a,b))
+    //eventually move all action names into constants
+    export {
+        doSomething,
+    	registerUser,
+        registerRequest,
+        registerFail,
+        registerSuccess,
+        verifyUser,
+        verifyFail,
+        verifySuccess,
+        setErrorMessage
+    };

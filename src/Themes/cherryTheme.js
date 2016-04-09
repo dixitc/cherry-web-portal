@@ -8,15 +8,18 @@ export default {
   zIndex: zIndex,
   fontFamily: 'Roboto, sans-serif',
   palette: {
-    primary1Color: 'orange',
-    primary2Color: 'orange',
-    primary3Color: 'orange',
-    accent1Color: 'orange',
-    accent2Color: 'white',
-    accent3Color: 'orange',
-	textColor:'black',
-   alternateTextColor:'orange',
-//	borderColor:'orange',
-   disabledColor:'grey'
+      primary1Color: 'orange',
+      accent1Color: 'orange'
+     /* primary2Color: 'orange',
+      primary3Color: 'orange',
+      accent2Color: 'orange',
+      accent3Color: 'orange',
+      textColor: 'orange',
+      alternateTextColor: '#303030',
+      canvasColor: '#303030',
+      borderColor: 'orange',
+      disabledColor: 'orange',
+      pickerHeaderColor: 'orange',
+      clockCircleColor: 'orange'*/
   }
 };

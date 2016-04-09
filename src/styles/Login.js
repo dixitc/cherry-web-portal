@@ -36,6 +36,7 @@ const style = {
 	button : {
 		margin:'10px',
 		color: 'orange',
+		backgroundColor: 'orange'
 	},
 	cherry : {
 		borderColor: 'orange'
