@@ -13,8 +13,9 @@ import App from './App';
 import { testReducer } from './reducers/reducers';
 import { authReducer } from './reducers/auth';
 import SmartMessage from './components/components';
+import Message from './components/AuthenticatedComponent';
 import Login from './components/Login';
-import { AuthenticatedComponent } from './components/AuthenticatedComponent';
+//import { AuthenticatedComponent } from './components/AuthenticatedComponent';
 import createLogger from 'redux-logger';
 
 injectTapEventPlugin();
@@ -71,7 +72,7 @@ render( < Provider store = {store}>
         <Route path="/" component={App}>
 			<IndexRoute component={SmartMessage}/>
           <Route path="/login" component={Login}/>
-          <Route path="/authenticated" component={SmartMessage} onEnter={requireAuth}/>
+          <Route path="/authenticated" component={Message} />
         </Route>
       </Router>
 	</Provider>, rootEl);

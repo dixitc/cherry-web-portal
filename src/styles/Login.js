@@ -38,6 +38,10 @@ const style = {
 		color: 'orange',
 		backgroundColor: 'orange'
 	},
+	image : {
+			height:'100%',
+			width:'100%'
+	},
 	cherry : {
 		borderColor: 'orange'
 	},red : {

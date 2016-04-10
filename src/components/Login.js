@@ -36,8 +36,8 @@
                 this.state = {
                     dial_code: '+91',
                     countryCode: 87,
-                    formattedNumber: '9620418303',
-                    verificationId: null
+                    formattedNumber: '9620418303'
+
                 };
 
                 this.handleChange = this.handleChange.bind(this)
@@ -53,11 +53,13 @@
 
             }
             handleChange(e) {
+                //remove any previous error messages asuser is making changes to input
                 this.props.handleSetErrorMessage('');
                 switch (true) {
     				//ALLOW ONLY NUMBER INPUT
                     case (e.keyCode >= 48 && e.keyCode <= 57):
                         let updatedFormattedNumber;
+
                         updatedFormattedNumber = this.state.formattedNumber + (String.fromCharCode(e.keyCode)).toString();
                         this.setState({
                             formattedNumber: updatedFormattedNumber
@@ -70,10 +72,14 @@
                         break;
     				//HANDLE ON PRESS BACKSPACE
                     case (e.keyCode == 8):
+                    /*    console.log(e.nativeEvent.target.selectionStart-4);
+                        console.log(e.nativeEvent.target.selectionEnd-4);
+                        console.log(this.state.formattedNumber.substr(0, e.nativeEvent.target.selectionStart - 5));
+                        console.log(this.state.formattedNumber.substr( e.nativeEvent.target.selectionEnd -4,this.state.formattedNumber.length)); */
                         let newNumber = this.state.formattedNumber.substr(0, this.state.formattedNumber.length - 1);
                         console.log(newNumber);
                         this.setState({
-                            formattedNumber: newNumber
+                            formattedNumber: ''
                         })
 
                         break;
