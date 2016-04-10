@@ -31,7 +31,7 @@ const style = {
 		fontSize:'16px'
 	},
 	wrapperDiv: {
-    paddingBottom: '50px'
+    padding: '25px'
 	},
 	button : {
 		margin:'10px',
@@ -42,7 +42,14 @@ const style = {
 		borderColor: 'orange'
 	},red : {
 		borderColor: 'red'
-	}
+	},
+	paper : {
+  height: '200px',
+  width: '800px',
+  margin: '20px',
+  textAlign: 'center',
+  display: 'inline-block'
+}
 }
 
 export default style;

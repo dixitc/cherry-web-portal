@@ -10,8 +10,9 @@ MY_USER :
   }
 }
 
-IMPORTANT NOTES :
-
+PROGRESS :
+    -current = hooking up verificationId
+    -next = setup memories view (https://github.com/eiriklv/react-masonry-component) [MASONRY_COMPONENT]
 
 thingsToDo  :
 	- use npm-shrinkwrap

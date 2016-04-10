@@ -8,8 +8,8 @@ export default {
   zIndex: zIndex,
   fontFamily: 'Roboto, sans-serif',
   palette: {
-      primary1Color: 'orange',
-      accent1Color: 'orange'
+      primary1Color: '#FF5722',
+      accent1Color: '#FF5722'
      /* primary2Color: 'orange',
       primary3Color: 'orange',
       accent2Color: 'orange',

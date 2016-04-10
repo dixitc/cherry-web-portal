@@ -10,6 +10,8 @@
     import AutoCompleteCountry from './AutoCompleteCountry';
     import IntlTelInput from 'react-intl-tel-input';
     import PNF from 'google-libphonenumber/dist/browser/libphonenumber';
+    import Paper from 'material-ui/lib/paper';
+
     import style from '../styles/Login';
     //import ReactPhoneInput from 'react-phone-input';
 
@@ -34,7 +36,8 @@
                 this.state = {
                     dial_code: '+91',
                     countryCode: 87,
-                    formattedNumber: ''
+                    formattedNumber: '9620418303',
+                    verificationId: null
                 };
 
                 this.handleChange = this.handleChange.bind(this)
@@ -92,9 +95,17 @@
                 formatter = new AsYouTypeFormatter((cc[index].code).toString());
             }
     	render(){
+            let conditionalComponent;
+            if(isRegistered){
+                console.log('RENDER OTP COMPONENT');
+                 conditionalComponent = <p>otp login</p>;
 
+            }else{
+                console.log('RENDER PHONE COMPONENT');
+                 conditionalComponent = <p>phone login</p>;
 
-    		const  {isRegistered , isFetching , handleRegisterUser , handleVerifyUser, handleSetErrorMessage , errorMessage  } = this.props;
+            }
+    		const  {isRegistered , isFetching , handleRegisterUser , handleVerifyUser, handleSetErrorMessage , errorMessage , verificationId  } = this.props;
     		return (
                     <div style={style.Login}>
 
@@ -102,41 +113,82 @@
                     {/*	<ReactPhoneInput defaultCountry={'us'} /> */}
 
 
+                    <Paper style={style.paper} zDepth={1}>
                     <div >
-                        <div style={style.wrapperDiv}>
-                            <div style={style.inlineDiv}>
+                        {!isRegistered &&
+                            <div>
+                            <div style={style.wrapperDiv}>
 
-                                <SelectFieldExampleSimple countryValue={this.state.countryCode}  setCountry={this.setDialCode}/>
+                                <div style={style.inlineDiv}>
+
+                                    <SelectFieldExampleSimple countryValue={this.state.countryCode}  setCountry={this.setDialCode}/>
+                                </div>
+                                <div  style={style.inlineDiv}>
+                                    <TextField hintText={this.state.formattedNumber.length ? 'Enter your mobile number' : ''}
+                                        style={style.textField}
+                                        errorText={errorMessage}
+                                        value={this.formatNumber(this.state.formattedNumber)}
+                                        onKeyDown={this.handleChange}
+                                        onSelect={this.checkForTab}
+                                        errorStyle={style.errorStyle}
+                                        underlineFocusStyle={style.cherry}
+                                        floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
+                                        floatingLabelText="Mobile Number"
+                                        id="phoneText"
+                                        />
+                                </div>
                             </div>
-                            <div  style={style.inlineDiv}>
 
-                                <TextField hintText={this.state.formattedNumber.length ? 'Enter your mobile number' : ''}
-                                    style={style.textField}
-                                    errorText={errorMessage}
-                                    value={this.formatNumber(this.state.formattedNumber)}
-                                    onKeyDown={this.handleChange}
-                                    onSelect={this.checkForTab}
-                                    errorStyle={style.errorStyle}
-                                    underlineFocusStyle={style.cherry}
-                                    floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
-                                    floatingLabelText="Mobile Number"
-                                    id="phoneText"
-                                    />
+                            <div>
+
+                                {isFetching &&
+
+                                    <CircularProgress size={0.8}/>
+                                }
+                                {!isFetching &&
+
+                                    <RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'REGISTER'} onClick={() => handleRegisterUser(this.state.formattedNumber)}/>
+                                }
                             </div>
                         </div>
+                        }
 
-                        <div>
+                        {isRegistered &&
+                            <div>
+                            <div style={style.wrapperDiv}>
 
-                            {isFetching &&
 
-                                <CircularProgress />
-                            }
-                            {!isFetching &&
+                                <div  style={style.inlineDiv}>
+                                    <TextField hintText={this.state.formattedNumber.length ? 'Enter the OTP' : ''}
+                                        style={style.textField}
 
-                                <RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label="REGISTER" onClick={() => handleRegisterUser(this.state.formattedNumber)}/>
-                            }
+
+                                        onKeyDown={this.handleChange}
+                                        onSelect={this.checkForTab}
+
+                                        underlineFocusStyle={style.cherry}
+                                        floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
+                                        floatingLabelText="OTP"
+                                        id="otpText"
+                                        />
+                                </div>
+                            </div>
+                            <div>
+
+                                {isFetching &&
+
+                                    <CircularProgress size={0.8}/>
+                                }
+                                {!isFetching &&
+
+                                    <RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'REGISTER'} onClick={() => handleVerifyUser(verificationId ,'234')}/>
+                                }
+                            </div>
                         </div>
+                        }
+
                     </div>
+                </Paper>
 
                 </div>
     			)
@@ -155,12 +207,13 @@
 
     const mapStateToProps = (state) => {
     	const { auth } = state;
-    	const{ isRegistered , errorMessage , isFetching } = auth;
+    	const{ isRegistered , errorMessage , isFetching , verificationId } = auth;
 
     	return {
     		isRegistered,
     		errorMessage,
     		isFetching,
+            verificationId
 
     	}
     }
@@ -177,8 +230,8 @@
     			dispatch(registerUser(creds))
     			//dispatch(registerRequest(auth));
     		},
-    		handleVerifyUser : (auth) => {
-    			dispatch(verifyUser())
+    		handleVerifyUser : (id,otp) => {
+    			dispatch(verifyUser(id,otp))
     		},
     		handleSetErrorMessage : (msg) => {
     			dispatch(setErrorMessage(msg))

@@ -6,6 +6,7 @@ const initAuth = {
     isRegistered: false,
     lastUpdated: null,
 	errorMessage : '',
+    verificationId:'',
     profile: {
         name: null,
         id: null,
@@ -31,7 +32,8 @@ const authReducer = (state = initAuth, action) => {
 			// on receiving the verification token from the server set verificationId somewhere
 			return {...state,
                 isFetching: false,
-				isRegistered : true
+				isRegistered : true,
+                verificationId : action.id
             };
 			return state;
 		case 'REGISTER_FAIL':

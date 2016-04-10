@@ -22,8 +22,7 @@ getChildContext () {
 		<div>
 			{/*<AppBar
 				title="Cherry react"
-				iconClassNameRight="muidocs-icon-navigation-expand-more"
-			/>*/}
+				primary={true}/> */}
 
 			<Link to="/">home</Link>
 			<br/>

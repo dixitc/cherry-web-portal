@@ -93,7 +93,7 @@
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'identifier='+creds.identifier+'&identifierType='+creds.identifierType+'&verificationMode='+creds.verificationMode
+                body: 'identifier='+'%2b91'+creds.identifier+'&identifierType='+creds.identifierType+'&verificationMode='+creds.verificationMode
             }
             let url = apiUrl + '/register.json';
 
@@ -105,8 +105,10 @@
                         //ideally see what the server sends
                         dispatch(registerFail('invalid number'));
                     } else {
+                        console.log('VERIFICATION ID RECEIVED');
+                        console.log(json.verificationId);
                         dispatch(registerSuccess(json.verificationId));
-                        // dispatch(verifyUser(json.verificationId));
+                        //dispatch(verifyUser(json.verificationId));
                         //need to send verifyuser request
                     }
                 })
@@ -134,10 +136,10 @@
         //save this data as auth
     }
 
-    const registerSuccess = (data) => {
+    const registerSuccess = (id) => {
         return {
             type: REGISTER_SUCCESS,
-            data: data
+            id: id
         }
     }
 
@@ -180,15 +182,15 @@
     }
 
 
-    const verifyUser = (id) => {
-
-        let url = apiUrl + 'verify/' + id + '.json';
+    const verifyUser = (id,otp) => {
+        console.log('VERIFY_USER');
+        let url = apiUrl + '/verify/' + id + '.json';
         let config = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: 'otp=783sdf'
+            body: 'otp='+otp
         }
         return dispatch => {
             //dispatch() dispatch requestverify
