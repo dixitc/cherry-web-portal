@@ -34,6 +34,9 @@ const style = {
 		margin : '0px',
 		width:'100px'
 	},
+	avatarButton : {
+		padding : '0px'
+	},
 	wrapperDiv: {
     padding: '25px'
 	},

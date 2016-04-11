@@ -10,6 +10,9 @@
     const FETCH_MEMORIES_SUCCESS = 'FETCH_MEMORIES_SUCCESS';
     const FETCH_MEMORIES_FAIL = 'FETCH_MEMORIES_FAIL';
     const RECEIVE_MEMORIES = 'RECEIVE_MEMORIES';
+    const PURGE_MEMORIES = 'PURGE_MEMORIES';
+    const PURGE_USER = 'PURGE_USER';
+
 
 	const LOGOUT_USER = 'LOGOUT_USER';
 
@@ -210,7 +213,7 @@
                 .then((json) => {
                     if (json.authToken) {
                         dispatch(verifySuccess(json));
-						browserHistory.replace('/authenticated');
+						browserHistory.replace('/memories');
                     } else {
                         dispatch(verifyFailed(json));
                     }
@@ -259,6 +262,17 @@
         }
     }
 
+	const purgeUser = () => {
+		return {
+			type: PURGE_USER
+		}
+	}
+	const purgeMemories = () => {
+		return {
+			type: PURGE_MEMORIES
+		}
+	}
+
     //export action creator and call like dispatch(actionCreator(a,b))
     //eventually move all action names into constants
     export {
@@ -273,5 +287,7 @@
         setErrorMessage,
 		fetchMemories,
 		receiveMemories,
-		logOutUser
+		logOutUser,
+		purgeMemories,
+		purgeUser
     };

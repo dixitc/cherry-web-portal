@@ -1,6 +1,5 @@
 import React , {PropTypes} from 'react';
 import { connect } from 'react-redux';
-import style from '../styles/Login';
 import { logOutUser , fetchMemories} from '../actions/actions';
 import RaisedButton from 'material-ui/lib/raised-button';
 import MemoryView from './MemoryView';
@@ -10,7 +9,8 @@ import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
 import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-
+import Avatar from 'material-ui/lib/avatar';
+import style from '../styles/Login';
 
 class AuthenticatedComponent extends React.Component {
 	constructor(props){
@@ -30,7 +30,9 @@ class AuthenticatedComponent extends React.Component {
 				primary={true}
 				iconElementRight={ <IconMenu
         iconButtonElement={
-          <IconButton><MoreVertIcon /></IconButton>
+          <IconButton style={style.avatarButton}>
+        <Avatar src={auth.profile.photo}/>
+      </IconButton>
         }
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -44,6 +46,7 @@ class AuthenticatedComponent extends React.Component {
 
 
 			<p>We authenticated now !</p>
+			<p>Your memories here</p>
 			<MemoryView memories={memories} />
 			</div>
 		)

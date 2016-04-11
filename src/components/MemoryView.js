@@ -29,7 +29,7 @@ class MemoryView extends Component {
 	render() {
 		return (
 			<div style={styles.root}>
-				<p>Your memories here</p>
+				
 				<GridList
 				cellHeight={200}
 				style={styles.gridList}

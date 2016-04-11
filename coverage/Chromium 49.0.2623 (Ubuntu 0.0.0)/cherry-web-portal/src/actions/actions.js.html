@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">47.32% </span>
+        <span class="strong">49.17% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>53/112</span>
+        <span class='fraction'>59/120</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">22.22% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>4/18</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">7.14% </span>
+        <span class="strong">6.67% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/28</span>
+        <span class='fraction'>2/30</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">46.85% </span>
+        <span class="strong">48.74% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>52/111</span>
+        <span class='fraction'>58/119</span>
       </div>
     </div>
   </div>
@@ -310,7 +310,22 @@
 265
 266
 267
-268</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -336,6 +351,8 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -563,8 +580,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -582,7 +612,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.logOutUser = exports.receiveMemories = exports.fetchMemories = exports.setErrorMessage = exports.verifySuccess = exports.verifyFail = exports.verifyUser = exports.registerSuccess = exports.registerFail = exports.registerRequest = exports.registerUser = exports.doSomething = undefined;
+exports.purgeUser = exports.purgeMemories = exports.logOutUser = exports.receiveMemories = exports.fetchMemories = exports.setErrorMessage = exports.verifySuccess = exports.verifyFail = exports.verifyUser = exports.registerSuccess = exports.registerFail = exports.registerRequest = exports.registerUser = exports.doSomething = undefined;
 &nbsp;
 var _isomorphicFetch = require('isomorphic-fetch');
 &nbsp;
@@ -603,6 +633,8 @@ var FETCH_MEMORIES = 'FETCH_MEMORIES';
 var FETCH_MEMORIES_SUCCESS = 'FETCH_MEMORIES_SUCCESS';
 var FETCH_MEMORIES_FAIL = 'FETCH_MEMORIES_FAIL';
 var RECEIVE_MEMORIES = 'RECEIVE_MEMORIES';
+var PURGE_MEMORIES = 'PURGE_MEMORIES';
+var PURGE_USER = 'PURGE_USER';
 &nbsp;
 var LOGOUT_USER = 'LOGOUT_USER';
 &nbsp;
@@ -786,7 +818,7 @@ var verifyUser = <span class="fstat-no" title="function not covered" >function v
         }).then(<span class="fstat-no" title="function not covered" >function (json) {</span>
 <span class="cstat-no" title="statement not covered" >            if (json.authToken) {</span>
 <span class="cstat-no" title="statement not covered" >                dispatch(verifySuccess(json));</span>
-<span class="cstat-no" title="statement not covered" >                _reactRouter.browserHistory.replace('/authenticated');</span>
+<span class="cstat-no" title="statement not covered" >                _reactRouter.browserHistory.replace('/memories');</span>
             } else {
 <span class="cstat-no" title="statement not covered" >                dispatch(verifyFailed(json));</span>
             }
@@ -830,6 +862,17 @@ var receiveMemories = <span class="fstat-no" title="function not covered" >funct
     };
 };
 &nbsp;
+var purgeUser = <span class="fstat-no" title="function not covered" >function purgeUser() {</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+        type: PURGE_USER
+    };
+};
+var purgeMemories = <span class="fstat-no" title="function not covered" >function purgeMemories() {</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+        type: PURGE_MEMORIES
+    };
+};
+&nbsp;
 //export action creator and call like dispatch(actionCreator(a,b))
 //eventually move all action names into constants
 exports.doSomething = doSomething;
@@ -844,13 +887,15 @@ exports.setErrorMessage = setErrorMessage;
 exports.fetchMemories = fetchMemories;
 exports.receiveMemories = receiveMemories;
 exports.logOutUser = logOutUser;
+exports.purgeMemories = purgeMemories;
+exports.purgeUser = purgeUser;
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 11 2016 19:33:40 GMT+0530 (IST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 11 2016 20:46:12 GMT+0530 (IST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

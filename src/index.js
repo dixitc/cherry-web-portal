@@ -62,7 +62,7 @@ const requireAuth = (nextState , replace) => {
 		//browserHistory.push('/login');
 
 	}else{
-		//check if user is present else dispatch action to fetch user
+		//check if user is present else dispatch action to fetch user , also verify that token hasn't expired
 		console.log('requireAuth SUCCESS');
 	}
 }
@@ -73,7 +73,7 @@ const verifyAuth = (a,b) => {
 	if(!store.getState().auth.isAuthenticated){
 		return;
 	}else{
-		browserHistory.push('/authenticated');
+		browserHistory.push('/memories');
 		return;
 	}
 }
@@ -85,7 +85,7 @@ render( < Provider store = {store}>
         <Route path="/" component={App}>
 			<IndexRoute component={SmartMessage}/>
           <Route path="/login" component={Login}/>
-          <Route path="/authenticated" component={AuthenticatedComponentView} onEnter={requireAuth}/>
+          <Route path="/memories" component={AuthenticatedComponentView} onEnter={requireAuth}/>
         </Route>
       </Router>
 	</Provider>, rootEl);

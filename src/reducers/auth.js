@@ -1,6 +1,7 @@
+
 const initAuth = {
-    authToken: null,
-    isAuthenticated: false,
+    authToken: localStorage.getItem('cherryToken') ? localStorage.getItem('cherryToken') : '',
+    isAuthenticated:  localStorage.getItem('cherryToken') ? true : false,
     isFetching: false,
     didInvalidate: false,
     isRegistered: false,

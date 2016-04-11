@@ -11,16 +11,18 @@ MY_USER :
 }
 
 PROGRESS :
-    -current = hooking up verificationId
-    -next = setup memories view (https://github.com/eiriklv/react-masonry-component) [MASONRY_COMPONENT]
+    -prev = hooking up verificationId (done , need to set and get user when token is present)
+    -current = setup memories view (https://github.com/eiriklv/react-masonry-component) [MASONRY_COMPONENT] (doing) look for alternatives
+	-next = name and photo component (after verify and before memories)
+	-then = clean up all pending tasks
 
 thingsToDo  :
 	- use npm-shrinkwrap
 	- setup testing environment (done unit-tests mocha , karma , need integration , e2e testing nightwatch http://nightwatchjs.org/)
 		- dynamically generating tests for reducers and actions  (https://mochajs.org/#dynamically-generating-tests)
 		- consider replacing expect with chai
-	- login redirect should include the original(authenticated) url that the user was trying to access and redirect accordingly
-	- separate configs for dev and prod
+	- login redirect should include the original(authenticated) url that the user was trying to access and redirect accordingly (pending)
+	- separate configs for dev and prod (pending)
 	- handle all error messages using material TextField and snackbar centrally ??
 	- use spread operators wherever possible
 	[-] country code number validation
