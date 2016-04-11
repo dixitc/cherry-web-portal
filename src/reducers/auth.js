@@ -48,6 +48,16 @@ const authReducer = (state = initAuth, action) => {
             }
 
 			//return state;
+		case 'LOGOUT_USER' :
+		//console.log("reducer: authReducer LOGOUT_USER");
+			return{ ...state,
+				isFetching : false,
+				isAuthenticated : false,
+				isRegistered : false,
+				authToken : '',
+				profile : {}
+			}
+			//return state;
         case 'SET_ERROR_MESSAGE' :
         //console.log("reducer: authReducer SET_ERRORMESSAGE");
             return {...state , errorMessage : action.msg};
@@ -57,14 +67,15 @@ const authReducer = (state = initAuth, action) => {
         case 'VERIFY_SUCCESS':
             //console.log("reducer: authReducer VERIFY_SUCCESS");
             //set user and authToken on success
-            /*return Object.assign({} , state , {
+            return Object.assign({} , state , {
             	isFetching : false,
             	isAuthenticated : true,
             	authToken : action.data.authToken,
-            	profile : actions.data.profile
-            })*/
+            	profile : action.data.profile,
+				verificationId : ''
+            })
 
-            return state;
+            //return state;
         case 'VERIFY_REQUEST':
             //console.log("reducer: authReducer VERIFY_REQUEST");
             //on sending a verify request to verify api update state (show loading icon etc)

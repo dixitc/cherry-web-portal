@@ -10,12 +10,13 @@ import thunkMiddleware from 'redux-thunk';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import App from './App';
-import { testReducer } from './reducers/reducers';
+import { memoriesReducer } from './reducers/reducers';
 import { authReducer } from './reducers/auth';
 import SmartMessage from './components/components';
-import Message from './components/AuthenticatedComponent';
+import AuthenticatedComponentView from './components/AuthenticatedComponent';
 import Login from './components/Login';
-//import { AuthenticatedComponent } from './components/AuthenticatedComponent';
+import createSagaMiddleware from 'redux-saga'
+import rootSaga from './sagas/index'
 import createLogger from 'redux-logger';
 
 injectTapEventPlugin();
@@ -31,7 +32,7 @@ let initState = {
 const loggerMiddleware = createLogger();
 
 const rootReducer = combineReducers({
-	memory:testReducer,
+	memories:memoriesReducer,
 	auth:authReducer,
 	routing: routerReducer
 })
@@ -39,7 +40,7 @@ const rootReducer = combineReducers({
 let store = createStore(rootReducer,
 	{},
 	compose(
-	applyMiddleware(thunkMiddleware , loggerMiddleware),
+	applyMiddleware(thunkMiddleware , loggerMiddleware, createSagaMiddleware(rootSaga)),
 	window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
@@ -49,21 +50,33 @@ const rootEl = document.getElementById('root');
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store)
 
-const requireAuth = (nextState , transition ,cb) => {
+const requireAuth = (nextState , replace) => {
 	console.log('STATE');
 	console.log(store.getState().auth.isAuthenticated);
 	if (!store.getState().auth.isAuthenticated) {
 		console.log('requireAuth FAILED');
+		replace({
+	      pathname: '/login',
+	      state: { nextPathname: nextState.location.pathname }
+	    })
+		//browserHistory.push('/login');
 
-		browserHistory.push('/login');
-		return;
 	}else{
-
+		//check if user is present else dispatch action to fetch user
 		console.log('requireAuth SUCCESS');
 	}
 }
 
-
+const verifyAuth = (a,b) => {
+	console.log(a);
+	console.log(b);
+	if(!store.getState().auth.isAuthenticated){
+		return;
+	}else{
+		browserHistory.push('/authenticated');
+		return;
+	}
+}
 
 
 render( < Provider store = {store}>
@@ -72,7 +85,7 @@ render( < Provider store = {store}>
         <Route path="/" component={App}>
 			<IndexRoute component={SmartMessage}/>
           <Route path="/login" component={Login}/>
-          <Route path="/authenticated" component={Message} />
+          <Route path="/authenticated" component={AuthenticatedComponentView} onEnter={requireAuth}/>
         </Route>
       </Router>
 	</Provider>, rootEl);

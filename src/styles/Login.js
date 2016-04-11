@@ -2,7 +2,7 @@ const style = {
 	Login: {
 
 		textAlign : 'center',
-		marginTop:'100px'
+		top:'100px'
 	},
 	errorStyle: {
 		textAlign : 'left',
@@ -29,6 +29,10 @@ const style = {
 		marginLeft:'20px',
 
 		fontSize:'16px'
+	},
+	otpField : {
+		margin : '0px',
+		width:'100px'
 	},
 	wrapperDiv: {
     padding: '25px'

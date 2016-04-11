@@ -74,6 +74,7 @@
     "redux": "^3.3.1",
     "redux-auth": "0.0.2",
     "redux-devtools": "^3.1.1",
+    "redux-saga": "^0.9.5",
     "redux-thunk": "^2.0.1"
   }
 }

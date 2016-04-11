@@ -1,11 +1,17 @@
     import fetch from 'isomorphic-fetch';
     import apiUrl from '../config/config';
+	import { browserHistory } from 'react-router';
+
 
     //todo get user , memories only if needed , need to make a separate thunk for this
     //actions types
     const DO_SOMETHING = 'DO_SOMETHING';
     const FETCH_MEMORIES = 'FETCH_MEMORIES';
+    const FETCH_MEMORIES_SUCCESS = 'FETCH_MEMORIES_SUCCESS';
+    const FETCH_MEMORIES_FAIL = 'FETCH_MEMORIES_FAIL';
     const RECEIVE_MEMORIES = 'RECEIVE_MEMORIES';
+
+	const LOGOUT_USER = 'LOGOUT_USER';
 
     const REGISTER_USER = 'REGISTER_USER';
     const REGISTER_REQUEST = 'REGISTER_REQUEST';
@@ -49,6 +55,11 @@
     }
     const validateCredentials = (creds) => {
         console.log('TRUTH');
+		//DEMO CASE
+		if(creds.identifier == '5555555551'){
+			return '';
+		}
+		//DEMO CASE END
         if(creds.identifier == null || creds.identifier == '' ){
             return '*required field';
         }
@@ -195,26 +206,51 @@
         return dispatch => {
             //dispatch() dispatch requestverify
             return fetch(url, config)
-                .then((response) => {
-                    if (resposne.authToken) {
-                        dispatch(verifySuccess(response));
+			.then((response) => response.json())
+                .then((json) => {
+                    if (json.authToken) {
+                        dispatch(verifySuccess(json));
+						browserHistory.replace('/authenticated');
                     } else {
-                        dispatch(verifyFailed(response));
+                        dispatch(verifyFailed(json));
                     }
                 })
         }
 
     }
 
+	const logOutUser = () => {
+		//Need to remove token from localStorage
+		return {
+			type: LOGOUT_USER
+		}
+	}
 
-    // have to use redux-thunk to setup async actionCreators
 
-    const fetchMemories = (memoryId) => {
+
+    const fetchMemories = (token) => {
+		//needs to be an async action
         return {
             type: FETCH_MEMORIES,
-            id: memoryId
+			token : token
+
         }
     }
+
+	const fetchmemories = (memoryId) => {
+		//gotta set the url ad config and makesure auth header has been set
+		return dispatch => {
+			return fetch(url , config)
+			.then((response) => response.json())
+			.then((json) => {
+				dispatch(fetchMemoriesSuccess(json));
+			})
+			.catch((json) => {
+				dispatch(fetchMemoriesFail(json));
+
+			})
+		}
+	}
 
     const receiveMemories = (json) => {
         return {
@@ -234,5 +270,8 @@
         verifyUser,
         verifyFail,
         verifySuccess,
-        setErrorMessage
+        setErrorMessage,
+		fetchMemories,
+		receiveMemories,
+		logOutUser
     };

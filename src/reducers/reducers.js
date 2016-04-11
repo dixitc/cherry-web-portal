@@ -1,24 +1,43 @@
 let initState = {
-    id: 1,
-    title: "Login"
+    memories: [],
+    isFetching : false,
+	lastUpdated : ''
 }
 
 let updateTitle = "cherry memories";
 
-const testReducer = (state = initState, action) => {
+const memoriesReducer = (state = initState, action) => {
     switch (action.type) {
         case 'DO_SOMETHING':
-            console.log("reducer: testReducer DO_SOMETHING");
             console.log(state);
             return Object.assign({}, {
                 title: "cherry memory clicked",
                 id: action.text.id
             })
-        case 'HANDLE_INPUT':
-            console.log("reducer: testReducer HANDLE_INPUT");
-			console.log(state);
-        case 'VERIFY_USER':
-            console.log("reducer: testReducer VERIFY_USER");
+		case 'RECEIVE_MEMORIES':
+		console.log("reducer: memoriesReducer RECEIVE_MEMORIES");
+		console.log(action);
+			return Object.assign(...state,{
+				memories : action.memories.memories
+			})
+			//return state;
+		case 'FETCH_MEMORIES':
+			return state;
+			/*return Object.assign(...state,{
+			isFetching : true
+		})*/
+		case 'FETCH_MEMORIES_SUCCESS':
+			return state;
+			/*return Object.assign(...state,{
+			memories : action.data.memories,
+			isFetching : false,
+			lastUpdated : Date.now()
+		})*/
+		case 'FETCH_MEMORIES_FAIL':
+			return state;
+			/*return Object(...state , {
+			isFetching : false
+		})*/
         default:
             return state;
     }
@@ -38,6 +57,6 @@ const inputReducer = (state = "", action) => {
 
 
 
-export { testReducer };
+export { memoriesReducer };
 
 //export inputReducer;
