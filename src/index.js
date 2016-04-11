@@ -62,19 +62,20 @@ const requireAuth = (nextState , replace) => {
 		//browserHistory.push('/login');
 
 	}else{
+
 		//check if user is present else dispatch action to fetch user , also verify that token hasn't expired
 		console.log('requireAuth SUCCESS');
 	}
 }
 
-const verifyAuth = (a,b) => {
-	console.log(a);
-	console.log(b);
+const verifyAuth = (nextState,replace) => {
 	if(!store.getState().auth.isAuthenticated){
-		return;
+
 	}else{
-		browserHistory.push('/memories');
-		return;
+		replace({
+		  pathname: '/memories',
+		  state: { nextPathname: nextState.location.pathname }
+		})
 	}
 }
 
@@ -83,8 +84,8 @@ render( < Provider store = {store}>
 	{ /* Tell the Router to use our enhanced history */ }
       <Router history={history}>
         <Route path="/" component={App}>
-			<IndexRoute component={SmartMessage}/>
-          <Route path="/login" component={Login}/>
+
+          <Route path="/login" component={Login} onEnter={verifyAuth}/>
           <Route path="/memories" component={AuthenticatedComponentView} onEnter={requireAuth}/>
         </Route>
       </Router>

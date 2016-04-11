@@ -9,8 +9,7 @@ import { browserHistory } from 'react-router';
 /************************subroutines*******************/
 function fetchMemoriesApi (token) {
 	const url = apiUrl+'/v2/memory/allmemories.json';
-	console.log('TOKEN');
-	console.log(token);
+
 	const myHeaders = new Headers({
   'authToken' : token
 });
@@ -33,15 +32,13 @@ function* fetchMemories(action){
 }
 
 function* setAuthToken(action){
-	console.log('ACTION AUTHING TOKEN');
-	console.log(action);
+
 	localStorage.setItem('cherryToken',action.data.authToken);
 }
 
 //a function that handles cleanup after LOGOUT_USER is called
 function* cleanUpLogOut(action){
-	console.log('ACTION AUTHING TOKEN');
-	console.log(action);
+
 	localStorage.setItem('cherryToken','');
 	yield put(actions.purgeMemories());
 	browserHistory.replace('/login');
