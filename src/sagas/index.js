@@ -33,13 +33,13 @@ function* fetchMemories(action){
 
 function* setAuthToken(action){
 
-	localStorage.setItem('cherryToken',action.data.authToken);
+	localStorage.setItem('cherryToken',JSON.stringify(action.data));
 }
 
 //a function that handles cleanup after LOGOUT_USER is called
 function* cleanUpLogOut(action){
 
-	localStorage.setItem('cherryToken','');
+	localStorage.removeItem('cherryToken');
 	yield put(actions.purgeMemories());
 	browserHistory.replace('/login');
 	//yield put(actions.purgeUser());

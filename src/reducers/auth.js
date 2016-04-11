@@ -1,18 +1,18 @@
+let myToken = JSON.parse(localStorage.getItem('cherryToken'));
+if(myToken){
 
+	console.log(myToken.authToken);
+}
 const initAuth = {
-    authToken: localStorage.getItem('cherryToken') ? localStorage.getItem('cherryToken') : '',
-    isAuthenticated:  localStorage.getItem('cherryToken') ? true : false,
+    authToken: myToken ? myToken.authToken : '',
+    isAuthenticated:  myToken ? true : false,
     isFetching: false,
     didInvalidate: false,
     isRegistered: false,
     lastUpdated: null,
 	errorMessage : '',
     verificationId:'',
-    profile: {
-        name: null,
-        id: null,
-        photo: null
-    }
+    profile: myToken ? myToken.profile : {}
 }
 
 
