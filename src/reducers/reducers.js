@@ -15,8 +15,8 @@ const memoriesReducer = (state = initState, action) => {
                 id: action.text.id
             })
 		case 'RECEIVE_MEMORIES':
-		console.log("reducer: memoriesReducer RECEIVE_MEMORIES");
-		console.log(action);
+		//console.log("reducer: memoriesReducer RECEIVE_MEMORIES");
+		
 			return Object.assign(...state,{
 				memories : action.memories.memories
 			})

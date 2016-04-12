@@ -5,6 +5,7 @@ import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
 import IconButton from 'material-ui/lib/icon-button';
 
+
 import Card from 'material-ui/lib/card/card';
 import CardActions from 'material-ui/lib/card/card-actions';
 import CardHeader from 'material-ui/lib/card/card-header';
@@ -12,8 +13,12 @@ import CardMedia from 'material-ui/lib/card/card-media';
 import CardTitle from 'material-ui/lib/card/card-title';
 import FlatButton from 'material-ui/lib/flat-button';
 import CardText from 'material-ui/lib/card/card-text';
-import { push } from 'react-router-redux';
-//this.props.dispatch(push('/some/path'));
+
+import MemoryView from './MemoryView';
+
+let Masonry = require('react-masonry-component');
+
+
 
 
 const styles = {
@@ -46,56 +51,57 @@ const styles = {
 };
 
 
+var masonryOptions = {
+    transitionDuration: '0.6s',
+	itemSelector: '.grid-item',
+	gutter : 4
 
-class MemoryView extends Component {
+};
+
+
+class MemoriesView extends Component {
 	constructor(props) {
 		super(props);
-		this.memoryClick = this.memoryClick.bind(this);
 
+		console.log("PROPSS");
+		console.log(props);
 	}
 	componentDidMount(){
 
 	}
-	memoryClick(){
-		console.log("CLICKETY CLICK");
-	}
+
 	render() {
-		const { memory } = this.props;
+		let childElements = this.props.memories.map(function(memory){
+			return (
+				/*should eventually just import memoryView concisely*/
+				<MemoryView memory={memory} className='grid-item' key={memory.id}/>
+			)
+		});
 
 		return (
+			<div>
 
-			/*should eventually just import memoryView concisely*/
- 		   <div className='grid-item' key={memory.id} onClick={this.memoryClick}>
- 			<Card >
- 			<CardHeader
- 			style={styles.cardHeader}
- 			title={memory.owner.name}
+			<Masonry
+			className={'my-gallery-class'} // default ''
+			elementType={'div'} // default 'div'
+			options={masonryOptions}
+			disableImagesLoaded={false}
+			>
+				{childElements}
+			</Masonry>
 
- 			titleColor='white' />
- 			<CardMedia
- 	         overlay={<CardTitle title={memory.title} subtitle={memory.momentsCount + ' moments' }
- 			 overlayContentStyle={styles.overlayContent} />}
- 	       >
- 	         <img src={memory.coverUrl} />
- 	       </CardMedia>
-
-
-
- 			</Card>
- 			</div>
-
-
+			</div>
 		)
 
 	}
 }
 
 
-MemoryView.propTypes = {
-	memory : React.PropTypes.object.isRequired
+MemoriesView.propTypes = {
+	memories : React.PropTypes.array.isRequired
 
 }
 
 
 
-export default MemoryView;
+export default MemoriesView;

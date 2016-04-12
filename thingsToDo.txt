@@ -13,7 +13,7 @@ MY_USER :
 PROGRESS :
     -prev = hooking up verificationId (done , need to set and get user when token is present)
     -current = setup memories view (https://github.com/eiriklv/react-masonry-component) [MASONRY_COMPONENT] (doing) look for alternatives
-	-next = name and photo component (after verify and before memories)
+	-next = (MemoriesView(handles fetching memories) , MemoryView(handles clicking on options , memory , redirection to momentsView) , MomentsView (handles fetching and displaying moments), MomentView(handle like etc))
 	-then = clean up all pending tasks
 
 thingsToDo  :

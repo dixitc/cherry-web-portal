@@ -14,6 +14,7 @@ import { memoriesReducer } from './reducers/reducers';
 import { authReducer } from './reducers/auth';
 import SmartMessage from './components/components';
 import AuthenticatedComponentView from './components/AuthenticatedComponent';
+import MomentsView from './components/MomentsView';
 import Login from './components/Login';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/index'
@@ -82,11 +83,13 @@ const verifyAuth = (nextState,replace) => {
 
 render( < Provider store = {store}>
 	{ /* Tell the Router to use our enhanced history */ }
-      <Router history={history}>
-        <Route path="/" component={App}>
+      <Router history={browserHistory}>
+        <Route path="/" component={App}  >
 
-          <Route path="/login" component={Login} onEnter={verifyAuth}/>
-          <Route path="/memories" component={AuthenticatedComponentView} onEnter={requireAuth}/>
-        </Route>
+          <Route path='/login' component={Login} onEnter={verifyAuth}/>
+          <Route path='/memories' component={AuthenticatedComponentView} onEnter={requireAuth} />
+		  <Route path='/memory/:memoryId' component={MomentsView} />
+
+    	</Route>
       </Router>
 	</Provider>, rootEl);

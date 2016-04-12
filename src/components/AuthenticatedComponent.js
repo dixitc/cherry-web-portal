@@ -2,7 +2,7 @@ import React , {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { logOutUser , fetchMemories} from '../actions/actions';
 import RaisedButton from 'material-ui/lib/raised-button';
-import MemoryView from './MemoryView';
+import MemoriesView from './MemoriesView';
 import AppBar from 'material-ui/lib/app-bar';
 import IconButton from 'material-ui/lib/icon-button';
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
@@ -11,6 +11,7 @@ import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import Avatar from 'material-ui/lib/avatar';
 import style from '../styles/Login';
+import { Link } from 'react-router';
 
 class AuthenticatedComponent extends React.Component {
 	constructor(props){
@@ -42,12 +43,14 @@ class AuthenticatedComponent extends React.Component {
         <MenuItem primaryText='Log Out' onClick={() => handleLogout()} />
       </IconMenu>}
 			/>
+			<ul>
+
+				   <li><Link to="memory/asdf34">asdf34</Link></li>
+				 </ul>
 
 
 
-			<p>We authenticated now !</p>
-			<p>Your memories here</p>
-			<MemoryView memories={memories} />
+			<MemoriesView memories={memories} />
 			</div>
 		)
 	}

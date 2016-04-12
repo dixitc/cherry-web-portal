@@ -59,7 +59,7 @@
     const validateCredentials = (creds) => {
         console.log('TRUTH');
 		//DEMO CASE
-		if(creds.identifier == '5555555551'){
+		if(creds.identifier == '5555555551' || creds.identifier == '5555555552'){
 			return '';
 		}
 		//DEMO CASE END
@@ -85,7 +85,7 @@
     const registerUser = (creds) => {
         /*	return async action */
 
-        console.log(creds);
+
         let validation='';
 
 
@@ -114,20 +114,19 @@
             return fetch(url, config)
     		.then((response) => response.json())
                 .then((json) => {
-    				console.log(json);
+
                     if (!json.verificationId) {
                         //ideally see what the server sends
                         dispatch(registerFail('invalid number'));
                     } else {
-                        console.log('VERIFICATION ID RECEIVED');
-                        console.log(json.verificationId);
+
                         dispatch(registerSuccess(json.verificationId));
                         //dispatch(verifyUser(json.verificationId));
                         //need to send verifyuser request
                     }
                 })
     			.catch((json) => {
-    				console.log(json);
+
                     dispatch(registerFail('network error'));
     			})
 

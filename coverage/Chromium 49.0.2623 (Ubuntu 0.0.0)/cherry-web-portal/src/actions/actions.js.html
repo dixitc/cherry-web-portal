@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">49.17% </span>
+        <span class="strong">51.3% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>59/120</span>
+        <span class='fraction'>59/115</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">22.22% </span>
+        <span class="strong">20% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>4/18</span>
+        <span class='fraction'>4/20</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">6.67% </span>
@@ -35,13 +35,13 @@
         <span class='fraction'>2/30</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">48.74% </span>
+        <span class="strong">50.88% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>58/119</span>
+        <span class='fraction'>58/114</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -323,9 +323,7 @@
 278
 279
 280
-281
-282
-283</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+281</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -420,7 +418,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -445,19 +442,18 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -676,7 +672,7 @@ var doSomething = <span class="fstat-no" title="function not covered" >function 
 var validateCredentials = <span class="fstat-no" title="function not covered" >function validateCredentials(creds) {</span>
 <span class="cstat-no" title="statement not covered" >    console.log('TRUTH');</span>
     //DEMO CASE
-<span class="cstat-no" title="statement not covered" >    if (creds.identifier == '5555555551') {</span>
+<span class="cstat-no" title="statement not covered" >    if (creds.identifier == '5555555551' || creds.identifier == '5555555552') {</span>
 <span class="cstat-no" title="statement not covered" >        return '';</span>
     }
     //DEMO CASE END
@@ -701,7 +697,6 @@ var validateCredentials = <span class="fstat-no" title="function not covered" >f
 var registerUser = <span class="fstat-no" title="function not covered" >function registerUser(creds) {</span>
     /*	return async action */
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    console.log(creds);</span>
 <span class="cstat-no" title="statement not covered" >    var validation = '';</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >function (dispatch) {</span></span>
@@ -727,19 +722,18 @@ var registerUser = <span class="fstat-no" title="function not covered" >function
 <span class="cstat-no" title="statement not covered" >        return (0, _isomorphicFetch2.default)(url, config).then(<span class="fstat-no" title="function not covered" >function (response) {</span></span>
 <span class="cstat-no" title="statement not covered" >            return response.json();</span>
         }).then(<span class="fstat-no" title="function not covered" >function (json) {</span>
-<span class="cstat-no" title="statement not covered" >            console.log(json);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            if (!json.verificationId) {</span>
                 //ideally see what the server sends
 <span class="cstat-no" title="statement not covered" >                dispatch(registerFail('invalid number'));</span>
             } else {
-<span class="cstat-no" title="statement not covered" >                console.log('VERIFICATION ID RECEIVED');</span>
-<span class="cstat-no" title="statement not covered" >                console.log(json.verificationId);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >                dispatch(registerSuccess(json.verificationId));</span>
                 //dispatch(verifyUser(json.verificationId));
                 //need to send verifyuser request
             }
         }).catch(<span class="fstat-no" title="function not covered" >function (json) {</span>
-<span class="cstat-no" title="statement not covered" >            console.log(json);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            dispatch(registerFail('network error'));</span>
         });
     };
@@ -895,7 +889,7 @@ exports.purgeUser = purgeUser;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 11 2016 21:25:05 GMT+0530 (IST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 12 2016 16:25:03 GMT+0530 (IST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

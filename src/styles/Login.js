@@ -47,7 +47,8 @@ const style = {
 	},
 	image : {
 			height:'100%',
-			width:'100%'
+			width:'100%',
+			border : 'none'
 	},
 	cherry : {
 		borderColor: 'orange'
