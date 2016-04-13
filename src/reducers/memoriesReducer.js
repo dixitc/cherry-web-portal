@@ -1,4 +1,4 @@
-let initState = {
+const initState = {
     memories: [],
     isFetching : false,
 	lastUpdated : ''
@@ -16,7 +16,7 @@ const memoriesReducer = (state = initState, action) => {
             })
 		case 'RECEIVE_MEMORIES':
 		//console.log("reducer: memoriesReducer RECEIVE_MEMORIES");
-		
+
 			return Object.assign(...state,{
 				memories : action.memories.memories
 			})
@@ -48,18 +48,6 @@ const memoriesReducer = (state = initState, action) => {
             return state;
     }
 }
-
-const inputReducer = (state = "", action) => {
-    switch (action.type) {
-        case 'HANDLE_INPUT':
-            return action.text;
-
-        default:
-            return state
-
-    }
-}
-
 
 
 

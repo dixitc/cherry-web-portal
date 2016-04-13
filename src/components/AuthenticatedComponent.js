@@ -11,6 +11,8 @@ import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import Avatar from 'material-ui/lib/avatar';
 import style from '../styles/Login';
+import FontIcon from 'material-ui/lib/font-icon';
+
 import { Link } from 'react-router';
 
 class AuthenticatedComponent extends React.Component {
@@ -19,7 +21,7 @@ class AuthenticatedComponent extends React.Component {
 
 	}
 	componentDidMount(){
-		this.props.handleFetchMemories(this.props.auth.authToken);
+	//	this.props.handleFetchMemories(this.props.auth.authToken);
 	}
 	render(){
 		const { handleLogout , memories , auth} = this.props;
@@ -27,12 +29,22 @@ class AuthenticatedComponent extends React.Component {
 		return(
 			<div>
 			<AppBar
-				title={auth.profile.name}
+				title='cherry'
 				primary={true}
+				iconElementLeft={<span></span>}
+
 				iconElementRight={ <IconMenu
         iconButtonElement={
-          <IconButton style={style.avatarButton}>
-        <Avatar src={auth.profile.photo}/>
+          <IconButton style={style.avatarButton} tooltip='settings'
+      tooltipPosition="bottom-right">
+			  {auth.profile.photo &&
+
+				  <Avatar style={style.noBorder} backgroundColor={'transparent'} src={auth.profile.photo}/>
+			  }
+			  {!auth.profile.photo &&
+
+				 <Avatar icon={<FontIcon className="muidocs-icon-communication-voicemail" />} />
+			  }
       </IconButton>
         }
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -41,16 +53,14 @@ class AuthenticatedComponent extends React.Component {
         <MenuItem primaryText='Refresh' />
         <MenuItem primaryText='Help' />
         <MenuItem primaryText='Log Out' onClick={() => handleLogout()} />
+		
       </IconMenu>}
 			/>
-			<ul>
-
-				   <li><Link to="memory/asdf34">asdf34</Link></li>
-				 </ul>
 
 
+		{this.props.children}
 
-			<MemoriesView memories={memories} />
+
 			</div>
 		)
 	}

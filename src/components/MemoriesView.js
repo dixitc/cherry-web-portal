@@ -1,18 +1,11 @@
-import React,{Component} from 'react';
+import React,{ Component , PropTypes } from 'react';
 import {connect} from 'react-redux';
 import GridList from 'material-ui/lib/grid-list/grid-list';
 import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
 import IconButton from 'material-ui/lib/icon-button';
+import { fetchMemories} from '../actions/actions';
 
-
-import Card from 'material-ui/lib/card/card';
-import CardActions from 'material-ui/lib/card/card-actions';
-import CardHeader from 'material-ui/lib/card/card-header';
-import CardMedia from 'material-ui/lib/card/card-media';
-import CardTitle from 'material-ui/lib/card/card-title';
-import FlatButton from 'material-ui/lib/flat-button';
-import CardText from 'material-ui/lib/card/card-text';
 
 import MemoryView from './MemoryView';
 
@@ -51,7 +44,7 @@ const styles = {
 };
 
 
-var masonryOptions = {
+const masonryOptions = {
     transitionDuration: '0.6s',
 	itemSelector: '.grid-item',
 	gutter : 4
@@ -67,7 +60,7 @@ class MemoriesView extends Component {
 		console.log(props);
 	}
 	componentDidMount(){
-
+		this.props.handleFetchMemories(this.props.auth.authToken);
 	}
 
 	render() {
@@ -80,6 +73,9 @@ class MemoriesView extends Component {
 
 		return (
 			<div>
+				{!this.props.memories.length &&
+					<p> No memories aka Jason Bourne</p>
+				}
 
 			<Masonry
 			className={'my-gallery-class'} // default ''
@@ -98,10 +94,36 @@ class MemoriesView extends Component {
 
 
 MemoriesView.propTypes = {
-	memories : React.PropTypes.array.isRequired
-
+	memories : React.PropTypes.array.isRequired,
+	handleFetchMemories: PropTypes.func.isRequired,
+	auth : PropTypes.object.isRequired
 }
 
 
 
-export default MemoriesView;
+const mapStateToProps = (state) => {
+	const { auth} = state;
+	const memories = state.memories.memories;
+	return {
+		memories,
+		auth
+	}
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		handleFetchMemories : (token) => {
+			dispatch(fetchMemories(token));
+		}
+	}
+}
+
+const MyMemoriesView = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(MemoriesView)
+
+
+
+export default MyMemoriesView;

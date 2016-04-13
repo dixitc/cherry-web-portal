@@ -23,15 +23,9 @@ getChildContext () {
 		<div>
 
 
-	{/*		<Link to="/">home</Link>
-			<br/>
-			<Link to="/login">login</Link>
-			<br/>
-			<Link to="/authenticated">authenticated</Link>
-			<br/>   */}
 			{this.props.children}
 			<Snackbar
-   open={true}
+   open={false}
    message='your message'
    action='undo'
    autoHideDuration={2000}

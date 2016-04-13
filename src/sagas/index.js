@@ -6,7 +6,8 @@ import apiUrl from '../config/config';
 import { browserHistory } from 'react-router';
 
 
-/************************subroutines*******************/
+/************************APIS*******************/
+// NEED TO HANDLE ERROR STATES
 function fetchMemoriesApi (token) {
 	const url = apiUrl+'/v2/memory/allmemories.json';
 
@@ -31,8 +32,67 @@ function* fetchMemories(action){
 	yield put(actions.receiveMemories(memories));
 }
 
-function* setAuthToken(action){
+//params : [ memoryId , authToken ]
+function fetchMomentsApi (params) {
 
+	const url = apiUrl+'/v2/memory/'+params[0]+'/allmoments.json';
+
+	const myHeaders = new Headers({
+	  'authToken' : params[1]
+	});
+	let config = {
+      method: 'GET',
+      headers :  myHeaders
+	}
+	return fetch(url , config)
+	.then((response) => response.json())
+	.then((json) => {
+
+		return json;
+	})
+}
+
+function* likeMomentApi(params){
+	const user = getUser();
+	const token = user.authToken;
+	console.log('TOKEN '+token );
+	const url = apiUrl+'/v1/memory/'+params.memoryId+'/like/'+params.momentId+'.json';
+	const myHeaders = new Headers({
+	  'authToken' : token,
+	  'Content-Type': 'application/x-www-form-urlencoded'
+	});
+	let config = {
+		method : 'POST',
+		headers : myHeaders,
+		body: 'like='+params.like
+	}
+	return fetch(url,config)
+	.then((response) => response.json())
+	.then((json) => {
+		console.log(json);
+		return json
+	})
+}
+
+/*******************HANDLERS*******************/
+
+function* fetchMoments(action){
+	yield put(actions.purgeMoments(moments));
+	const moments = yield call(fetchMomentsApi , [action.data.memoryId,action.data.token]);
+	console.log('GOT JSON MOMENTS');
+	console.log(moments);
+	const user = getUser();
+	yield put(actions.refineMoments( {moments : moments , userId:user.profile.id}));
+	 /*This should effectively pass moments and userId and add a hasLiked field to all moments*/
+	//yield put(actions.refineMoments(moments,userId));
+}
+
+function getUser(){
+	return JSON.parse(localStorage.getItem('cherryToken'))
+}
+
+
+function* setAuthToken(action){
 	localStorage.setItem('cherryToken',JSON.stringify(action.data));
 }
 
@@ -41,10 +101,24 @@ function* cleanUpLogOut(action){
 
 	localStorage.removeItem('cherryToken');
 	yield put(actions.purgeMemories());
+	yield put(actions.purgeMoments());
 	browserHistory.replace('/login');
 	//yield put(actions.purgeUser());
 }
-/*******************wathcers*****************/
+
+
+//a function that handles cleanup after LOGOUT_USER is called
+function* likeMoment(action){
+	console.log(' indexSaga : likeMoment');
+	console.log(action);
+	let likeReponse = yield call(likeMomentApi , action.data);
+	// check if likeReponse idicates successfull completion
+	if(likeReponse = {}){
+		yield put(actions.likeMomentSuccess());
+	}
+
+}
+/*******************WATCHERS*****************/
 
 function* watchFetchMemories() {
   yield* takeEvery("FETCH_MEMORIES", fetchMemories);
@@ -60,6 +134,19 @@ function* watchLogOut(){
 }
 
 
+//watcher function for fetchMoments
+function* watchFetchMoments(){
+	yield* takeEvery('FETCH_MOMENTS', fetchMoments);
+}
+
+
+//watcher function for like some Moment
+function* watchLikeMoment(){
+	yield* takeEvery('LIKE_MOMENT', likeMoment);
+}
+
+
+
 
 
 
@@ -69,5 +156,7 @@ export default function* root() {
   yield fork(watchFetchMemories),
   yield fork(watchVerifySuccess),
   yield fork(watchLogOut)
+  yield fork(watchFetchMoments)
+  yield fork(watchLikeMoment)
 
 }

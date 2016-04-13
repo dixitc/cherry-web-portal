@@ -11,7 +11,16 @@
     const FETCH_MEMORIES_FAIL = 'FETCH_MEMORIES_FAIL';
     const RECEIVE_MEMORIES = 'RECEIVE_MEMORIES';
     const PURGE_MEMORIES = 'PURGE_MEMORIES';
+	const FETCH_MOMENTS = 'FETCH_MOMENTS';
+    const FETCH_MOMENTS_SUCCESS = 'FETCH_MOMENTS_SUCCESS';
+    const FETCH_MOMENTS_FAIL = 'FETCH_MOMENTS_FAIL';
+    const RECEIVE_MOMENTS = 'RECEIVE_MOMENTS';
+    const REFINE_MOMENTS = 'REFINE_MOMENTS';
+    const PURGE_MOMENTS = 'PURGE_MOMENTS';
     const PURGE_USER = 'PURGE_USER';
+
+	const LIKE_MOMENT = 'LIKE_MOMENT';
+	const LIKE_MOMENT_SUCCESS = 'LIKE_MOMENT_SUCCESS';
 
 
 	const LOGOUT_USER = 'LOGOUT_USER';
@@ -30,6 +39,7 @@
     /*
     // API CALLS  => ASYNC ACTIONS
     consider using redux-sagas
+	using  redux sagas to handle all async calls now (not registration yet though)
     {
     type : 'FETCH_MEMORIES',
     id : memoryId
@@ -79,9 +89,10 @@
         }
         //dispatch error message action
     }
+
     // Meet our first thunk action creator!
     // Though its insides are different, you would use it just like any other action creator:
-    // store.dispatch(fetchPosts('reactjs'))
+
     const registerUser = (creds) => {
         /*	return async action */
 
@@ -266,14 +277,63 @@
 			type: PURGE_USER
 		}
 	}
+	//purges all memories from localStorage and state
 	const purgeMemories = () => {
 		return {
 			type: PURGE_MEMORIES
 		}
 	}
 
+//call to fetch moments , listened for in saga
+	const fetchMoments = (data) => {
+		//needs to be an async action
+        return {
+            type: FETCH_MOMENTS,
+			data : data
+
+        }
+    }
+
+
+//on moments receive success
+    const receiveMoments = (json) => {
+        return {
+            type: RECEIVE_MOMENTS,
+            data: json
+        }
+    }
+
+	//on moments receive success
+	    const refineMoments = (json) => {
+	        return {
+	            type: REFINE_MOMENTS,
+	            data: json
+	        }
+	    }
+
+	const likeMoment = (data) => {
+		return {
+			type : LIKE_MOMENT,
+			data : data
+		}
+	}
+
+	const likeMomentSuccess = () => {
+		return {
+			type : LIKE_MOMENT_SUCCESS
+		}
+	}
+
+//purge all moments ?? or only moments of a certain memory
+	const purgeMoments = () => {
+		return {
+			type: PURGE_MOMENTS
+		}
+	}
+
     //export action creator and call like dispatch(actionCreator(a,b))
     //eventually move all action names into constants
+	//eventually separate out action according to what the action is
     export {
         doSomething,
     	registerUser,
@@ -285,8 +345,15 @@
         verifySuccess,
         setErrorMessage,
 		fetchMemories,
+		likeMoment,
+		likeMomentSuccess,
 		receiveMemories,
 		logOutUser,
 		purgeMemories,
+		fetchMoments,
+		receiveMoments,
+		refineMoments,
+		logOutUser,
+		purgeMoments,
 		purgeUser
     };

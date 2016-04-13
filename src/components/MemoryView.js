@@ -58,6 +58,10 @@ class MemoryView extends Component {
 	}
 	memoryClick(){
 		console.log("CLICKETY CLICK");
+		let ep =  this.props.memory.title.replace(/[^A-Z0-9]/ig, "_");
+		console.log(this.props.memory.title);
+
+		this.props.dispatch(push({pathname :'/memory/'+ep,state: { memory : this.props.memory}}));
 	}
 	render() {
 		const { memory } = this.props;
@@ -70,7 +74,7 @@ class MemoryView extends Component {
  			<CardHeader
  			style={styles.cardHeader}
  			title={memory.owner.name}
-
+			avatar={memory.owner.photo}
  			titleColor='white' />
  			<CardMedia
  	         overlay={<CardTitle title={memory.title} subtitle={memory.momentsCount + ' moments' }
@@ -98,4 +102,4 @@ MemoryView.propTypes = {
 
 
 
-export default MemoryView;
+export default connect()(MemoryView)

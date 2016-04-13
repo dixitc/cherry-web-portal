@@ -23,6 +23,9 @@ const style = {
 	inlineDiv: {
 		display:'inline-block'
 	},
+	noBorder : {
+		border : 'none'
+	},
 	textField: {
 
 		top:'8px',

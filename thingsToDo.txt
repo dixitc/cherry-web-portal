@@ -1,31 +1,29 @@
-MY_USER :
-{
-  "passwordRequired": true,
-  "blockedCount": 0,
-  "authToken": "57023d3d830827f668012819",
-  "profile": {
-    "name": null,
-    "photo": null,
-    "id": "57023cfe830827f668012816"
-  }
-}
+
+CRITICAL :
+	- pass country code during register
+	- separate out singleMomentreducer (to better handle moment level actions)
 
 PROGRESS :
-    -prev = hooking up verificationId (done , need to set and get user when token is present)
+    -prev = hooking up verificationId (done , need to set and get user when token is present (refresh user details))
     -current = setup memories view (https://github.com/eiriklv/react-masonry-component) [MASONRY_COMPONENT] (doing) look for alternatives
 	-next = (MemoriesView(handles fetching memories) , MemoryView(handles clicking on options , memory , redirection to momentsView) , MomentsView (handles fetching and displaying moments), MomentView(handle like etc))
-	-then = clean up all pending tasks
+		-separate authenticated component from MemoriesView (done partially , its the default /memories route need to change this)
+		-populate momentsView (need to define state shape) (done partially state shape not finalized , need to normalize)
+		-setup initial profile (name and image) consider normalizing response
+
+	-then = clean up all pending thingsToDo (FRIDAY)
 
 thingsToDo  :
-	- use npm-shrinkwrap
-	- setup testing environment (done unit-tests mocha , karma , need integration , e2e testing nightwatch http://nightwatchjs.org/)
+	- use npm-shrinkwrap (to lock dependencies , avoid dependency hell)
+	- setup testing environment (done unit-tests mocha , karma , , e2e testing nightwatch (pending) http://nightwatchjs.org/)
 		- dynamically generating tests for reducers and actions  (https://mochajs.org/#dynamically-generating-tests)
-		- consider replacing expect with chai
+		- consider replacing expect with chai (assertion library choice)
 	- login redirect should include the original(authenticated) url that the user was trying to access and redirect accordingly (pending)
 	- separate configs for dev and prod (pending)
-	- handle all error messages using material TextField and snackbar centrally ??
-	- use spread operators wherever possible
-	[-] country code number validation
+	- handle all error messages using material TextField and snackbar centrally ?? (implementation decision)
+	- use spread operators and es6 syntax wherever possible
+	[-] country code number validation (DONE)
+	- Testing up to date (50% coverage FRIDAY)
 
 
 AUTH FLOW :

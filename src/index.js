@@ -8,13 +8,15 @@ import { createStore , applyMiddleware , compose } from 'redux';
 import { combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import { syncHistoryWithStore, routerReducer , routerMiddleware } from 'react-router-redux';
 import App from './App';
-import { memoriesReducer } from './reducers/reducers';
+import { memoriesReducer } from './reducers/memoriesReducer';
+import { momentsReducer } from './reducers/momentsReducer';
 import { authReducer } from './reducers/auth';
 import SmartMessage from './components/components';
 import AuthenticatedComponentView from './components/AuthenticatedComponent';
 import MomentsView from './components/MomentsView';
+import MemoriesView from './components/MemoriesView';
 import Login from './components/Login';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/index'
@@ -29,19 +31,21 @@ let initState = {
 	isFetching : true
 }
 
+const middleware = routerMiddleware(browserHistory)
 
 const loggerMiddleware = createLogger();
 
 const rootReducer = combineReducers({
-	memories:memoriesReducer,
-	auth:authReducer,
-	routing: routerReducer
+	memories : memoriesReducer,
+	auth : authReducer,
+	moments : momentsReducer,
+	routing : routerReducer
 })
 
 let store = createStore(rootReducer,
 	{},
 	compose(
-	applyMiddleware(thunkMiddleware , loggerMiddleware, createSagaMiddleware(rootSaga)),
+	applyMiddleware(thunkMiddleware , loggerMiddleware, createSagaMiddleware(rootSaga) , middleware),
 	window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
@@ -87,8 +91,10 @@ render( < Provider store = {store}>
         <Route path="/" component={App}  >
 
           <Route path='/login' component={Login} onEnter={verifyAuth}/>
-          <Route path='/memories' component={AuthenticatedComponentView} onEnter={requireAuth} />
-		  <Route path='/memory/:memoryId' component={MomentsView} />
+          <Route path='/memories' component={AuthenticatedComponentView} onEnter={requireAuth}>
+			  <IndexRoute component={MemoriesView}/>
+			  <Route path='/memory/:memoryId' component={MomentsView} />
+		  </Route>
 
     	</Route>
       </Router>
