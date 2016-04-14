@@ -66,6 +66,13 @@ class MemoryView extends Component {
 	render() {
 		const { memory } = this.props;
 
+		let memoryImg;
+		if(memory.coverUrl){
+			 memoryImg = <img src={memory.coverUrl} />
+		 }else{
+			memoryImg = <img src='https://lh3.googleusercontent.com/EpTpqq7q1vQ6LYPJIzeFPCTnVeG4E2MXWJKt3_wKnDiP-KgVjqBNHWJ2xp11pSev9pkXcQ=w90' />
+		}
+
 		return (
 
 			/*should eventually just import memoryView concisely*/
@@ -80,7 +87,9 @@ class MemoryView extends Component {
  	         overlay={<CardTitle title={memory.title} subtitle={memory.momentsCount + ' moments' }
  			 overlayContentStyle={styles.overlayContent} />}
  	       >
- 	         <img src={memory.coverUrl} />
+		   {memoryImg}
+
+
  	       </CardMedia>
 
 

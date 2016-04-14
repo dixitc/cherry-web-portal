@@ -1,3 +1,5 @@
+import moment from './moment';
+
 const initState = {
     moments: [],
 	memoryId:'',
@@ -17,11 +19,14 @@ const momentsReducer = (state = initState, action) => {
 				isFetching : false
 			});
 			//return state;
+
 		case 'REFINE_MOMENTS':
 		console.log("reducer: momentsReducer REFINE_MOMENTS");
 		console.log(action);
+		console.log(state);
 		const refinedMoments = action.data.moments.moments.map(function(moment){
 			let truth = false;
+			//eventually move this into momentReducer
 			if(moment.like.hasLiked){
 
 				moment.likedUserList.map((user)=> {
@@ -52,16 +57,22 @@ const momentsReducer = (state = initState, action) => {
 			})
 			//return state;
 		case 'LIKE_MOMENT_SUCCESS':
+		console.log("reducer: momentsReducer LIKE_MOMENT_SUCCESS");
+		console.log(action);
 			//eventually have to move this operation into separate momentReducer
-			return state;
-			/*const updatedMoments =  action.moments.map((moment) => {
-			if(moment.id = action.momentId){
+			//console.log(state);
+			//return state;
+			const updatedMoments =  state.moments.map((moment) => {
+				console.log(moment.id);
+				console.log(action.data.momentId);
+			if(moment.id == action.data.momentId){
 				moment.hasLiked = !moment.hasLiked;
 			}
+			return moment;
 		})
 		return Object.assign({} , state ,{
 			moments : updatedMoments
-		});*/
+		});
 		case 'FETCH_MOMENTS_SUCCESS':
 			return state;
 			/*return Object.assign(...state,{

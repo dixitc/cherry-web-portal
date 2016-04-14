@@ -111,11 +111,15 @@ function* cleanUpLogOut(action){
 function* likeMoment(action){
 	console.log(' indexSaga : likeMoment');
 	console.log(action);
+	const  payload  = action.data;
+	console.log(payload);
 	let likeReponse = yield call(likeMomentApi , action.data);
 	// check if likeReponse idicates successfull completion
 	if(likeReponse = {}){
-		yield put(actions.likeMomentSuccess());
+
+		yield put(actions.likeMomentSuccess(payload));
 	}
+	//else snackbar error message
 
 }
 /*******************WATCHERS*****************/

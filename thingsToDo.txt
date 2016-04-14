@@ -1,7 +1,13 @@
+SUPER-CRITICAL :
+	- handle memory display when there is no coverUrl
+	- shit needs to be responsive
+	- figure out importing images
+	- figure out moments slideshow
+	- pass country code during register
+	- handle input edit login
 
 CRITICAL :
-	- pass country code during register
-	- separate out singleMomentreducer (to better handle moment level actions)
+	[-] separate out singleMomentreducer (to better handle moment level actions) (DONE)
 
 PROGRESS :
     -prev = hooking up verificationId (done , need to set and get user when token is present (refresh user details))

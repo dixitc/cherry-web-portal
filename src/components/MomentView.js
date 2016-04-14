@@ -1,9 +1,6 @@
 import React,{Component} from 'react';
-import {connect} from 'react-redux';
 
-
-
-import { likeMoment } from '../actions/actions';
+//import needs cleanup
 import Card from 'material-ui/lib/card/card';
 import CardActions from 'material-ui/lib/card/card-actions';
 import CardHeader from 'material-ui/lib/card/card-header';
@@ -19,58 +16,28 @@ import Favourite from 'material-ui/lib/svg-icons/action/favorite';
 import IconButton from 'material-ui/lib/icon-button';
 
 
+const MomentView = ({ moment , onClick}) => {
+
+	return (
+
+		<GridTile
+			key={moment.id}
+			title={moment.owner.name}
+			subtitle={<span></span>}
+			cols={1}
+			rows={1}
+			className='grid-moment'
+			actionIcon={<IconButton onClick={onClick}>{moment.hasLiked ?  <Favourite color="white"/> : <FavouriteBorder color="white"/> }</IconButton>}>
+<a href={moment.imageUrl} data-lightbox="roadtrip"><img src={moment.imageUrl} /></a>
 
 
-
-
-class MomentView extends Component {
-	constructor(props) {
-		super(props);
-		this.verifyUserLike = this.verifyUserLike.bind(this);
-		this.handleLike = this.handleLike.bind(this);
-		this.state = {
-			toggle:false
-		}
-	}
-	componentDidMount(){
-
-	}
-	verifyUserLike(){
-
-	}
-	handleLike(){
-		// /this.setState({toggle : !this.state.toggle});
-		this.props.dispatch(likeMoment({memoryId : this.props.moment.memoryId , momentId : this.props.moment.id , like : !this.props.moment.hasLiked}));
-		//this.handleMomentLike(moment.memoryId , moment.id)
-	}
-	render() {
-		const { moment } = this.props;
-
-		return (
-
-			/*should eventually just import memoryView concisely*/
-
-	<GridTile
-	   key={moment.id}
-	   title={moment.owner.name}
-	   subtitle={<span></span>}
-	   actionIcon={<IconButton onClick={this.handleLike}>{moment.hasLiked ?  <Favourite color="white"/> : <FavouriteBorder color="white"/> }</IconButton>}>
-	   <img src={moment.imageUrl} />
-	</GridTile>
-
-
-
-		)
-
-	}
+		</GridTile>
+	)
 }
-
 
 MomentView.propTypes = {
-	moment : React.PropTypes.object.isRequired
-
+	moment : React.PropTypes.object.isRequired,
+	onClick : React.PropTypes.func.isRequired
 }
 
-
-
-export default connect()(MomentView)
+export default MomentView;

@@ -99,13 +99,13 @@
 
         let validation='';
 
-
         return dispatch => {
             // We dispatch requestLogin to kickoff the call to the API . THIS WILL DEPEND ON THE AUTH FLOW WE DECIDE EVENTUALLY , JUST REGISTER_USER FOR NOW.
 
             dispatch(registerRequest(creds));
             validation = validateCredentials(creds);
-            console.log(validation);
+            //console.log(validation);
+
             if(validation == ''){
 
             }else{
@@ -113,6 +113,7 @@
                 dispatch(registerFail(validation));
                 return;
             }
+			console.log(creds.dial_code);
             let config = {
                 method: 'POST',
                 headers: {
@@ -311,16 +312,17 @@
 	        }
 	    }
 
-	const likeMoment = (data) => {
+	const likeMoment = (payload) => {
 		return {
 			type : LIKE_MOMENT,
-			data : data
+			data : payload
 		}
 	}
 
-	const likeMomentSuccess = () => {
+	const likeMomentSuccess = (payload) => {
 		return {
-			type : LIKE_MOMENT_SUCCESS
+			type : LIKE_MOMENT_SUCCESS,
+			data : payload
 		}
 	}
 

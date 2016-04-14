@@ -151,7 +151,7 @@ let formatter = new AsYouTypeFormatter('IN');
                                 }
                                 {!isFetching &&
 
-                                    <RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'REGISTER'} onClick={() => handleRegisterUser(this.state.formattedNumber)}/>
+                                    <RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'REGISTER'} onClick={() => handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}/>
                                 }
                             </div>
                         </div>
@@ -221,17 +221,21 @@ let formatter = new AsYouTypeFormatter('IN');
 
     const mapDispatchToProps = (dispatch) => {
     	return {
-    		handleRegisterUser: (formattedNumber) => {
+    		handleRegisterUser: (formattedNumber,dial_code) => {
+				console.log('dial_code');
+				console.log(dial_code);
     			let creds = {
+					//need to add in countrycode here , maybe formateed dial_code remove the + or replace with %2b
     				identifier :formattedNumber,
     				identifierType : 'PHONE',
-    				verificationMode : 'OTP_MSG'
+    				verificationMode : 'OTP_MSG',
+					dial_code : dial_code
 
     			}
     			dispatch(registerUser(creds))
     			//dispatch(registerRequest(auth));
     		},
-    		handleVerifyUser : (id,otp) => {
+    		handleVerifyUser : (id,otp,countryCode) => {
     			dispatch(verifyUser(id,otp))
     		},
     		handleSetErrorMessage : (msg) => {

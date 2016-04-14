@@ -5,14 +5,9 @@ import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
 import IconButton from 'material-ui/lib/icon-button';
 import { fetchMemories} from '../actions/actions';
-
-
 import MemoryView from './MemoryView';
 
 let Masonry = require('react-masonry-component');
-
-
-
 
 const styles = {
   root: {
@@ -73,7 +68,7 @@ class MemoriesView extends Component {
 
 		return (
 			<div>
-				{!this.props.memories.length &&
+				{this.props.memories.isFetching &&
 					<p> No memories aka Jason Bourne</p>
 				}
 
