@@ -37,7 +37,7 @@ let formatter = new AsYouTypeFormatter('IN');
                 this.state = {
                     dial_code: '+91',
                     countryCode: 87,
-                    formattedNumber: '5555555551',
+                    formattedNumber: '9620418303',
 					otp:''
 
                 };
@@ -235,7 +235,7 @@ let formatter = new AsYouTypeFormatter('IN');
     			dispatch(registerUser(creds))
     			//dispatch(registerRequest(auth));
     		},
-    		handleVerifyUser : (id,otp,countryCode) => {
+    		handleVerifyUser : (id,otp) => {
     			dispatch(verifyUser(id,otp))
     		},
     		handleSetErrorMessage : (msg) => {

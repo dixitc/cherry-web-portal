@@ -28,7 +28,7 @@ const MomentView = ({ moment , onClick}) => {
 			rows={1}
 			className='grid-moment'
 			actionIcon={<IconButton onClick={onClick}>{moment.hasLiked ?  <Favourite color="white"/> : <FavouriteBorder color="white"/> }</IconButton>}>
-<a href={moment.imageUrl} data-lightbox="roadtrip"><img src={moment.imageUrl} /></a>
+<img src={moment.imageUrl} />
 
 
 		</GridTile>

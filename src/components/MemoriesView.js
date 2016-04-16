@@ -6,6 +6,8 @@ import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
 import IconButton from 'material-ui/lib/icon-button';
 import { fetchMemories} from '../actions/actions';
 import MemoryView from './MemoryView';
+import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+
 
 let Masonry = require('react-masonry-component');
 
@@ -37,6 +39,20 @@ const styles = {
 	  lineHeight : '20px'
   }
 };
+const style = {
+  container: {
+    position: 'relative',
+  },
+  refresh: {
+
+      position :'absolute',
+      margin:'auto',
+      top: '15%',
+      left: '45%',
+      transform: 'translate3d(0, 0, 0)',
+
+  },
+};
 
 
 const masonryOptions = {
@@ -47,19 +63,22 @@ const masonryOptions = {
 };
 
 
-class MemoriesView extends Component {
+class MyMemoriesView extends Component {
 	constructor(props) {
 		super(props);
 
-		console.log("PROPSS");
-		console.log(props);
+
 	}
 	componentDidMount(){
 		this.props.handleFetchMemories(this.props.auth.authToken);
 	}
 
 	render() {
-		let childElements = this.props.memories.map(function(memory){
+        const{ memories } = this.props;
+        console.log('ASDASDASDASD');
+        console.log(memories.isFetching);
+
+		let childElements = memories.memories.map(function(memory){
 			return (
 				/*should eventually just import memoryView concisely*/
 				<MemoryView memory={memory} className='grid-item' key={memory.id}/>
@@ -68,8 +87,15 @@ class MemoriesView extends Component {
 
 		return (
 			<div>
-				{this.props.memories.isFetching &&
-					<p> No memories aka Jason Bourne</p>
+				{memories.isFetching &&
+                    <RefreshIndicator
+  size={50}
+  left={70}
+  top={0}
+  loadingColor={"#FF9800"}
+  status="loading"
+  style={style.refresh}
+/>
 				}
 
 			<Masonry
@@ -88,8 +114,8 @@ class MemoriesView extends Component {
 }
 
 
-MemoriesView.propTypes = {
-	memories : React.PropTypes.array.isRequired,
+MyMemoriesView.propTypes = {
+	memories : React.PropTypes.object.isRequired,
 	handleFetchMemories: PropTypes.func.isRequired,
 	auth : PropTypes.object.isRequired
 }
@@ -98,7 +124,7 @@ MemoriesView.propTypes = {
 
 const mapStateToProps = (state) => {
 	const { auth} = state;
-	const memories = state.memories.memories;
+	const memories = state.memories;
 	return {
 		memories,
 		auth
@@ -114,11 +140,11 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-const MyMemoriesView = connect(
+const MemoriesView = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(MemoriesView)
+)(MyMemoriesView)
 
 
 
-export default MyMemoriesView;
+export default MemoriesView;

@@ -31,7 +31,7 @@ describe("authReducer test suite", function() {
             isAuthenticated: false
         });
     })
-    it("authReducer VERIFY_REQUEST", function() {
+    it('authReducer VERIFY_REQUEST', function() {
         let auth = {
             profile: {},
             isFetching: false,

@@ -86,11 +86,19 @@ class MyMomentsView extends Component {
 					</GridTile>
 
                     {moments.moments.map((moment) => {
-                        return (<MomentView moment={moment} key={moment.id} onClick={() => handleLike({
-                            memoryId: moment.memoryId,
-                            momentId: moment.id,
-                            like: !moment.hasLiked
-                        })}/>)
+                        if(moment.memoryId == memory.id){
+
+                            return (
+
+                                <MomentView moment={moment} key={moment.id} onClick={() => handleLike({
+                                        memoryId: moment.memoryId,
+                                        momentId: moment.id,
+                                        like: !moment.hasLiked
+                                    })}/>
+                                )
+                        }else{
+                            return ;
+                        }
                     })}
                 </GridList>
             </div>

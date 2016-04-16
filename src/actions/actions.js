@@ -96,7 +96,7 @@
     const registerUser = (creds) => {
         /*	return async action */
 
-
+        const { identifier , identifierType , verificationMode , dial_code} = creds;
         let validation='';
 
         return dispatch => {
@@ -113,13 +113,14 @@
                 dispatch(registerFail(validation));
                 return;
             }
-			console.log(creds.dial_code);
+            console.log('DIAL_CODE');
+			console.log(dial_code);
             let config = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'identifier='+'%2b91'+creds.identifier+'&identifierType='+creds.identifierType+'&verificationMode='+creds.verificationMode
+                body: 'identifier='+'%2b'+dial_code.slice(1,dial_code.length)+identifier+'&identifierType='+identifierType+'&verificationMode='+verificationMode
             }
             let url = apiUrl + '/register.json';
 

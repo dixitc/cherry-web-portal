@@ -125,7 +125,7 @@ function* likeMoment(action){
 /*******************WATCHERS*****************/
 
 function* watchFetchMemories() {
-  yield* takeEvery("FETCH_MEMORIES", fetchMemories);
+  yield* takeEvery('FETCH_MEMORIES', fetchMemories);
 }
 
 function* watchVerifySuccess() {
@@ -140,7 +140,7 @@ function* watchLogOut(){
 
 //watcher function for fetchMoments
 function* watchFetchMoments(){
-	yield* takeEvery('FETCH_MOMENTS', fetchMoments);
+	yield* takeLatest('FETCH_MOMENTS', fetchMoments);
 }
 
 

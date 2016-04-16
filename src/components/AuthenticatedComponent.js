@@ -24,7 +24,7 @@ class AuthenticatedComponent extends React.Component {
 	//	this.props.handleFetchMemories(this.props.auth.authToken);
 	}
 	render(){
-		const { handleLogout , memories , auth} = this.props;
+		const { handleLogout , handleFetchMemories , memories , auth} = this.props;
 
 		return(
 			<div>
@@ -50,10 +50,10 @@ class AuthenticatedComponent extends React.Component {
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       >
-        <MenuItem primaryText='Refresh' />
+        <MenuItem primaryText='Refresh' onClick={() => handleFetchMemories(auth.authToken)}/>
         <MenuItem primaryText='Help' />
         <MenuItem primaryText='Log Out' onClick={() => handleLogout()} />
-		
+
       </IconMenu>}
 			/>
 
