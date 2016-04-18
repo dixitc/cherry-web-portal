@@ -41,7 +41,7 @@ const memoriesReducer = (state = initState, action) => {
 			isFetching : false
 		})*/
 		case 'PURGE_MEMORIES':
-			return Object.assign(...state,{
+			return Object.assign({},state,{
 				memories : [],
 				isFetching : false
 			})

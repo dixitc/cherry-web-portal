@@ -67,6 +67,7 @@
     "react-dom": "^0.14.8",
     "react-images": "^0.3.2",
     "react-intl-tel-input": "^2.5.1",
+    "react-lightbox-component": "^0.2.0",
     "react-masonry-component": "^4.0.0",
     "react-phone-input": "^1.0.2",
     "react-photoswipe": "^1.0.0",

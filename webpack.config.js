@@ -17,7 +17,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
-        "noParse": ["/google-libphonenumber/dist/browser/libphonenumber.js"]
+        noParse: ["/google-libphonenumber/dist/browser/libphonenumber.js"]
     },
     module: {
         noParse: ["/node_modules/google-libphonenumber/dist/*"],

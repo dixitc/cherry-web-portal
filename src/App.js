@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import MyRawTheme from './Themes/cherryTheme';
 import Snackbar from 'material-ui/lib/snackbar';
+import Footer from './components/Footer';
 
 
 /*
@@ -30,6 +31,7 @@ getChildContext () {
    action='undo'
    autoHideDuration={2000}
  />
+<Footer />
 	  </div>
     );
   }

@@ -14,16 +14,15 @@ const momentsReducer = (state = initState, action) => {
 
 		case 'RECEIVE_MOMENTS':
 		//console.log("reducer: momentsReducer RECEIVE_MOMENTS");
-			return Object.assign({},state , {
+			/*return Object.assign({},state , {
 				moments : action.data.moments,
 				isFetching : false
-			});
-			//return state;
+			});*/
+			return state;
 
 		case 'REFINE_MOMENTS':
 		console.log("reducer: momentsReducer REFINE_MOMENTS");
-		console.log(action);
-		console.log(state);
+
 		const refinedMoments = action.data.moments.moments.map(function(moment){
 			let truth = false;
 			//eventually move this into momentReducer
@@ -31,29 +30,33 @@ const momentsReducer = (state = initState, action) => {
 
 				moment.likedUserList.map((user)=> {
 					if (user == action.data.userId){
-						console.log(user);
-						console.log(truth);
-						console.log(action.data.userId);
+			;
+
 						truth = true;
 					}
 					return user;
 				})
 			}
 			moment.hasLiked = truth;
-			console.log(moment.hasLiked);
+
 			return moment;
 		})
+		const prevMoments = state.moments;
+		console.log(prevMoments);
+		console.log(refinedMoments);
+		console.log([...prevMoments,...refinedMoments]);
 		return Object.assign({},state,{
-		moments : refinedMoments
+			isFetching : false,
+		moments : [...prevMoments, ...refinedMoments]
 	})
 
-		return state;
-		//case 'FETCH_MOMENTS':
+		//return state;
+		case 'FETCH_MOMENTS':
 		console.log("reducer: momentsReducer FETCH_MOMENTS");
-		console.log(state);
+		//console.log(state);
 			return Object.assign({}, state, {
-				isFetching : true,
-				moments : []
+				isFetching : true
+
 			})
 			//return state;
 		case 'LIKE_MOMENT_SUCCESS':

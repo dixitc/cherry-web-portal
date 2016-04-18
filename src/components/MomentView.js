@@ -9,23 +9,41 @@ import CardTitle from 'material-ui/lib/card/card-title';
 import FlatButton from 'material-ui/lib/flat-button';
 import CardText from 'material-ui/lib/card/card-text';
 import { push } from 'react-router-redux';
+import Avatar from 'material-ui/lib/avatar';
+import ListItem from 'material-ui/lib/lists/list-item';
 
 import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import FavouriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
 import Favourite from 'material-ui/lib/svg-icons/action/favorite';
 import IconButton from 'material-ui/lib/icon-button';
 
-
+const mystyle = {
+	listItem : {
+		color : '#FFF'
+	}
+}
 const MomentView = ({ moment , onClick}) => {
+	
 
-	return (
+		return (
+
 
 		<GridTile
 			key={moment.id}
-			title={moment.owner.name}
-			subtitle={<span></span>}
-			cols={1}
-			rows={1}
+			title={<div className='inner-grid'>
+
+		<ListItem
+			style={mystyle.listItem}
+			className={'white-text'}
+			primaryText={<span className={'white-text'}>{moment.owner.name}</span>}
+			leftAvatar={
+				<Avatar backgroundColor={'transparent'} src={moment.owner.photo} />
+			}
+			>
+
+		</ListItem></div>}
+
+			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%)'}
 			className='grid-moment'
 			actionIcon={<IconButton onClick={onClick}>{moment.hasLiked ?  <Favourite color="white"/> : <FavouriteBorder color="white"/> }</IconButton>}>
 <img src={moment.imageUrl} />

@@ -10,6 +10,8 @@ import IconButton from 'material-ui/lib/icon-button';
 import MomentView from './MomentView';
 import {likeMoment} from '../actions/actions';
 import Avatar from 'material-ui/lib/avatar';
+var Lightbox = require('react-lightbox-component').Lightbox;
+import RaisedButton from 'material-ui/lib/raised-button';
 
 
 let Masonry = require('react-masonry-component');
@@ -24,15 +26,16 @@ const styles = {
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+		marginTop : 50
     },
     gridList: {
 
         width: 1000,
-        height: '100%',
+        height: '80%',
         overflowY: 'auto',
 		margin : 'auto',
-        marginBottom: 24
+        marginBottom: 110
     }
 };
 
@@ -40,6 +43,7 @@ const style = {
     momentsWrapper: {
         maxWidth: 700,
         width: 700,
+		marginTop: 100,
         margin: 'auto'
     }
 }
@@ -47,11 +51,35 @@ const style = {
 class MyMomentsView extends Component {
     constructor(props) {
         super(props);
-
-    }
+		this.state = {
+			page: 1,
+			rp : 10
+		}
+		this.paginate = this.paginate.bind(this);
+	}
     componentDidMount() {
-        this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken});
+        this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken , page: this.state.page,rp: this.state.rp});
     }
+	paginate(){
+		console.log('PAGE - 1');
+		const newPage = this.state.page +1;
+		console.log(newPage);
+		this.setState({'page':newPage},function(){
+
+			console.log('PAGE + 1');
+			console.log(this.state.page);
+			this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken , page: this.state.page,rp: this.state.rp})
+		});
+	}
+	populateLightox (){
+		const images = this.props.moments.moments.map((moment) => {
+			return {
+				src : moment.imageUrl,
+				title : 'moment',
+				description : 'cool moment'
+			}
+		})
+	}
     /*	handleLike(){
 
 		this.props.dispatch(likeMoment({memoryId : this.props.moment.memoryId , momentId : this.props.moment.id , like : !this.props.moment.hasLiked}));
@@ -64,20 +92,23 @@ class MyMomentsView extends Component {
 
         const { memory } = this.props.location.state;
         return (
-            <div style={styles.momentsWrapper}>
+            <div style={styles.root}>
 
                 {!this.props.location.state.memory.coverUrl && <MemoryView memory={this.props.location.state.memory}/>}
-                {isFetching && <CircularProgress size={0.8}/>
-}
+                {isFetching &&
+					<CircularProgress size={0.8}/>
+				}
+<div className={'full-width'}>
                 <GridList
-					cols={3}
-					cellHeight={200}
+					cols={4}
+					cellHeight={150}
 					style={styles.gridList}>
 					<GridTile
 						key={memory.id}
 						title={memory.title}
+						titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%)'}
 						subtitle={<div><span>{memory.members.length} members</span> | <span>{moments.moments.length} moments</span></div>}
-						cols={2}
+						cols={4}
 		 				rows={2}
 						>
 
@@ -86,7 +117,7 @@ class MyMomentsView extends Component {
 					</GridTile>
 
                     {moments.moments.map((moment) => {
-                        if(moment.memoryId == memory.id){
+
 
                             return (
 
@@ -96,11 +127,13 @@ class MyMomentsView extends Component {
                                         like: !moment.hasLiked
                                     })}/>
                                 )
-                        }else{
-                            return ;
-                        }
+
                     })}
                 </GridList>
+			</div>
+				<div>
+					<RaisedButton  labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>
+</div>
             </div>
 
         )

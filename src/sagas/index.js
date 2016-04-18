@@ -34,11 +34,13 @@ function* fetchMemories(action){
 
 //params : [ memoryId , authToken ]
 function fetchMomentsApi (params) {
-
-	const url = apiUrl+'/v2/memory/'+params[0]+'/allmoments.json';
+	const page =params.page ,
+	rp =params.rp;
+	//const url = apiUrl+'/v2/memory/'+params[0]+'/allmoments.json';
+	const url = apiUrl+'/v2/memory/'+params.memoryId+'/allmoments.json?page='+page+'&rp='+rp;
 
 	const myHeaders = new Headers({
-	  'authToken' : params[1]
+	  'authToken' : params.token
 	});
 	let config = {
       method: 'GET',
@@ -77,8 +79,10 @@ function* likeMomentApi(params){
 /*******************HANDLERS*******************/
 
 function* fetchMoments(action){
-	yield put(actions.purgeMoments(moments));
-	const moments = yield call(fetchMomentsApi , [action.data.memoryId,action.data.token]);
+	if(action.data.page == 1){
+		//	yield put(actions.purgeMoments(moments));
+	}
+	const moments = yield call(fetchMomentsApi , action.data);
 	console.log('GOT JSON MOMENTS');
 	console.log(moments);
 	const user = getUser();
