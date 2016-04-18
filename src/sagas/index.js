@@ -80,7 +80,7 @@ function* likeMomentApi(params){
 
 function* fetchMoments(action){
 	if(action.data.page == 1){
-		//	yield put(actions.purgeMoments(moments));
+			yield put(actions.purgeMoments(moments));
 	}
 	const moments = yield call(fetchMomentsApi , action.data);
 	console.log('GOT JSON MOMENTS');
