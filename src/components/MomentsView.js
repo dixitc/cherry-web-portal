@@ -10,7 +10,8 @@ import IconButton from 'material-ui/lib/icon-button';
 import MomentView from './MomentView';
 import {likeMoment} from '../actions/actions';
 import Avatar from 'material-ui/lib/avatar';
-var Lightbox = require('react-lightbox-component').Lightbox;
+//var Lightbox = require('react-lightbox-component').Lightbox;
+import Lightbox from 'react-images';
 import RaisedButton from 'material-ui/lib/raised-button';
 
 
@@ -20,22 +21,23 @@ const masonryOptions = {
     itemSelector: '.grid-image',
     columnWidth: 200,
     gutter: 4
-
 };
 const styles = {
     root: {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
-		marginTop : 50
+		marginTop : 50,
+		width:'100%'
     },
     gridList: {
 
-        width: 1000,
+        width: '100%',
+		maxWidth:1000,
         height: '80%',
         overflowY: 'auto',
 		margin : 'auto',
-        marginBottom: 110
+        marginBottom: 20
     }
 };
 
@@ -52,22 +54,51 @@ class MyMomentsView extends Component {
     constructor(props) {
         super(props);
 		this.state = {
-			page: 1,
-			rp : 10
+			page: 0,
+			rp : 10,
+			lightboxIsOpen: false,
+			currentImage: 0
 		}
 		this.paginate = this.paginate.bind(this);
+		this.closeLightbox = this.closeLightbox.bind(this);
+this.gotoNext = this.gotoNext.bind(this);
+this.gotoPrevious = this.gotoPrevious.bind(this);
+this.openLightbox = this.openLightbox.bind(this);
 	}
     componentDidMount() {
         this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken , page: this.state.page,rp: this.state.rp});
     }
+	openLightbox (index, event) {
+		console.log("OPOPOPOPOPOPOPOP");
+		event.preventDefault();
+		this.setState({
+			currentImage: index,
+			lightboxIsOpen: true,
+		});
+	}
+	closeLightbox () {
+		this.setState({
+			currentImage: 0,
+			lightboxIsOpen: false,
+		});
+	}
+	gotoPrevious () {
+		this.setState({
+			currentImage: this.state.currentImage - 1,
+		});
+	}
+	gotoNext () {
+		this.setState({
+			currentImage: this.state.currentImage + 1,
+		});
+	}
 	paginate(){
-		console.log('PAGE - 1');
+
 		const newPage = this.state.page +1;
-		console.log(newPage);
+
 		this.setState({'page':newPage},function(){
 
-			console.log('PAGE + 1');
-			console.log(this.state.page);
+
 			this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken , page: this.state.page,rp: this.state.rp})
 		});
 	}
@@ -80,15 +111,17 @@ class MyMomentsView extends Component {
 			}
 		})
 	}
-    /*	handleLike(){
-
-		this.props.dispatch(likeMoment({memoryId : this.props.moment.memoryId , momentId : this.props.moment.id , like : !this.props.moment.hasLiked}));
-		//this.handleMomentLike(moment.memoryId , moment.id)
-	}*/
     render() {
         const {moments, auth, handleLike} = this.props;
         const {isFetching} = moments;
-        console.log(moments);
+
+        let images = moments.moments.map((moment) => {
+			let rObj = {};
+			//https://docs.google.com/uc?id=0ByxtQn1WtMnoNmVqM29tQkNPTUE
+			rObj['src'] = moment.image.CURRENT_IMAGE
+
+			return rObj;
+		});
 
         const { memory } = this.props.location.state;
         return (
@@ -98,10 +131,19 @@ class MyMomentsView extends Component {
                 {isFetching &&
 					<CircularProgress size={0.8}/>
 				}
-<div className={'full-width'}>
+				 <Lightbox
+        images={images}
+		currentImage={this.state.currentImage}
+        isOpen={this.state.lightboxIsOpen}
+        onClickPrev={this.gotoPrevious}
+        onClickNext={this.gotoNext}
+        onClose={this.closeLightbox}
+      />
+				<div className={'full-width'}>
                 <GridList
 					cols={4}
-					cellHeight={150}
+
+					padding={4}
 					style={styles.gridList}>
 					<GridTile
 						key={memory.id}
@@ -116,22 +158,23 @@ class MyMomentsView extends Component {
 
 					</GridTile>
 
-                    {moments.moments.map((moment) => {
+
+
+
+
+                    {moments.moments.map((moment ,i) => {
 
 
                             return (
 
-                                <MomentView moment={moment} key={moment.id} onClick={() => handleLike({
-                                        memoryId: moment.memoryId,
-                                        momentId: moment.id,
-                                        like: !moment.hasLiked
-                                    })}/>
+                                <MomentView moment={moment} key={moment.id} onClick={(event) =>{console.log("OOOOOOOOOOOOOO"); this.openLightbox(i, event)}} handleLikeCLick={() => handleLike({memoryId: moment.memoryId,momentId: moment.id,like: !moment.hasLiked})}/>
+
                                 )
 
                     })}
                 </GridList>
 			</div>
-				<div>
+				<div style={{marginBottom:100}}>
 					<RaisedButton  labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>
 </div>
             </div>

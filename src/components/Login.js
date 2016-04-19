@@ -11,9 +11,8 @@ import AutoCompleteCountry from './AutoCompleteCountry';
 import IntlTelInput from 'react-intl-tel-input';
 import PNF from 'google-libphonenumber/dist/browser/libphonenumber';
 import Paper from 'material-ui/lib/paper';
-
 import style from '../styles/Login';
-//import ReactPhoneInput from 'react-phone-input';
+
 
 let AsYouTypeFormatter = require('google-libphonenumber').AsYouTypeFormatter;
 let formatter = new AsYouTypeFormatter('IN');
@@ -75,7 +74,7 @@ let formatter = new AsYouTypeFormatter('IN');
                         break;
     				//HANDLE ON PRESS ENTER
                     case (e.keyCode == 13):
-                        this.props.handleRegisterUser(this.state.formattedNumber);
+                        this.props.handleRegisterUser(this.state.formattedNumber,this.state.dial_code);
                         break;
     				//HANDLE ON PRESS BACKSPACE
                     case (e.keyCode == 8):

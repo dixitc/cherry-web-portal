@@ -13,6 +13,8 @@ import CardTitle from 'material-ui/lib/card/card-title';
 import FlatButton from 'material-ui/lib/flat-button';
 import CardText from 'material-ui/lib/card/card-text';
 import { push } from 'react-router-redux';
+import dummyImg from '../images/test.png';
+
 //this.props.dispatch(push('/some/path'));
 
 
@@ -68,9 +70,11 @@ class MemoryView extends Component {
 
 		let memoryImg;
 		if(memory.coverUrl){
+			console.log(memory.coverUrl);
 			 memoryImg = <img src={memory.coverUrl} />
 		 }else{
-			memoryImg = <img src='https://lh3.googleusercontent.com/EpTpqq7q1vQ6LYPJIzeFPCTnVeG4E2MXWJKt3_wKnDiP-KgVjqBNHWJ2xp11pSev9pkXcQ=w90' />
+			 console.log('NO memory.coverUrl');
+			memoryImg = <img src={dummyImg} />
 		}
 
 		return (
@@ -84,8 +88,11 @@ class MemoryView extends Component {
 			avatar={memory.owner.photo}
  			titleColor='white' />
  			<CardMedia
- 	         overlay={<CardTitle title={memory.title} subtitle={memory.momentsCount + ' moments' }
- 			 overlayContentStyle={styles.overlayContent} />}
+				overlayContainerStyle={{background:'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%)'}}
+				overlayStyle={{background:'transparent'}}
+				overlayContentStyle={{background:'transparent'}}
+ 	         overlay={<CardTitle style={{background:'transparent'}} title={memory.title} subtitle={memory.momentsCount + ' moments' }
+ 		/>}
  	       >
 		   {memoryImg}
 

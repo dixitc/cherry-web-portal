@@ -1,10 +1,12 @@
 SUPER-CRITICAL :
-	- handle memory display when there is no coverUrl
+	[-] handle memory display when there is no coverUrl
+	- handle moments display when there is no coverUrl
 	- shit needs to be responsive
-	- figure out importing images
+	[-] figure out importing images (IN pROD ??)
 	- figure out moments slideshow
-	[-] pass country code during register (DONE)
+	[-] pass country code during register
 	- handle input edit login
+	- google analytics
 
 CRITICAL :
 	[-] separate out singleMomentreducer (to better handle moment level actions) (DONE)

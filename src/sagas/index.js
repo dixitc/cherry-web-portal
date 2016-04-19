@@ -79,12 +79,10 @@ function* likeMomentApi(params){
 /*******************HANDLERS*******************/
 
 function* fetchMoments(action){
-	if(action.data.page == 1){
+	if(action.data.page == 0){
 			yield put(actions.purgeMoments(moments));
 	}
 	const moments = yield call(fetchMomentsApi , action.data);
-	console.log('GOT JSON MOMENTS');
-	console.log(moments);
 	const user = getUser();
 	yield put(actions.refineMoments( {moments : moments , userId:user.profile.id}));
 	 /*This should effectively pass moments and userId and add a hasLiked field to all moments*/

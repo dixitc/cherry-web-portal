@@ -19,33 +19,33 @@ import IconButton from 'material-ui/lib/icon-button';
 
 const mystyle = {
 	listItem : {
-		color : '#FFF'
+		color : '#FFF',
+		padding : 0
 	}
 }
-const MomentView = ({ moment , onClick}) => {
-	
+const MomentView = ({ moment , handleLikeCLick , onClick}) => {
+
 
 		return (
 
 
 		<GridTile
 			key={moment.id}
-			title={<div className='inner-grid'>
+			onClick={onClick}
+			title={
 
 		<ListItem
 			style={mystyle.listItem}
-			className={'white-text'}
+			className={'inner-grid'}
+			innerDivStyle={{paddingLeft:60,paddingBottom:14,paddingTop:17}}
 			primaryText={<span className={'white-text'}>{moment.owner.name}</span>}
-			leftAvatar={
-				<Avatar backgroundColor={'transparent'} src={moment.owner.photo} />
-			}
-			>
+			leftAvatar={<Avatar backgroundColor={'transparent'} style={{width:30,height:30}} src={moment.owner.photo} />}
+		>
 
-		</ListItem></div>}
-
+		</ListItem>}
 			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%)'}
 			className='grid-moment'
-			actionIcon={<IconButton onClick={onClick}>{moment.hasLiked ?  <Favourite color="white"/> : <FavouriteBorder color="white"/> }</IconButton>}>
+			actionIcon={<IconButton onClick={(e) => {console.log(e);console.log('IMPIMPIMPIMP');e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} color="white"/> }</IconButton>}>
 <img src={moment.imageUrl} />
 
 
@@ -55,6 +55,7 @@ const MomentView = ({ moment , onClick}) => {
 
 MomentView.propTypes = {
 	moment : React.PropTypes.object.isRequired,
+	handleLikeCLick : React.PropTypes.func.isRequired,
 	onClick : React.PropTypes.func.isRequired
 }
 
