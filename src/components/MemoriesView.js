@@ -1,8 +1,8 @@
 import React,{ Component , PropTypes } from 'react';
 import {connect} from 'react-redux';
 import GridList from 'material-ui/lib/grid-list/grid-list';
-import GridTile from 'material-ui/lib/grid-list/grid-tile';
-import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
+
+
 import IconButton from 'material-ui/lib/icon-button';
 import { fetchMemories , setTitle} from '../actions/actions';
 import MemoryView from './MemoryView';
@@ -69,6 +69,8 @@ class MyMemoriesView extends Component {
 
 	}
 	componentDidMount(){
+        this.masonry = new Masonry(this.refs.masonryContainer.getDOMNode(), masonryOptions);
+
 		this.props.handleFetchMemories(this.props.auth.authToken);
         this.props.handleSetTitle('Cherry');
 	}
@@ -87,7 +89,7 @@ class MyMemoriesView extends Component {
 		});
 
 		return (
-			<div>
+			<div style={{width:'80%',marginLeft:'auto',marginRight:'auto'}}>
 				{memories.isFetching &&
                     <RefreshIndicator
   size={50}
@@ -99,12 +101,7 @@ class MyMemoriesView extends Component {
 />
 				}
 
-			<Masonry
-			className={'my-gallery-class'} // default ''
-			elementType={'div'} // default 'div'
-			options={masonryOptions}
-			disableImagesLoaded={false}
-			>
+			<Masonry ref="masonryContainer" className={'my-gallery-class'} elementType={'div'} options={masonryOptions} disableImagesLoaded={false}>
 				{childElements}
 			</Masonry>
 

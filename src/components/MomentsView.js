@@ -34,7 +34,7 @@ const styles = {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
-        marginTop: 50,
+        marginTop: 30,
         width: '100%'
     },
     gridList: {
@@ -179,7 +179,7 @@ class MyMomentsView extends Component {
 										innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
 										style={{color:'#FFF',fontSize:'13px'}}
 										>
-											<span style={{color:'#FF5722'}}>{memory.members.length} members</span> | <span>{moments.moments.length} moments</span>
+											<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {moments.moments.length} {moments.moments.length == 1 ? 'moment' :  'moments'}</span>
 										< /ListItem>}
 									leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
 								>

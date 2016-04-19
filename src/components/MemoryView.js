@@ -1,9 +1,7 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import GridList from 'material-ui/lib/grid-list/grid-list';
-import GridTile from 'material-ui/lib/grid-list/grid-tile';
-import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
-import IconButton from 'material-ui/lib/icon-button';
+
+
 
 import Card from 'material-ui/lib/card/card';
 import CardActions from 'material-ui/lib/card/card-actions';
@@ -14,6 +12,10 @@ import FlatButton from 'material-ui/lib/flat-button';
 import CardText from 'material-ui/lib/card/card-text';
 import { push } from 'react-router-redux';
 import dummyImg from '../images/test.png';
+import GridTile from 'material-ui/lib/grid-list/grid-tile';
+import IconButton from 'material-ui/lib/icon-button';
+import FavouriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
+import Favourite from 'material-ui/lib/svg-icons/action/favorite';
 
 //this.props.dispatch(push('/some/path'));
 
@@ -59,10 +61,7 @@ class MemoryView extends Component {
 
 	}
 	memoryClick(){
-		console.log("CLICKETY CLICK");
-		let ep =  this.props.memory.title.replace(/[^A-Z0-9]/ig, "_");
-		console.log(this.props.memory.title);
-
+		let ep =  this.props.memory.title.replace(/[^A-Z0-9]/ig, '_');
 		this.props.dispatch(push({pathname :'/memory/'+ep,state: { memory : this.props.memory}}));
 	}
 	render() {
@@ -70,17 +69,18 @@ class MemoryView extends Component {
 
 		let memoryImg;
 		if(memory.coverUrl){
-			console.log(memory.coverUrl);
-			 memoryImg = <img src={memory.coverUrl} />
+
+			 memoryImg = <img style={{minHeight:200,width:'auto'}} src={memory.coverUrl} />
 		 }else{
-			 console.log('NO memory.coverUrl');
+
 			memoryImg = <img src={dummyImg} />
 		}
 
+        /*should eventually just import memoryView concisely*/
+        /* <div className='grid-item' style={{width:'31%',minWidth:220}} key={memory.id} onClick={this.memoryClick}> */
 		return (
 
-			/*should eventually just import memoryView concisely*/
- 		   <div className='grid-item' key={memory.id} onClick={this.memoryClick}>
+          <div className='grid-item' key={memory.id} onClick={this.memoryClick} >
  			<Card >
  			<CardHeader
  			style={styles.cardHeader}
@@ -89,7 +89,7 @@ class MemoryView extends Component {
  			titleColor='white' />
  			<CardMedia
 				overlayContainerStyle={{background:'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%)'}}
-				overlayStyle={{background:'transparent'}}
+				overlayStyle={{background:'transparent',overFlow:'hidden'}}
 				overlayContentStyle={{background:'transparent'}}
  	         overlay={<CardTitle style={{background:'transparent'}} title={memory.title} subtitle={memory.momentsCount + ' moments' }
  		/>}
@@ -113,7 +113,6 @@ class MemoryView extends Component {
 
 MemoryView.propTypes = {
 	memory : React.PropTypes.object.isRequired
-
 }
 
 
