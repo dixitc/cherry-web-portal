@@ -18,6 +18,7 @@
     const REFINE_MOMENTS = 'REFINE_MOMENTS';
     const PURGE_MOMENTS = 'PURGE_MOMENTS';
     const PURGE_USER = 'PURGE_USER';
+    const SET_TITLE = 'SET_TITLE';
 
 	const LIKE_MOMENT = 'LIKE_MOMENT';
 	const LIKE_MOMENT_SUCCESS = 'LIKE_MOMENT_SUCCESS';
@@ -327,6 +328,14 @@
 		}
 	}
 
+
+    	const setTitle = (payload) => {
+    		return {
+    			type : SET_TITLE,
+    			title : payload
+    		}
+    	}
+
 //purge all moments ?? or only moments of a certain memory
 	const purgeMoments = () => {
 		return {
@@ -358,5 +367,6 @@
 		refineMoments,
 		logOutUser,
 		purgeMoments,
+        setTitle,
 		purgeUser
     };

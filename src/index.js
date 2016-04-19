@@ -12,6 +12,7 @@ import { syncHistoryWithStore, routerReducer , routerMiddleware } from 'react-ro
 import App from './App';
 import { memoriesReducer } from './reducers/memoriesReducer';
 import { momentsReducer } from './reducers/momentsReducer';
+import { titleReducer } from './reducers/titleReducer';
 import { authReducer } from './reducers/auth';
 import SmartMessage from './components/components';
 import AuthenticatedComponentView from './components/AuthenticatedComponent';
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
 	memories : memoriesReducer,
 	auth : authReducer,
 	moments : momentsReducer,
+	title : titleReducer,
 	routing : routerReducer
 })
 

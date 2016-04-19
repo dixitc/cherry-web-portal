@@ -4,7 +4,7 @@ import GridList from 'material-ui/lib/grid-list/grid-list';
 import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
 import IconButton from 'material-ui/lib/icon-button';
-import { fetchMemories} from '../actions/actions';
+import { fetchMemories , setTitle} from '../actions/actions';
 import MemoryView from './MemoryView';
 import RefreshIndicator from 'material-ui/lib/refresh-indicator';
 
@@ -67,11 +67,12 @@ class MyMemoriesView extends Component {
 	constructor(props) {
 		super(props);
 
-
 	}
 	componentDidMount(){
 		this.props.handleFetchMemories(this.props.auth.authToken);
+        this.props.handleSetTitle('Cherry');
 	}
+
 
 	render() {
         const{ memories } = this.props;
@@ -123,11 +124,12 @@ MyMemoriesView.propTypes = {
 
 
 const mapStateToProps = (state) => {
-	const { auth} = state;
+	const { auth , title } = state;
 	const memories = state.memories;
 	return {
 		memories,
-		auth
+		auth,
+        title
 	}
 }
 
@@ -136,7 +138,10 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		handleFetchMemories : (token) => {
 			dispatch(fetchMemories(token));
-		}
+		},
+        handleSetTitle: (title) => {
+            dispatch(setTitle(title))
+        }
 	}
 }
 

@@ -21,7 +21,7 @@ const momentsReducer = (state = initState, action) => {
 			return state;
 
 		case 'REFINE_MOMENTS':
-		console.log("reducer: momentsReducer REFINE_MOMENTS");
+		console.log('reducer: momentsReducer REFINE_MOMENTS');
 
 		const refinedMoments = action.data.moments.moments.map(function(moment){
 			let truth = false;
@@ -52,7 +52,7 @@ const momentsReducer = (state = initState, action) => {
 
 		//return state;
 		case 'FETCH_MOMENTS':
-		console.log("reducer: momentsReducer FETCH_MOMENTS");
+		console.log('reducer: momentsReducer FETCH_MOMENTS');
 		//console.log(state);
 			return Object.assign({}, state, {
 				isFetching : true
@@ -60,7 +60,7 @@ const momentsReducer = (state = initState, action) => {
 			})
 			//return state;
 		case 'LIKE_MOMENT_SUCCESS':
-		console.log("reducer: momentsReducer LIKE_MOMENT_SUCCESS");
+		console.log('reducer: momentsReducer LIKE_MOMENT_SUCCESS');
 		console.log(action);
 			//eventually have to move this operation into separate momentReducer
 			//console.log(state);

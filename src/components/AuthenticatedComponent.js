@@ -6,33 +6,49 @@ import MemoriesView from './MemoriesView';
 import AppBar from 'material-ui/lib/app-bar';
 import IconButton from 'material-ui/lib/icon-button';
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
+import ArrowBack from 'material-ui/lib/svg-icons/navigation/arrow-back';
 import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import Avatar from 'material-ui/lib/avatar';
 import style from '../styles/Login';
 import FontIcon from 'material-ui/lib/font-icon';
+import { browserHistory } from 'react-router';
 
 import { Link } from 'react-router';
 
 class AuthenticatedComponent extends React.Component {
 	constructor(props){
 		super(props);
+		this.backToMemories = this.backToMemories.bind(this);
 
+	}
+	backToMemories(){
+		browserHistory.replace('/memories');
 	}
 	componentDidMount(){
 	//	this.props.handleFetchMemories(this.props.auth.authToken);
 	}
 	render(){
-		const { handleLogout , handleFetchMemories , memories , auth} = this.props;
+		const { handleLogout , handleFetchMemories , memories , auth , title} = this.props;
 		const { currentMemory } = memories;
+		let myIconElement;
+		console.log('ttttttttttt');
+		console.log(title);
+		if(title === 'Cherry'){
+			myIconElement = <IconButton className='smooth-transit' style={{opacity:0}} onClick={this.backToMemories}><ArrowBack /></IconButton>
+		}else{
+			myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
+		}
 		return(
 			<div>
 			<AppBar
 				style={{zIndex:2}}
-				title={<span>{currentMemory}</span>}
+				className={'smooth-transit'}
+				title={<span className='smooth-transit'>{title}</span>}
 				primary={true}
-				iconElementLeft={<span></span>}
+
+				iconElementLeft={myIconElement}
 
 				iconElementRight={ <IconMenu
         iconButtonElement={
@@ -71,16 +87,19 @@ AuthenticatedComponent.propTypes = {
 	handleLogout: PropTypes.func.isRequired,
 	handleFetchMemories: PropTypes.func.isRequired,
 	memories : PropTypes.array.isRequired,
-	auth : PropTypes.object.isRequired
+	auth : PropTypes.object.isRequired,
+	title: PropTypes.string.isRequired
 }
 
 
 const mapStateToProps = (state) => {
 	const { auth} = state;
 	const memories = state.memories.memories;
+	const title = state.title;
 	return {
 		memories,
-		auth
+		auth,
+		title
 	}
 }
 

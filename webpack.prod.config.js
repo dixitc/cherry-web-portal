@@ -25,9 +25,17 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['babel'],
+      noParse: ['/node_modules/google-libphonenumber/dist/*'],
+      loaders: [{
+          test: /\.js$/,
+          loaders: ['react-hot', 'babel'],
+          include: path.join(__dirname, 'src')
+      }, {
+          test: /masonry|fizzy\-ui\-utils|desandro\-|outlayer|get\-size|doc\-ready|eventie|eventemitter/,
+          loader: 'imports?define=>false&this=>window'
+      },{ test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' ,include: path.join(__dirname, 'src/images')} ,{
+      test: /\.css$/,
+      loaders: ['style', 'css'],
       include: path.join(__dirname, 'src')
     }]
   }

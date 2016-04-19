@@ -7,6 +7,7 @@ SUPER-CRITICAL :
 	[-] pass country code during register
 	- handle input edit login
 	- google analytics
+	[-] header shows memeory title
 	- Memories View use imagesloaded (use react-imageloader)
 	- moments view back button
 	- handle user avatar when there is no image

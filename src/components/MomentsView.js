@@ -8,15 +8,12 @@ import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import FavouriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
 import IconButton from 'material-ui/lib/icon-button';
 import MomentView from './MomentView';
-import {likeMoment} from '../actions/actions';
+import { likeMoment , setTitle} from '../actions/actions';
 import Avatar from 'material-ui/lib/avatar';
 import ListItem from 'material-ui/lib/lists/list-item';
-import FloatingActionButton from 'material-ui/lib/floating-action-button';
-import { browserHistory } from 'react-router';
 //import Lightbox from 'react-images';
 import Lightbox from 'react-image-lightbox';
 import RaisedButton from 'material-ui/lib/raised-button';
-import ArrowBack from 'material-ui/lib/svg-icons/navigation/arrow-back';
 
 let Masonry = require('react-masonry-component');
 const masonryOptions = {
@@ -75,11 +72,11 @@ class MyMomentsView extends Component {
         this.gotoNext = this.gotoNext.bind(this);
         this.gotoPrevious = this.gotoPrevious.bind(this);
         this.openLightbox = this.openLightbox.bind(this);
-        this.backToMemories = this.backToMemories.bind(this);
         this.parseCoverUrl = this.parseCoverUrl.bind(this);
     }
     componentDidMount() {
         this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
+        this.props.handleSetTitle(this.props.location.state.memory.title);
     }
     openLightbox(index, event) {
         event.preventDefault();
@@ -117,13 +114,10 @@ class MyMomentsView extends Component {
             return {src: moment.imageUrl, title: 'moment', description: 'cool moment'}
         })
     }
-	backToMemories(){
-		browserHistory.replace('/memories');
-	}
-	parseCoverUrl(url){
+		parseCoverUrl(url){
 		console.log('parseCoverUrl');
 		console.log(url);
-		return "https://docs.google.com/uc?id="+ url.substr(url.indexOf('id=')+3,url.length - 1);
+		return 'https://docs.google.com/uc?id='+ url.substr(url.indexOf('id=')+3,url.length - 1);
 		//https://drive.google.com/thumbnail?authuser=0&sz=w360&id=0ByxtQn1WtMnoZ1VIUzZ3Zmd5RVE
 		//return url;
 	}
@@ -158,9 +152,7 @@ class MyMomentsView extends Component {
         return (
             <div style={styles.root}>
 
-				<FloatingActionButton onClick={this.backToMemories} mini={true} style={{position:'absolute',left:5,top:90,zIndex:5}} backgroundColor={'#3B3B44'} >
-					<ArrowBack />
-				</FloatingActionButton>
+
 
                 {!this.props.location.state.memory.coverUrl && <MemoryView memory={this.props.location.state.memory}/>}
 
@@ -199,8 +191,9 @@ class MyMomentsView extends Component {
 
 						cols={5}
 						rows={2}>
-
+                        {memory.coverUrl &&
                             <img src={this.parseCoverUrl(memory.coverUrl)}/>
+                        }
 
                         </GridTile>
 						{momentChildren}
@@ -228,14 +221,17 @@ MyMomentsView.propTypes = {
     moments: React.PropTypes.object.isRequired,
     handleFetchMoments: PropTypes.func.isRequired,
     handleLike: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    handleSetTitle: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired
+
 }
 
 const mapStateToProps = (state) => {
 
-    const {auth} = state;
+    const {auth , title} = state;
     const moments = state.moments;
-    return {moments, auth }
+    return {moments, auth ,title}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -246,6 +242,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         handleLike: (payload) => {
             dispatch(likeMoment(payload))
+        },
+        handleSetTitle: (title) => {
+            dispatch(setTitle(title))
         }
     }
 }
