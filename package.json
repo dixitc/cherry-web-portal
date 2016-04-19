@@ -75,6 +75,7 @@
     "react-phone-input": "^1.0.2",
     "react-photoswipe": "^1.0.0",
     "react-redux": "^4.4.1",
+    "react-responsive": "^1.1.2",
     "react-router": "^2.0.1",
     "react-router-redux": "^4.0.0",
     "react-stonecutter": "^0.1.2",

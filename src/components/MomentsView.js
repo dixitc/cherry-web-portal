@@ -65,7 +65,7 @@ class MyMomentsView extends Component {
         super(props);
         this.state = {
             page: 0,
-            rp: 10,
+            rp: 20,
             lightboxIsOpen: false,
             currentImage: 0,
 			noMoreMoments : false
@@ -76,12 +76,12 @@ class MyMomentsView extends Component {
         this.gotoPrevious = this.gotoPrevious.bind(this);
         this.openLightbox = this.openLightbox.bind(this);
         this.backToMemories = this.backToMemories.bind(this);
+        this.parseCoverUrl = this.parseCoverUrl.bind(this);
     }
     componentDidMount() {
         this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
     }
     openLightbox(index, event) {
-        console.log("OPOPOPOPOPOPOPOP");
         event.preventDefault();
         this.setState({currentImage: index, lightboxIsOpen: true});
     }
@@ -120,6 +120,13 @@ class MyMomentsView extends Component {
 	backToMemories(){
 		browserHistory.replace('/memories');
 	}
+	parseCoverUrl(url){
+		console.log('parseCoverUrl');
+		console.log(url);
+		return "https://docs.google.com/uc?id="+ url.substr(url.indexOf('id=')+3,url.length - 1);
+		//https://drive.google.com/thumbnail?authuser=0&sz=w360&id=0ByxtQn1WtMnoZ1VIUzZ3Zmd5RVE
+		//return url;
+	}
     render() {
         const {moments, auth, handleLike} = this.props;
         const {isFetching} = moments;
@@ -151,7 +158,7 @@ class MyMomentsView extends Component {
         return (
             <div style={styles.root}>
 
-				<FloatingActionButton onClick={this.backToMemories} mini={true} style={{position:'absolute',left:5,top:90,zIndex:5}} backgroundColor='blue' >
+				<FloatingActionButton onClick={this.backToMemories} mini={true} style={{position:'absolute',left:5,top:90,zIndex:5}} backgroundColor={'#3B3B44'} >
 					<ArrowBack />
 				</FloatingActionButton>
 
@@ -177,8 +184,8 @@ class MyMomentsView extends Component {
 									innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
 									primaryText={<span className={'white-text'}>{memory.owner.name}</span>}
 									secondaryText={	< ListItem
-										innerDivStyle={{paddingLeft:0,paddingBottom:10,paddingTop:5}}
-										style={{color:'#FFF',fontSize:'11px'}}
+										innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
+										style={{color:'#FFF',fontSize:'13px'}}
 										>
 											<span style={{color:'#FF5722'}}>{memory.members.length} members</span> | <span>{moments.moments.length} moments</span>
 										< /ListItem>}
@@ -188,12 +195,12 @@ class MyMomentsView extends Component {
 								</ListItem>
 							}
 
-							titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%)'}
+							titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 100%)'}
 
 						cols={5}
 						rows={2}>
 
-                            <img src={memory.coverUrl}/>
+                            <img src={this.parseCoverUrl(memory.coverUrl)}/>
 
                         </GridTile>
 						{momentChildren}
@@ -225,7 +232,7 @@ MyMomentsView.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
+
     const {auth} = state;
     const moments = state.moments;
     return {moments, auth }

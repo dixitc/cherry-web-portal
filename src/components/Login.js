@@ -12,6 +12,7 @@ import IntlTelInput from 'react-intl-tel-input';
 import PNF from 'google-libphonenumber/dist/browser/libphonenumber';
 import Paper from 'material-ui/lib/paper';
 import style from '../styles/Login';
+import MediaQuery from 'react-responsive';
 
 
 let AsYouTypeFormatter = require('google-libphonenumber').AsYouTypeFormatter;
@@ -145,14 +146,14 @@ let formatter = new AsYouTypeFormatter('IN');
                             <div>
 
                                 {isFetching &&
-
-                                    <CircularProgress size={0.8}/>
+									<CircularProgress size={0.8}/>
                                 }
                                 {!isFetching &&
+									<RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'REGISTER'} onClick={() => handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}/>
+								}
 
-                                    <RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'REGISTER'} onClick={() => handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}/>
-                                }
                             </div>
+
                         </div>
                         }
 

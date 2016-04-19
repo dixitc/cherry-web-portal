@@ -6,6 +6,7 @@ import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 import MyRawTheme from './Themes/cherryTheme';
 import Snackbar from 'material-ui/lib/snackbar';
 import Footer from './components/Footer';
+import backGroundImg from './images/geometry2.png';
 
 
 /*
@@ -21,7 +22,7 @@ getChildContext () {
   render() {
 	console.log(this.props);
     return (
-		<div>
+		<div backGroundImage={backGroundImg}>
 
 
 			{this.props.children}

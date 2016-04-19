@@ -41,14 +41,14 @@ const MomentView = ({ moment , handleLikeCLick , onClick}) => {
 			style={mystyle.listItem}
 			className={'inner-grid'}
 			innerDivStyle={{paddingLeft:40,paddingBottom:14,paddingTop:17}}
-			primaryText={<span className={'white-text'}>{moment.owner.name}</span>}
+			primaryText={<span style={{color:'#fff',fontSize:'12px'}}>{moment.owner.name}</span>}
 			leftAvatar={<Avatar backgroundColor={'transparent'} style={{width:30,height:30,left:0}} src={moment.owner.photo} />}
 		>
 
 		</ListItem>}
-			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%)'}
+			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.9) 100%)'}
 			className='grid-moment'
-			actionIcon={<IconButton className={'inner-grid'} onClick={(e) => {console.log(e);console.log('IMPIMPIMPIMP');e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} color="white"/> }</IconButton>}>
+			actionIcon={<IconButton className={'inner-grid'} onClick={(e) => {e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} color="white"/> }</IconButton>}>
 <img src={moment.imageUrl} />
 
 

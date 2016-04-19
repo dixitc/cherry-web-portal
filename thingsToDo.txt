@@ -11,6 +11,8 @@ SUPER-CRITICAL :
 	- moments view back button
 	- handle user avatar when there is no image
 	- lightbox loading image icon
+	- Fix coverUrl
+	- footer
 
 CRITICAL :
 	[-] separate out singleMomentreducer (to better handle moment level actions) (DONE)
@@ -36,3 +38,4 @@ thingsToDo  :
 	- use spread operators and es6 syntax wherever possible
 	[-] country code number validation (DONE)
 	- Testing up to date (50% coverage FRIDAY)
+	- grid layout (https://github.com/STRML/react-grid-layout)
