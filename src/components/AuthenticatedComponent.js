@@ -25,11 +25,12 @@ class AuthenticatedComponent extends React.Component {
 	}
 	render(){
 		const { handleLogout , handleFetchMemories , memories , auth} = this.props;
-
+		const { currentMemory } = memories;
 		return(
 			<div>
 			<AppBar
-				title='cherry'
+				style={{zIndex:2}}
+				title={<span>{currentMemory}</span>}
 				primary={true}
 				iconElementLeft={<span></span>}
 

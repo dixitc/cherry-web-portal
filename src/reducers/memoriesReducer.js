@@ -1,7 +1,8 @@
 const initState = {
     memories: [],
     isFetching : false,
-	lastUpdated : ''
+	lastUpdated : '',
+	currentMemory : ''
 }
 
 

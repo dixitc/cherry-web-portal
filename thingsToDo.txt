@@ -7,6 +7,10 @@ SUPER-CRITICAL :
 	[-] pass country code during register
 	- handle input edit login
 	- google analytics
+	- Memories View use imagesloaded (use react-imageloader)
+	- moments view back button
+	- handle user avatar when there is no image
+	- lightbox loading image icon
 
 CRITICAL :
 	[-] separate out singleMomentreducer (to better handle moment level actions) (DONE)

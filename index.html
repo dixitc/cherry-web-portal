@@ -2,15 +2,16 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cherry App</title>
-    <style media="screen">
-        html,body {
-            height: 100%;
-            width: 100%;
-    /*    background-color:rgba(220, 77, 77, 0.11);*/
-            margin:0px;
-        }
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Cherry App</title>
+	<style media="screen">
+		html,
+		body {
+			height: 100%;
+			width: 100%;
+			/*    background-color:rgba(220, 77, 77, 0.11);*/
+			margin: 0px;
+		}
 
 		.grid-item {
 			list-style-type: none;
@@ -18,46 +19,60 @@
 			width: 300px;
 			cursor: pointer;
 		}
+
 		.grid-moment {
 			cursor: pointer;
 			margin-left: 0px;
 			width: 100%;
 		}
+
 		.container--jss-0-0 {
-			background: rgba(0,0,0,1);
+			background: rgba(0, 0, 0, 1);
 		}
+
 		.inner-grid {
 			position: relative;
 			top: 10px;
 			opacity: 0;
 			transition: all ease-in 0.3s;
 		}
-		.my-grid{
+
+		.my-grid {
 			margin-left: 0px;
 		}
 
-
 		footer {
 			width: 100%;
-background: rgba(255, 0, 0, 0.19);
-position: fixed;
-bottom: 0px;
-height: 40px;
+			background: rgba(255, 0, 0, 0.19);
+			position: fixed;
+			bottom: 0px;
+			height: 40px;
 		}
 
-span.white-text {
-	color: '#FFF';
-	font-size: 16px;
-}
+		span.white-text {
+			color: '#FFF';
+			font-size: 14px;
+			text-overflow: ellipsis;
+			max-width: 10px;
+		}
 
-.full-width {
-	width: 100%;
-	display: block;
-}
+		.full-width {
+			width: 100%;
+			display: block;
+		}
+
 		.grid-moment:hover .inner-grid {
 			opacity: 1;
 			top: 0px;
 		}
+
+		.grid-moment:hover .inner-grid {
+			opacity: 1;
+			top: 0px;
+			transform: scale(1.2);
+			z-index: 10;
+		}
+
 		.grid-sizer {
 			width: 22%;
 		}
@@ -65,24 +80,25 @@ span.white-text {
 		.cardHeader span {
 			color: '#fff'
 		}
+
 		.gutter-sizer {
 			width: 4px;
 		}
 
 		.my-gallery-class {
 			padding: 10px;
-}
+		}
 
-        label {
-            color: 'orange';
-        }
-    </style>
+		label {
+			color: 'orange';
+		}
+	</style>
 </head>
 
 <body>
-    <div id='root'>
-    </div>
-    <script src="static/bundle.js"></script>
+	<div id='root'>
+	</div>
+	<script src="static/bundle.js"></script>
 </body>
 
 </html>

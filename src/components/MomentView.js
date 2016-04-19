@@ -30,22 +30,25 @@ const MomentView = ({ moment , handleLikeCLick , onClick}) => {
 
 
 		<GridTile
+			cols={1}
+			rows={1}
 			key={moment.id}
 			onClick={onClick}
 			title={
 
 		<ListItem
+
 			style={mystyle.listItem}
 			className={'inner-grid'}
-			innerDivStyle={{paddingLeft:60,paddingBottom:14,paddingTop:17}}
+			innerDivStyle={{paddingLeft:40,paddingBottom:14,paddingTop:17}}
 			primaryText={<span className={'white-text'}>{moment.owner.name}</span>}
-			leftAvatar={<Avatar backgroundColor={'transparent'} style={{width:30,height:30}} src={moment.owner.photo} />}
+			leftAvatar={<Avatar backgroundColor={'transparent'} style={{width:30,height:30,left:0}} src={moment.owner.photo} />}
 		>
 
 		</ListItem>}
 			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%)'}
 			className='grid-moment'
-			actionIcon={<IconButton onClick={(e) => {console.log(e);console.log('IMPIMPIMPIMP');e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} color="white"/> }</IconButton>}>
+			actionIcon={<IconButton className={'inner-grid'} onClick={(e) => {console.log(e);console.log('IMPIMPIMPIMP');e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} color="white"/> }</IconButton>}>
 <img src={moment.imageUrl} />
 
 
