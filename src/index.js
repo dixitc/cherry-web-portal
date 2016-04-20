@@ -47,7 +47,8 @@ const rootReducer = combineReducers({
 let store = createStore(rootReducer,
 	{},
 	compose(
-	applyMiddleware(thunkMiddleware , createSagaMiddleware(rootSaga) , middleware),
+		applyMiddleware(thunkMiddleware , loggerMiddleware, createSagaMiddleware(rootSaga) , middleware),
+		window.devToolsExtension ? window.devToolsExtension() : f => f
 
   )
 );

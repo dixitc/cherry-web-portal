@@ -31,12 +31,32 @@
 			height: 100%;
 			width: 100%;
 		}
+		.full-width {
+			width: 100%;
+			display: block;
+		}
+		.momentsContainer {
+			display: 'flex';
+			flex-wrap: 'wrap';
+			justify-content: space-around;
+			margin-top: 30px;
+			width: 100%;
+		}
+
+		.coverMoment {
+			color : '#FFF',
+			padding : 0
+		}
 
 		.inner-grid {
 			position: relative;
 			top: 10px;
 			opacity: 0;
 			transition: all ease-in 0.3s;
+		}
+		.memory-title {
+			font-size: 20px;
+			color:white;
 		}
 		@media only screen and (max-width: 2000px) {
 		    .my-gallery-class {
@@ -60,7 +80,7 @@
 			width: 100%;
 			top: 50%;
 		}
-		@media only screen and (max-width: 1000px) {
+		@media only screen and (max-width: 1200px) {
 			.my-gallery-class {
 				width: 900px;
 				margin-left: auto;
@@ -77,6 +97,47 @@
 		.memory-card-header img{
 			height:32px;
 			width: 32px;
+		}
+		@media only screen and (max-width: 900px) {
+			.my-gallery-class {
+				width: 600px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.grid-item {
+				width: 196px;
+				margin:0px;
+				margin:auto;
+				padding: 0px;
+				list-style-type: none;
+				margin-bottom: 4px;
+
+				overflow: hidden;
+				cursor: pointer;
+			}
+			.memory-title {
+				font-size: 15px;
+			}
+
+		}
+		@media only screen and (max-width: 600px) {
+			.my-gallery-class {
+				width: 100%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.grid-item {
+				width: 45%;
+				margin:0px;
+				margin:auto;
+				padding: 0px;
+				list-style-type: none;
+				margin-bottom: 4px;
+
+				overflow: hidden;
+				cursor: pointer;
+			}
+
 		}
 		@media only screen and (max-width: 400px) {
 			.my-gallery-class {
@@ -95,6 +156,15 @@
 				overflow: hidden;
 				cursor: pointer;
 			}
+			.momentsContainer {
+				margin-top: 10px;
+			}
+
+					.coverMoment {
+						color : '#FFF',
+						padding : 0;
+						height : 200px;
+					}
 		}
 		.my-grid {
 			margin-left: 0px;
@@ -113,16 +183,13 @@
 		}
 
 		span.white-text {
-			color: '#FFF';
+			color: '#fff';
 			font-size: 20px;
 			text-overflow: ellipsis;
 			max-width: 10px;
 		}
 
-		.full-width {
-			width: 100%;
-			display: block;
-		}
+
 
 		.grid-moment:hover .inner-grid {
 			opacity: 1;

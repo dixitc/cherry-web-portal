@@ -17,12 +17,12 @@ import ListItem from 'material-ui/lib/lists/list-item';
 import Lightbox from 'react-image-lightbox';
 import RaisedButton from 'material-ui/lib/raised-button';
 import ImageLoader from 'react-imageloader';
-
+import MediaQuery from 'react-responsive';
 
 const mystyle = {
 	listItem : {
-		color : '#FFF',
-		padding : 0
+		color:'#fff',
+		padding:0
 	}
 }
 const styles = {
@@ -149,11 +149,13 @@ class MyMomentsView extends Component {
 	            })}/>)
 
 	        })
-			function preloader() {
+
+			//imagesloader preloader
+			const preloader = () => {
 			  return <div style={{height:'100%',width:'100%'}}><CircularProgress /></div>;
 			}
         return (
-            <div style={styles.root}>
+            <div className={'momentsContainer'}>
 
 
 
@@ -169,9 +171,11 @@ class MyMomentsView extends Component {
 						onCloseRequest={this.closeLightbox}/>
 				}
                 <div className={'full-width'}>
+				<MediaQuery minWidth={800}>
                     <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 
                         <GridTile
+
 							title={
 								<ListItem
 									style={mystyle.listItem}
@@ -190,7 +194,7 @@ class MyMomentsView extends Component {
 								</ListItem>
 							}
 
-							titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 100%)'}
+							titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.68) 100%)'}
 
 						cols={5}
 						rows={2}>
@@ -201,10 +205,44 @@ class MyMomentsView extends Component {
                         </GridTile>
 						{momentChildren}
                     </GridList>
+					</MediaQuery>
+					<MediaQuery maxWidth={600}>
+<GridList cols={3} padding={2} cellHeight={100} style={styles.gridList}>
+
+<GridTile
+style={{height:'200px'}}
+title={
+	<ListItem
+		style={mystyle.listItem}
+		key={memory.id}
+		innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
+		primaryText={<span style={{color:'white'}}>{memory.owner.name}</span>}
+		secondaryText={	< ListItem
+			innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
+			style={{color:'#FFF',fontSize:'13px'}}
+			>
+				<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {moments.moments.length} {moments.moments.length == 1 ? 'moment' :  'moments'}</span>
+			</ListItem>}
+		leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
+	>
+
+	</ListItem>
+}
+
+titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 100%)'}
+
+cols={3}
+rows={2}>
+{memory.coverUrl &&
+<img src={this.parseCoverUrl(memory.coverUrl)} />
+}
+
+</GridTile>
+{momentChildren}
+</GridList>
+</MediaQuery>
                 </div>
-                <div style={{
-                    marginBottom: 100
-                }}>
+				<div style={{marginBottom: 100,textAlign:'center'}}>
 				{!this.props.location.state.memory.isFullyLoaded &&
 
 					<RaisedButton labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>

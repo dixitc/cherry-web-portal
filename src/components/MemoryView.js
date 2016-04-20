@@ -94,7 +94,7 @@ class MemoryView extends Component {
 				overlayContainerStyle={{background:'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%)'}}
 				overlayStyle={{background:'transparent',overFlow:'hidden'}}
 				overlayContentStyle={{background:'transparent'}}
- 	         overlay={<CardTitle style={{background:'transparent'}} title={memory.title} subtitle={memory.momentsCount + ' moments' }
+ 	         overlay={<CardTitle style={{background:'transparent',fontSize:'20px'}} title={<span className={'memory-title'}>{memory.title}</span>} subtitle={memory.momentsCount + ' moments' }
  		/>}
  	       >
 		   {memoryImg}

@@ -59,7 +59,6 @@ const masonryOptions = {
     transitionDuration: '0.6s',
 	itemSelector: '.grid-item',
 	gutter : 4
-
 };
 
 
