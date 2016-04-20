@@ -22,23 +22,17 @@ getChildContext () {
   render() {
 	console.log(this.props);
     return (
-		<div backGroundImage={backGroundImg}>
+		<div style={{height:'100%',width:'100%'}}>
 
 
 			{this.props.children}
-			<Snackbar
-   open={false}
-   message='your message'
-   action='undo'
-   autoHideDuration={2000}
- />
 <Footer />
 	  </div>
     );
   }
   componentDidMount() {
- console.log('App initialized. (App component mounted , do some fetching data)');
-}
+ 	console.log('App initialized. (App component mounted , do some fetching data)');
+	}
 }
 
 App.childContextTypes = {

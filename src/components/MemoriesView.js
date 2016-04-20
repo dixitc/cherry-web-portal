@@ -89,7 +89,7 @@ class MyMemoriesView extends Component {
 		});
 
 		return (
-			<div style={{width:'80%',marginLeft:'auto',marginRight:'auto'}}>
+			<div style={{width:'100%',marginLeft:'auto',marginRight:'auto',marginBottom:100}}>
 				{memories.isFetching &&
                     <RefreshIndicator
   size={50}

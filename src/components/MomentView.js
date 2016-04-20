@@ -11,11 +11,13 @@ import CardText from 'material-ui/lib/card/card-text';
 import { push } from 'react-router-redux';
 import Avatar from 'material-ui/lib/avatar';
 import ListItem from 'material-ui/lib/lists/list-item';
+import CircularProgress from 'material-ui/lib/circular-progress';
 
 import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import FavouriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
 import Favourite from 'material-ui/lib/svg-icons/action/favorite';
 import IconButton from 'material-ui/lib/icon-button';
+import ImageLoader from 'react-imageloader'
 
 const mystyle = {
 	listItem : {
@@ -25,7 +27,9 @@ const mystyle = {
 }
 const MomentView = ({ moment , handleLikeCLick , onClick}) => {
 
-
+	function preloader() {
+	  return <div style={{height:'100%',width:'100%',textAlign:'center'}}><CircularProgress size={0.6} style={{marginLeft:'auto',marginRight:'auto'}} /></div>;
+	}
 		return (
 
 
@@ -48,8 +52,11 @@ const MomentView = ({ moment , handleLikeCLick , onClick}) => {
 		</ListItem>}
 			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.9) 100%)'}
 			className='grid-moment'
-			actionIcon={<IconButton className={'inner-grid'} onClick={(e) => {e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} color="white"/> }</IconButton>}>
-<img src={moment.imageUrl} />
+			actionIcon={<IconButton className={'inner-grid'} onClick={(e) => {e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} style={{height:'12px',width:'12px'}}  color="white"/> }</IconButton>}>
+
+<ImageLoader src={moment.imageUrl}     wrapper={React.DOM.div}
+    preloader={preloader}> Image load failed </ImageLoader>
+
 
 
 		</GridTile>

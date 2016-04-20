@@ -40,11 +40,11 @@ class AuthenticatedComponent extends React.Component {
 			myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}
 		return(
-			<div>
+			<div style={{height:'100%'}}>
 			<AppBar
 				style={{zIndex:2}}
 				className={'smooth-transit'}
-				title={<span className='smooth-transit'>{title}</span>}
+				title={<span className='brand'>{title}</span>}
 				primary={true}
 
 				iconElementLeft={myIconElement}

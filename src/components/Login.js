@@ -7,8 +7,6 @@ import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 import CircularProgress from 'material-ui/lib/circular-progress';
 import SelectFieldExampleSimple from './SelectCountry';
-import AutoCompleteCountry from './AutoCompleteCountry';
-import IntlTelInput from 'react-intl-tel-input';
 import PNF from 'google-libphonenumber/dist/browser/libphonenumber';
 import Paper from 'material-ui/lib/paper';
 import style from '../styles/Login';
@@ -61,6 +59,7 @@ let formatter = new AsYouTypeFormatter('IN');
 			}
             handleChange(e) {
                 //remove any previous error messages asuser is making changes to input
+
                 this.props.handleSetErrorMessage('');
                 switch (true) {
     				//ALLOW ONLY NUMBER INPUT
@@ -74,7 +73,7 @@ let formatter = new AsYouTypeFormatter('IN');
 
                         break;
     				//HANDLE ON PRESS ENTER
-                    case (e.keyCode == 13):
+                    case (e.keyCode == 13 || e.keyCode == 229):
                         this.props.handleRegisterUser(this.state.formattedNumber,this.state.dial_code);
                         break;
     				//HANDLE ON PRESS BACKSPACE
@@ -110,10 +109,10 @@ let formatter = new AsYouTypeFormatter('IN');
     	render(){
     		const  {isRegistered , isFetching , handleRegisterUser , handleVerifyUser, handleSetErrorMessage , errorMessage , verificationId  } = this.props;
     		return (
-                    <div style={style.Login}>
+                    <div style={style.loginContainer}>
 
-                    {/*<AutoCompleteCountry value={4} />*/}
-                    {/*	<ReactPhoneInput defaultCountry={'us'} /> */}
+						<div style={style.loginElement}>
+							<MediaQuery minWidth={800}>
 
 
                     <Paper style={style.paper} zDepth={1}>
@@ -190,7 +189,86 @@ let formatter = new AsYouTypeFormatter('IN');
 
                     </div>
                 </Paper>
+					</MediaQuery>
+					<MediaQuery maxWidth={820}>
 
+
+			<Paper style={style.smallPaper} zDepth={1}>
+			<div >
+				{!isRegistered &&
+					<div>
+					<div style={style.wrapperDiv}>
+
+						<div style={style.inlineDiv}>
+
+							<SelectFieldExampleSimple countryValue={this.state.countryCode}  setCountry={this.setDialCode} />
+
+						</div>
+						<div  style={style.inlineDiv}>
+							<TextField hintText={this.state.formattedNumber.length ? 'Enter your mobile number' : ''}
+								style={style.textField}
+								errorText={errorMessage}
+								value={this.formatNumber(this.state.formattedNumber)}
+								onKeyDown={this.handleChange}
+								onSelect={this.checkForTab}
+								errorStyle={style.errorStyle}
+								underlineFocusStyle={style.cherry}
+								floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
+								floatingLabelText="Mobile Number"
+								id="phoneText"
+								/>
+						</div>
+					</div>
+
+					<div>
+
+						{isFetching &&
+							<CircularProgress size={0.8}/>
+						}
+						{!isFetching &&
+							<RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'REGISTER'} onClick={() => handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}/>
+						}
+
+					</div>
+
+				</div>
+				}
+
+				{isRegistered &&
+					<div>
+					<div style={style.wrapperDiv}>
+
+
+						<div  style={style.inlineDiv}>
+							<TextField hintText={this.state.formattedNumber.length ? 'otp here' : ''}
+								style={style.otpField}
+								onChange={this.handleOtp}
+								value={this.state.otp}
+								underlineFocusStyle={style.cherry}
+								floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
+								floatingLabelText="OTP"
+								id="otpText"
+							/>
+						</div>
+					</div>
+					<div>
+
+						{isFetching &&
+
+							<CircularProgress size={0.8}/>
+						}
+						{!isFetching &&
+
+							<RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'CONTINUE' : 'REGISTER'} onClick={() => handleVerifyUser(verificationId ,this.state.otp)}/>
+						}
+					</div>
+				</div>
+				}
+
+			</div>
+		</Paper>
+			</MediaQuery>
+</div>
                 </div>
     			)
     		}

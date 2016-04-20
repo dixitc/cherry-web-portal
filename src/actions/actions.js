@@ -19,6 +19,7 @@
     const PURGE_MOMENTS = 'PURGE_MOMENTS';
     const PURGE_USER = 'PURGE_USER';
     const SET_TITLE = 'SET_TITLE';
+    const SET_ISLOADED = 'SET_ISLOADED';
 
 	const LIKE_MOMENT = 'LIKE_MOMENT';
 	const LIKE_MOMENT_SUCCESS = 'LIKE_MOMENT_SUCCESS';
@@ -343,6 +344,13 @@
 		}
 	}
 
+	const setIsLoaded = (payload) => {
+		return {
+			type: SET_ISLOADED,
+			memoryId : payload
+		}
+	}
+
     //export action creator and call like dispatch(actionCreator(a,b))
     //eventually move all action names into constants
 	//eventually separate out action according to what the action is
@@ -366,6 +374,7 @@
 		receiveMoments,
 		refineMoments,
 		logOutUser,
+		setIsLoaded,
 		purgeMoments,
         setTitle,
 		purgeUser

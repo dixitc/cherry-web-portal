@@ -22,7 +22,8 @@ module.exports = {
         })
     ],
     devServer: {
-        noParse: ['/google-libphonenumber/dist/browser/libphonenumber.js']
+        noParse: ['/google-libphonenumber/dist/browser/libphonenumber.js'],
+		 historyApiFallback: true
     },
     module: {
         noParse: ['/node_modules/google-libphonenumber/dist/*'],

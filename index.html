@@ -13,24 +13,23 @@
 			margin: 0px;
 		}
 
-		.grid-item {
-			list-style-type: none;
-			margin-bottom: 4px;
-			width: 370px;
-			overflow: hidden;
-			cursor: pointer;
-		}
+
 
 		.grid-moment {
 			cursor: pointer;
 			margin-left: 0px;
 			width: 100%;
 		}
-.smooth-transit {
+.brand {
 	transition: all ease-in 0.4s;
+	font-size: 20px;
 }
 		.container--jss-0-0 {
 			background: rgba(0, 0, 0, 1);
+		}
+		.imageloader.loading {
+			height: 100%;
+			width: 100%;
 		}
 
 		.inner-grid {
@@ -39,14 +38,75 @@
 			opacity: 0;
 			transition: all ease-in 0.3s;
 		}
+		@media only screen and (max-width: 2000px) {
+		    .my-gallery-class {
+		        width: 1200px;
+				margin-left: auto;
+				margin-right: auto;
+		    }
+			.grid-item {
+				list-style-type: none;
+				margin-bottom: 4px;
+				width: 296px;
+				overflow: hidden;
+				cursor: pointer;
+			}
+		}
+		.my-image-loader {
+			height: auto;
+			transform: translateY(-50%);
+			position: relative;
+			left: 0px;
+			width: 100%;
+			top: 50%;
+		}
+		@media only screen and (max-width: 1000px) {
+			.my-gallery-class {
+				width: 900px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.grid-item {
+				list-style-type: none;
+				margin-bottom: 4px;
+				width: 296px;
+				overflow: hidden;
+				cursor: pointer;
+			}
+		}
+		.memory-card-header img{
+			height:32px;
+			width: 32px;
+		}
+		@media only screen and (max-width: 400px) {
+			.my-gallery-class {
+				width: 100%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.grid-item {
+				width: 90%;
+				margin:0px;
+				margin:auto;
+				padding: 0px;
+				list-style-type: none;
+				margin-bottom: 4px;
 
+				overflow: hidden;
+				cursor: pointer;
+			}
+		}
 		.my-grid {
 			margin-left: 0px;
+		}
+		#root {
+			height: 100%;
 		}
 
 		footer {
 			width: 100%;
-			background: rgba(255, 0, 0, 0.19);
+			/*background: rgba(255, 64, 0, 0.43);*/
+			background:rgba(95, 86, 84, 0.24);
 			position: fixed;
 			bottom: 0px;
 			height: 40px;

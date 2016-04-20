@@ -84,6 +84,12 @@ function* fetchMoments(action){
 	}
 	const moments = yield call(fetchMomentsApi , action.data);
 	const user = getUser();
+	//This checks if all moments have been loaded or not
+	
+	if (moments.moments.length < action.data.rp){
+		yield put(actions.setIsLoaded(action.data.memoryId));
+	}
+
 	yield put(actions.refineMoments( {moments : moments , userId:user.profile.id}));
 	 /*This should effectively pass moments and userId and add a hasLiked field to all moments*/
 	//yield put(actions.refineMoments(moments,userId));

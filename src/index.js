@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { createStore , applyMiddleware , compose } from 'redux';
 import { combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { Router , Redirect, Route, browserHistory, IndexRoute } from 'react-router';
 import { syncHistoryWithStore, routerReducer , routerMiddleware } from 'react-router-redux';
 import App from './App';
 import { memoriesReducer } from './reducers/memoriesReducer';
@@ -47,8 +47,8 @@ const rootReducer = combineReducers({
 let store = createStore(rootReducer,
 	{},
 	compose(
-	applyMiddleware(thunkMiddleware , loggerMiddleware, createSagaMiddleware(rootSaga) , middleware),
-	window.devToolsExtension ? window.devToolsExtension() : f => f
+	applyMiddleware(thunkMiddleware , createSagaMiddleware(rootSaga) , middleware),
+
   )
 );
 
@@ -90,13 +90,13 @@ const verifyAuth = (nextState,replace) => {
 render( < Provider store = {store}>
 	{ /* Tell the Router to use our enhanced history */ }
       <Router history={browserHistory}>
-        <Route path="/" component={App}  >
-
+        <Route component={App}>
           <Route path='/login' component={Login} onEnter={verifyAuth}/>
           <Route path='/memories' component={AuthenticatedComponentView} onEnter={requireAuth}>
 			  <IndexRoute component={MemoriesView}/>
 			  <Route path='/memory/:memoryId' component={MomentsView} />
 		  </Route>
+		  <Redirect from="/" to="/memories" />
 
     	</Route>
       </Router>

@@ -1,8 +1,15 @@
 const style = {
-	Login: {
-
+	loginContainer: {
+		height:'70%',
+		width:'100%',
+		display:'table',
 		textAlign : 'center',
+		verticalAlign : 'middle',
 		top:'100px'
+	},
+	loginElement : {
+		display :'table-cell',
+		verticalAlign : 'middle'
 	},
 	errorStyle: {
 		textAlign : 'left',
@@ -64,6 +71,14 @@ const style = {
   margin: '20px',
   textAlign: 'center',
   display: 'inline-block'
+},
+smallPaper : {
+
+width: '100%',
+boxShadow:'none',
+margin: '0px',
+textAlign: 'center',
+display: 'inline-block'
 }
 }
 

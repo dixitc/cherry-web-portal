@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.18% </span>
+        <span class="strong">60% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>87/147</span>
+        <span class='fraction'>93/155</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">20% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>4/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">25% </span>
+        <span class="strong">23.68% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>9/36</span>
+        <span class='fraction'>9/38</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.9% </span>
+        <span class="strong">59.74% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>86/146</span>
+        <span class='fraction'>92/154</span>
       </div>
     </div>
   </div>
@@ -398,7 +398,25 @@
 353
 354
 355
-356</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -432,6 +450,8 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -722,6 +742,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -732,6 +765,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -758,7 +794,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.purgeUser = exports.purgeMoments = exports.refineMoments = exports.receiveMoments = exports.fetchMoments = exports.purgeMemories = exports.logOutUser = exports.receiveMemories = exports.likeMomentSuccess = exports.likeMoment = exports.fetchMemories = exports.setErrorMessage = exports.verifySuccess = exports.verifyFail = exports.verifyUser = exports.registerSuccess = exports.registerFail = exports.registerRequest = exports.registerUser = exports.doSomething = undefined;
+exports.purgeUser = exports.setTitle = exports.purgeMoments = exports.setIsLoaded = exports.refineMoments = exports.receiveMoments = exports.fetchMoments = exports.purgeMemories = exports.logOutUser = exports.receiveMemories = exports.likeMomentSuccess = exports.likeMoment = exports.fetchMemories = exports.setErrorMessage = exports.verifySuccess = exports.verifyFail = exports.verifyUser = exports.registerSuccess = exports.registerFail = exports.registerRequest = exports.registerUser = exports.doSomething = undefined;
 &nbsp;
 var _isomorphicFetch = require('isomorphic-fetch');
 &nbsp;
@@ -787,6 +823,8 @@ var RECEIVE_MOMENTS = 'RECEIVE_MOMENTS';
 var REFINE_MOMENTS = 'REFINE_MOMENTS';
 var PURGE_MOMENTS = 'PURGE_MOMENTS';
 var PURGE_USER = 'PURGE_USER';
+var SET_TITLE = 'SET_TITLE';
+var SET_ISLOADED = 'SET_ISLOADED';
 &nbsp;
 var LIKE_MOMENT = 'LIKE_MOMENT';
 var LIKE_MOMENT_SUCCESS = 'LIKE_MOMENT_SUCCESS';
@@ -1077,10 +1115,24 @@ var likeMomentSuccess = <span class="fstat-no" title="function not covered" >fun
     };
 };
 &nbsp;
+var setTitle = <span class="fstat-no" title="function not covered" >function setTitle(payload) {</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+        type: SET_TITLE,
+        title: payload
+    };
+};
+&nbsp;
 //purge all moments ?? or only moments of a certain memory
 var purgeMoments = <span class="fstat-no" title="function not covered" >function purgeMoments() {</span>
 <span class="cstat-no" title="statement not covered" >    return {</span>
         type: PURGE_MOMENTS
+    };
+};
+&nbsp;
+var setIsLoaded = <span class="fstat-no" title="function not covered" >function setIsLoaded(payload) {</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+        type: SET_ISLOADED,
+        memoryId: payload
     };
 };
 &nbsp;
@@ -1106,7 +1158,9 @@ exports.fetchMoments = fetchMoments;
 exports.receiveMoments = receiveMoments;
 exports.refineMoments = refineMoments;
 exports.logOutUser = logOutUser;
+exports.setIsLoaded = setIsLoaded;
 exports.purgeMoments = purgeMoments;
+exports.setTitle = setTitle;
 exports.purgeUser = purgeUser;
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -1114,7 +1168,7 @@ exports.purgeUser = purgeUser;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 19 2016 19:21:29 GMT+0530 (IST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 20 2016 17:39:47 GMT+0530 (IST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

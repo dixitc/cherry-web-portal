@@ -10,18 +10,14 @@ import IconButton from 'material-ui/lib/icon-button';
 import MomentView from './MomentView';
 import { likeMoment , setTitle} from '../actions/actions';
 import Avatar from 'material-ui/lib/avatar';
+import FlatButton from 'material-ui/lib/flat-button';
+
 import ListItem from 'material-ui/lib/lists/list-item';
 //import Lightbox from 'react-images';
 import Lightbox from 'react-image-lightbox';
 import RaisedButton from 'material-ui/lib/raised-button';
+import ImageLoader from 'react-imageloader';
 
-let Masonry = require('react-masonry-component');
-const masonryOptions = {
-    transitionDuration: '0.6s',
-    itemSelector: '.grid-image',
-    columnWidth: 200,
-    gutter: 4
-};
 
 const mystyle = {
 	listItem : {
@@ -67,16 +63,21 @@ class MyMomentsView extends Component {
             currentImage: 0,
 			noMoreMoments : false
         }
+		//handle pagination
         this.paginate = this.paginate.bind(this);
+
+		//handle lightbox methods
         this.closeLightbox = this.closeLightbox.bind(this);
         this.gotoNext = this.gotoNext.bind(this);
         this.gotoPrevious = this.gotoPrevious.bind(this);
         this.openLightbox = this.openLightbox.bind(this);
+
+		//parsing coverUrl to ewnder optimal image
         this.parseCoverUrl = this.parseCoverUrl.bind(this);
     }
     componentDidMount() {
+		this.props.handleSetTitle(this.props.location.state.memory.title);
         this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
-        this.props.handleSetTitle(this.props.location.state.memory.title);
     }
     openLightbox(index, event) {
         event.preventDefault();
@@ -148,7 +149,9 @@ class MyMomentsView extends Component {
 	            })}/>)
 
 	        })
-
+			function preloader() {
+			  return <div style={{height:'100%',width:'100%'}}><CircularProgress /></div>;
+			}
         return (
             <div style={styles.root}>
 
@@ -164,7 +167,7 @@ class MyMomentsView extends Component {
 						onMovePrevRequest={this.gotoPrevious}
 						onMoveNextRequest={this.gotoNext}
 						onCloseRequest={this.closeLightbox}/>
-}
+				}
                 <div className={'full-width'}>
                     <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 
@@ -180,7 +183,7 @@ class MyMomentsView extends Component {
 										style={{color:'#FFF',fontSize:'13px'}}
 										>
 											<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {moments.moments.length} {moments.moments.length == 1 ? 'moment' :  'moments'}</span>
-										< /ListItem>}
+										</ListItem>}
 									leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
 								>
 
@@ -192,8 +195,8 @@ class MyMomentsView extends Component {
 						cols={5}
 						rows={2}>
                         {memory.coverUrl &&
-                            <img src={this.parseCoverUrl(memory.coverUrl)}/>
-                        }
+							<img src={this.parseCoverUrl(memory.coverUrl)} />
+						}
 
                         </GridTile>
 						{momentChildren}
@@ -202,10 +205,14 @@ class MyMomentsView extends Component {
                 <div style={{
                     marginBottom: 100
                 }}>
-				{!isFetching &&
+				{!this.props.location.state.memory.isFullyLoaded &&
 
 					<RaisedButton labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>
 					}
+					{this.props.location.state.memory.isFullyLoaded &&
+
+						<FlatButton label="No more moments" disabled={true} />
+						}
 
 				{isFetching &&
 					<CircularProgress size={0.5} />

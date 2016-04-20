@@ -3,13 +3,13 @@ SUPER-CRITICAL :
 	- handle moments display when there is no coverUrl
 	- shit needs to be responsive
 	[-] figure out importing images (IN pROD ??)
-	- figure out moments slideshow
+	[-] figure out moments slideshow
 	[-] pass country code during register
 	- handle input edit login
 	- google analytics
 	[-] header shows memeory title
 	- Memories View use imagesloaded (use react-imageloader)
-	- moments view back button
+	[-] moments view back button
 	- handle user avatar when there is no image
 	- lightbox loading image icon
 	- Fix coverUrl

@@ -42,7 +42,9 @@ const styles = {
   },
   cardHeader : {
 	  position : 'absolute',
-	  zIndex : 10
+	  zIndex : 10,
+	  width : '100%',
+	  background : 'linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, transparent 100%)'
   },
   overlayContent : {
 	  lineHeight : '20px'
@@ -83,6 +85,7 @@ class MemoryView extends Component {
           <div className='grid-item' key={memory.id} onClick={this.memoryClick} >
  			<Card >
  			<CardHeader
+				className={'memory-card-header'}
  			style={styles.cardHeader}
  			title={memory.owner.name}
 			avatar={memory.owner.photo}
