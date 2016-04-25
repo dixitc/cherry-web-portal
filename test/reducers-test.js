@@ -109,16 +109,17 @@ describe("authReducer test suite", function() {
 		let action = {
 			type: "RECEIVE_MEMORIES",
 			memories : {
-				memories : [1,2,3]
+				memories : [{},{},{}]
 			}
 
 		}
 		let updatedStateSlice = memoriesReducer(initState, action);
 		expect(updatedStateSlice).toBeAn('object');
 		expect(updatedStateSlice).toEqual({
-			memories: [1,2,3],
+			memories: [{isFullyLoaded : false},{isFullyLoaded : false},{isFullyLoaded : false}],
 			isFetching : false,
 			lastUpdated : ''
+
 		});
 	})
 	it("memoriesReducer PURGE_MEMORIES", function() {

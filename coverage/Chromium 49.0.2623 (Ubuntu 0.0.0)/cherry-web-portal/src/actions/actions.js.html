@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60% </span>
+        <span class="strong">62.42% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>93/155</span>
+        <span class='fraction'>93/149</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">20% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>9/38</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.74% </span>
+        <span class="strong">62.16% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>92/154</span>
+        <span class='fraction'>92/148</span>
       </div>
     </div>
   </div>
@@ -413,10 +413,7 @@
 368
 369
 370
-371
-372
-373
-374</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+371</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -495,20 +492,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -542,17 +538,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -630,7 +624,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -868,7 +862,7 @@ var doSomething = <span class="fstat-no" title="function not covered" >function 
     };
 };
 var validateCredentials = <span class="fstat-no" title="function not covered" >function validateCredentials(creds) {</span>
-<span class="cstat-no" title="statement not covered" >    console.log('TRUTH');</span>
+&nbsp;
     //DEMO CASE
 <span class="cstat-no" title="statement not covered" >    if (creds.identifier == '5555555551' || creds.identifier == '5555555552') {</span>
 <span class="cstat-no" title="statement not covered" >        return '';</span>
@@ -880,8 +874,7 @@ var validateCredentials = <span class="fstat-no" title="function not covered" >f
 <span class="cstat-no" title="statement not covered" >    var phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();</span>
 <span class="cstat-no" title="statement not covered" >    var phoneNumber = phoneUtil.parse(creds.identifier, 'IN');</span>
 <span class="cstat-no" title="statement not covered" >    var truth = phoneUtil.isValidNumber(phoneNumber);</span>
-<span class="cstat-no" title="statement not covered" >    console.log(truth);</span>
-<span class="cstat-no" title="statement not covered" >    console.log(phoneUtil.format(phoneNumber, phoneUtil.INTERNATIONAL));</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    if (truth) {</span>
 <span class="cstat-no" title="statement not covered" >        return '';</span>
     } else {
@@ -915,8 +908,7 @@ var registerUser = <span class="fstat-no" title="function not covered" >function
 <span class="cstat-no" title="statement not covered" >            dispatch(registerFail(validation));</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
-<span class="cstat-no" title="statement not covered" >        console.log('DIAL_CODE');</span>
-<span class="cstat-no" title="statement not covered" >        console.log(dial_code);</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        var config = {</span>
             method: 'POST',
             headers: {
@@ -925,7 +917,6 @@ var registerUser = <span class="fstat-no" title="function not covered" >function
             body: 'identifier=' + '%2b' + dial_code.slice(1, dial_code.length) + identifier + '&amp;identifierType=' + identifierType + '&amp;verificationMode=' + verificationMode
         };
 <span class="cstat-no" title="statement not covered" >        var url = _config2.default + '/register.json';</span>
-&nbsp;
 <span class="cstat-no" title="statement not covered" >        return (0, _isomorphicFetch2.default)(url, config).then(<span class="fstat-no" title="function not covered" >function (response) {</span></span>
 <span class="cstat-no" title="statement not covered" >            return response.json();</span>
         }).then(<span class="fstat-no" title="function not covered" >function (json) {</span>
@@ -1003,7 +994,7 @@ var verifyFail = <span class="fstat-no" title="function not covered" >function v
 };
 &nbsp;
 var verifyUser = <span class="fstat-no" title="function not covered" >function verifyUser(id, otp) {</span>
-<span class="cstat-no" title="statement not covered" >    console.log('VERIFY_USER');</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >    var url = _config2.default + '/verify/' + id + '.json';</span>
 <span class="cstat-no" title="statement not covered" >    var config = {</span>
         method: 'POST',
@@ -1168,7 +1159,7 @@ exports.purgeUser = purgeUser;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 20 2016 17:39:47 GMT+0530 (IST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 25 2016 22:08:50 GMT+0530 (IST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

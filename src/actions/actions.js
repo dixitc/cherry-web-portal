@@ -69,7 +69,7 @@
         }
     }
     const validateCredentials = (creds) => {
-        console.log('TRUTH');
+
 		//DEMO CASE
 		if(creds.identifier == '5555555551' || creds.identifier == '5555555552'){
 			return '';
@@ -81,8 +81,8 @@
         let phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
         let phoneNumber = phoneUtil.parse(creds.identifier, 'IN');
         let truth =  phoneUtil.isValidNumber(phoneNumber);
-        console.log(truth);
-        console.log(phoneUtil.format(phoneNumber, phoneUtil.INTERNATIONAL));
+
+
         if(truth){
             return '';
         }else {
@@ -115,8 +115,7 @@
                 dispatch(registerFail(validation));
                 return;
             }
-            console.log('DIAL_CODE');
-			console.log(dial_code);
+
             let config = {
                 method: 'POST',
                 headers: {
@@ -125,9 +124,8 @@
                 body: 'identifier='+'%2b'+dial_code.slice(1,dial_code.length)+identifier+'&identifierType='+identifierType+'&verificationMode='+verificationMode
             }
             let url = apiUrl + '/register.json';
-
-            return fetch(url, config)
-    		.then((response) => response.json())
+			return fetch(url, config)
+    		.then((response) => {return response.json()})
                 .then((json) => {
 
                     if (!json.verificationId) {
@@ -211,7 +209,7 @@
 
 
     const verifyUser = (id,otp) => {
-        console.log('VERIFY_USER');
+
         let url = apiUrl + '/verify/' + id + '.json';
         let config = {
             method: 'POST',
