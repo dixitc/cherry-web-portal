@@ -66,11 +66,11 @@ class MyMemoriesView extends Component {
 	constructor(props) {
 		super(props);
 
+		this.props.handleFetchMemories(this.props.auth.authToken);
 	}
 	componentDidMount(){
         this.masonry = new Masonry(this.refs.masonryContainer.getDOMNode(), masonryOptions);
 
-		this.props.handleFetchMemories(this.props.auth.authToken);
         this.props.handleSetTitle('Cherry');
 	}
 
@@ -78,7 +78,7 @@ class MyMemoriesView extends Component {
 	render() {
         const{ memories } = this.props;
         console.log('ASDASDASDASD');
-        console.log(memories.isFetching);
+        console.log(memories);
 
 		let childElements = memories.memories.map(function(memory){
 			return (

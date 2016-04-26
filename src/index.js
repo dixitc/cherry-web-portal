@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { createStore , applyMiddleware , compose } from 'redux';
 import { combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { Router , IndexRedirect, Route, browserHistory, IndexRoute } from 'react-router';
+import { Router , IndexRedirect, Route, browserHistory , hashHistory , IndexRoute } from 'react-router';
 import { syncHistoryWithStore, routerReducer , routerMiddleware } from 'react-router-redux';
 import App from './App';
 import { memoriesReducer } from './reducers/memoriesReducer';
@@ -22,6 +22,7 @@ import Login from './components/Login';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/index'
 import createLogger from 'redux-logger';
+import { doSomething } from './actions/actions';
 
 injectTapEventPlugin();
 let initState = {
@@ -32,7 +33,7 @@ let initState = {
 	isFetching : true
 }
 
-const middleware = routerMiddleware(browserHistory)
+const middleware = routerMiddleware(hashHistory)
 
 const loggerMiddleware = createLogger();
 
@@ -56,7 +57,7 @@ let store = createStore(rootReducer,
 const rootEl = document.getElementById('root');
 
 // Create an enhanced history that syncs navigation events with the store
-const history = syncHistoryWithStore(browserHistory, store)
+const history = syncHistoryWithStore(hashHistory, store)
 
 const requireAuth = (nextState , replace) => {
 	console.log('STATE');
@@ -87,17 +88,42 @@ const verifyAuth = (nextState,replace) => {
 	}
 }
 
+const handleMomentsRoute = (nextState , replace) => {
+	console.log('HANDLING MOMENTS ROUTE');
+	console.log(nextState);
+	if(store.getState().memories.memories.length > 0){
+
+	}else{
+		store.dispatch(doSomething('blah'));
+		if(store.getState().auth.isAuthenticated){
+			replace({
+				pathname : '/memories',
+				state: { nextPathname: nextState.location.pathname }
+			})
+		}else{
+			replace({
+				pathname : '/login',
+				state: { nextPathname: nextState.location.pathname }
+			})
+		}
+	}
+}
+
+//const rootPath = window.location.pathname;
+const rootPath = '';
+console.log('rootPathrootPathrootPathrootPathrootPath');
+console.log(rootPath);
 
 render( < Provider store = {store}>
 	{ /* Tell the Router to use our enhanced history */ }
-      <Router history={browserHistory}>
-        <Route path="/app/" component={App}>
-			<IndexRedirect to="/login" />
-          <Route path='/login' component={Login} onEnter={verifyAuth}/>
-          <Route path='/memories' component={AuthenticatedComponentView} onEnter={requireAuth}>
+      <Router history={hashHistory}>
+        <Route path={rootPath+'/'} component={App}>
+			<IndexRedirect to={rootPath+'/login'} />
+          <Route path={rootPath+'/login'} component={Login} onEnter={verifyAuth}/>
+          <Route path={rootPath+'/memories'} component={AuthenticatedComponentView} onEnter={requireAuth}>
 			  <IndexRoute component={MemoriesView}/>
-			  <Route path='/memory/:memoryId' component={MomentsView} />
 		  </Route>
+		  <Route path={rootPath+'/memory/:memoryId'} component={MomentsView} onEnter={handleMomentsRoute}/>
 
     	</Route>
       </Router>

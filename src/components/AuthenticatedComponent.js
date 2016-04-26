@@ -31,7 +31,7 @@ class AuthenticatedComponent extends React.Component {
 	}
 	render(){
 		const { handleLogout , handleFetchMemories , memories , auth , title} = this.props;
-		const { currentMemory } = memories;
+		//const { currentMemory } = memories;
 		let myIconElement;
 
 		if(title === 'Cherry'){

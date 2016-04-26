@@ -30,6 +30,16 @@ const MomentView = ({ moment , handleLikeCLick , onClick}) => {
 	function preloader() {
 	  return <div style={{height:'100%',width:'100%',textAlign:'center'}}><CircularProgress size={0.6} style={{marginLeft:'auto',marginRight:'auto'}} /></div>;
 	}
+	let customImageLoader;
+	if(moment.orientation.CURRENT_IMAGE == 'LANDSCAPE'){
+		customImageLoader = 	<ImageLoader src={moment.imageUrl} className='momentImgDivLandscape' wrapper={React.DOM.div} preloader={preloader}>
+				Image load failed
+			</ImageLoader>
+	}else if(moment.orientation.CURRENT_IMAGE == 'PORTRAIT'){
+		customImageLoader = 	<ImageLoader src={moment.imageUrl} className='momentImgDivPortrait' wrapper={React.DOM.div} preloader={preloader}>
+				Image load failed
+			</ImageLoader>
+	}
 		return (
 
 
@@ -53,9 +63,7 @@ const MomentView = ({ moment , handleLikeCLick , onClick}) => {
 			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.9) 100%)'}
 			className='grid-moment'
 			actionIcon={<IconButton className={'inner-grid'} onClick={(e) => {e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} style={{height:'12px',width:'12px'}}  color="white"/> }</IconButton>}>
-
-<ImageLoader src={moment.imageUrl}     wrapper={React.DOM.div}
-    preloader={preloader}> Image load failed </ImageLoader>
+			{customImageLoader}
 
 
 

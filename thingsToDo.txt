@@ -14,6 +14,7 @@ SUPER-CRITICAL :
 	- lightbox loading image icon
 	- Fix coverUrl
 	- footer
+	- Overhaul memories Staggered view
 
 CRITICAL :
 	[-] separate out singleMomentreducer (to better handle moment level actions) (DONE)

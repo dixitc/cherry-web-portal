@@ -74,6 +74,7 @@ class MyMomentsView extends Component {
 
 		//parsing coverUrl to ewnder optimal image
         this.parseCoverUrl = this.parseCoverUrl.bind(this);
+		
     }
     componentDidMount() {
 		this.props.handleSetTitle(this.props.location.state.memory.title);
@@ -157,9 +158,9 @@ class MyMomentsView extends Component {
         return (
             <div className={'momentsContainer'}>
 
-
-
-                {!this.props.location.state.memory.coverUrl && <MemoryView memory={this.props.location.state.memory}/>}
+				{!this.props.location.state.memory.coverUrl &&
+					<MemoryView memory={this.props.location.state.memory}/>
+				}
 
                 {this.state.lightboxIsOpen &&
 					<Lightbox
@@ -170,6 +171,7 @@ class MyMomentsView extends Component {
 						onMoveNextRequest={this.gotoNext}
 						onCloseRequest={this.closeLightbox}/>
 				}
+
                 <div className={'full-width'}>
 				<MediaQuery minWidth={800}>
                     <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
