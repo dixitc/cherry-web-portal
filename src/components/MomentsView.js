@@ -55,6 +55,7 @@ const style = {
 
 class MyMomentsView extends Component {
     constructor(props) {
+		props.currentMemory = props.currentMemory || {title: 'gotcha',id:'1234234',isFullyLoaded : false}
         super(props);
         this.state = {
             page: 0,
@@ -80,13 +81,16 @@ class MyMomentsView extends Component {
 
     }
     componentDidMount() {
-		this.setState({currentMemoory : {title : this.props.location.state.memory.title}} , () => {
+
 			//this.props.handleSetTitle(this.state.currentMemory.title);
 			this.props.handleSetTitle(this.props.currentMemory.title);
-		})
+
 
         //this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
-        this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
+		if(this.props.currentMemory.id){
+
+			this.props.handleFetchMoments({memoryId: this.props.currentMemory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
+		}
     }
     openLightbox(index, event) {
         event.preventDefault();
@@ -116,7 +120,7 @@ class MyMomentsView extends Component {
             'page': newPage
         }, function() {
 
-            this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp})
+            this.props.handleFetchMoments({memoryId: this.props.currentMemory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp})
         });
     }
     populateLightox() {
@@ -145,7 +149,11 @@ class MyMomentsView extends Component {
             return rObj;
         });
 
-        const { memory } = this.props.location.state;
+
+			const  memory = this.props.currentMemory;
+
+			console.log(memory);
+
 
 		//populating moments
 	    const momentChildren =   moments.moments.map((moment, i) => {
@@ -165,10 +173,6 @@ class MyMomentsView extends Component {
 			}
         return (
             <div className={'momentsContainer'}>
-
-				{!this.props.location.state.memory.coverUrl &&
-					<MemoryView memory={this.props.location.state.memory}/>
-				}
 
                 {this.state.lightboxIsOpen &&
 					<Lightbox
@@ -251,21 +255,22 @@ rows={2}>
 {momentChildren}
 </GridList>
 </MediaQuery>
+<div style={{marginBottom: 100,textAlign:'center'}}>
+
+	{!this.props.currentMemory.isFullyLoaded &&
+		<RaisedButton labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>
+	}
+
+	{this.props.currentMemory.isFullyLoaded &&
+		<FlatButton label="No more moments" disabled={true} />
+	}
+
+	{isFetching &&
+		<CircularProgress size={0.5} />
+	}
+
+</div>
                 </div>
-				<div style={{marginBottom: 100,textAlign:'center'}}>
-				{!this.props.location.state.memory.isFullyLoaded &&
-
-					<RaisedButton labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>
-					}
-					{this.props.location.state.memory.isFullyLoaded &&
-
-						<FlatButton label="No more moments" disabled={true} />
-						}
-
-				{isFetching &&
-					<CircularProgress size={0.5} />
-				}
-			</div>
             </div>
 
         )
@@ -288,9 +293,9 @@ const mapStateToProps = (state) => {
     const {auth , title} = state;
     const moments = state.moments;
 	let currentMemoryId = (state.routing.locationBeforeTransitions.pathname).replace('/memory/','')
-	console.log(state.routing.locationBeforeTransitions.pathname);
-	console.log(currentMemoryId);
-	console.log(location);
+	//console.log(state.routing.locationBeforeTransitions.pathname);
+	//console.log(currentMemoryId);
+	//console.log(location);
 	const currentMemory = getCurrentMemory(state.memories.memories , currentMemoryId)
     return {moments, auth ,title , currentMemory}
 }

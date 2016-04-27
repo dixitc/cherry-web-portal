@@ -38,7 +38,7 @@ class AuthenticatedComponent extends React.Component {
 		if(title === 'Cherry'){
 			myIconElement = <IconButton className='smooth-transit' style={{opacity:0}} onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}else{
-			myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
+			myIconElement = <IconButton className='smooth-transit' tooltip="memories" onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}
 		console.log('MEMEMEMEMEMEMEMEM');
 		console.log(memories);
@@ -79,9 +79,7 @@ class AuthenticatedComponent extends React.Component {
 		{this.props.memories.length &&
 			this.props.children
 		}
-		{true &&
-			<p>loading</p>
-		}
+
 
 
 			</div>
