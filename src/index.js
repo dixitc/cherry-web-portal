@@ -22,7 +22,7 @@ import Login from './components/Login';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/index'
 import createLogger from 'redux-logger';
-import { doSomething } from './actions/actions';
+import { doSomething , fetchMemories } from './actions/actions';
 
 injectTapEventPlugin();
 let initState = {
@@ -89,17 +89,16 @@ const verifyAuth = (nextState,replace) => {
 }
 
 const handleMomentsRoute = (nextState , replace) => {
-	console.log('HANDLING MOMENTS ROUTE');
-	console.log(nextState);
+
+
 	if(store.getState().memories.memories.length > 0){
 
 	}else{
-		store.dispatch(doSomething('blah'));
+
 		if(store.getState().auth.isAuthenticated){
-			replace({
-				pathname : '/memories',
-				state: { nextPathname: nextState.location.pathname }
-			})
+			let memoryId =  nextState.location.pathname.replace('/memory/', '');
+	//		store.dispatch(fetchMemories(store.getState().auth.authToken))
+			console.log(store.getState());
 		}else{
 			replace({
 				pathname : '/login',
@@ -122,8 +121,8 @@ render( < Provider store = {store}>
           <Route path={rootPath+'/login'} component={Login} onEnter={verifyAuth}/>
           <Route path={rootPath+'/memories'} component={AuthenticatedComponentView} onEnter={requireAuth}>
 			  <IndexRoute component={MemoriesView}/>
+			  <Route path={rootPath+'/memory/:memoryId'} component={MomentsView} onEnter={handleMomentsRoute}/>
 		  </Route>
-		  <Route path={rootPath+'/memory/:memoryId'} component={MomentsView} onEnter={handleMomentsRoute}/>
 
     	</Route>
       </Router>

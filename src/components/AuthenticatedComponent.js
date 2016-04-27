@@ -13,7 +13,7 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import Avatar from 'material-ui/lib/avatar';
 import style from '../styles/Login';
 import FontIcon from 'material-ui/lib/font-icon';
-import { browserHistory } from 'react-router';
+import { browserHistory , hashHistory } from 'react-router';
 
 import { Link } from 'react-router';
 
@@ -24,10 +24,11 @@ class AuthenticatedComponent extends React.Component {
 
 	}
 	backToMemories(){
-		browserHistory.replace('/memories');
+		//browserHistory.replace('/memories');
+		hashHistory.replace('/memories');
 	}
 	componentDidMount(){
-	//	this.props.handleFetchMemories(this.props.auth.authToken);
+		this.props.handleFetchMemories(this.props.auth.authToken);
 	}
 	render(){
 		const { handleLogout , handleFetchMemories , memories , auth , title} = this.props;
@@ -39,6 +40,8 @@ class AuthenticatedComponent extends React.Component {
 		}else{
 			myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}
+		console.log('MEMEMEMEMEMEMEMEM');
+		console.log(memories);
 		return(
 			<div style={{height:'100%'}}>
 			<AppBar
@@ -73,8 +76,12 @@ class AuthenticatedComponent extends React.Component {
       </IconMenu>}
 			/>
 
-
-		{this.props.children}
+		{this.props.memories.length &&
+			this.props.children
+		}
+		{true &&
+			<p>loading</p>
+		}
 
 
 			</div>

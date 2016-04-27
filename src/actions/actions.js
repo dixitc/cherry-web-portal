@@ -1,6 +1,6 @@
     import fetch from 'isomorphic-fetch';
     import apiUrl from '../config/config';
-	import { browserHistory } from 'react-router';
+	import { browserHistory , hashHistory } from 'react-router';
 
 
     //todo get user , memories only if needed , need to make a separate thunk for this
@@ -225,7 +225,7 @@
                 .then((json) => {
                     if (json.authToken) {
                         dispatch(verifySuccess(json));
-						browserHistory.replace('/memories');
+						 hashHistory.replace('/memories');
                     } else {
                         dispatch(verifyFailed(json));
                     }

@@ -63,7 +63,8 @@ class MemoryView extends Component {
 
 	}
 	memoryClick(){
-		let ep =  this.props.memory.title.replace(/[^A-Z0-9]/ig, '_');
+		//let ep =  this.props.memory.title.replace(/[^A-Z0-9]/ig, '_');
+		let ep =  this.props.memory.id;
 		this.props.dispatch(push({pathname :'/memory/'+ep,state: { memory : this.props.memory}}));
 	}
 	render() {

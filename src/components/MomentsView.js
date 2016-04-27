@@ -61,7 +61,10 @@ class MyMomentsView extends Component {
             rp: 20,
             lightboxIsOpen: false,
             currentImage: 0,
-			noMoreMoments : false
+			noMoreMoments : false,
+			currentMemoory : {
+				title: 'Your moment'
+			}
         }
 		//handle pagination
         this.paginate = this.paginate.bind(this);
@@ -74,10 +77,15 @@ class MyMomentsView extends Component {
 
 		//parsing coverUrl to ewnder optimal image
         this.parseCoverUrl = this.parseCoverUrl.bind(this);
-		
+
     }
     componentDidMount() {
-		this.props.handleSetTitle(this.props.location.state.memory.title);
+		this.setState({currentMemoory : {title : this.props.location.state.memory.title}} , () => {
+			//this.props.handleSetTitle(this.state.currentMemory.title);
+			this.props.handleSetTitle(this.props.currentMemory.title);
+		})
+
+        //this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
         this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
     }
     openLightbox(index, event) {
@@ -117,14 +125,14 @@ class MyMomentsView extends Component {
         })
     }
 		parseCoverUrl(url){
-		console.log('parseCoverUrl');
-		console.log(url);
+		//console.log('parseCoverUrl');
+		//console.log(url);
 		return 'https://docs.google.com/uc?id='+ url.substr(url.indexOf('id=')+3,url.length - 1);
 		//https://drive.google.com/thumbnail?authuser=0&sz=w360&id=0ByxtQn1WtMnoZ1VIUzZ3Zmd5RVE
 		//return url;
 	}
     render() {
-        const {moments, auth, handleLike} = this.props;
+        const {moments, auth, handleLike , currentMemory} = this.props;
         const {isFetching} = moments;
 
 		//Populating Lightbox
@@ -265,6 +273,7 @@ rows={2}>
 }
 
 MyMomentsView.propTypes = {
+	currentMemory: React.PropTypes.object.isRequired,
     moments: React.PropTypes.object.isRequired,
     handleFetchMoments: PropTypes.func.isRequired,
     handleLike: PropTypes.func.isRequired,
@@ -278,7 +287,21 @@ const mapStateToProps = (state) => {
 
     const {auth , title} = state;
     const moments = state.moments;
-    return {moments, auth ,title}
+	let currentMemoryId = (state.routing.locationBeforeTransitions.pathname).replace('/memory/','')
+	console.log(state.routing.locationBeforeTransitions.pathname);
+	console.log(currentMemoryId);
+	console.log(location);
+	const currentMemory = getCurrentMemory(state.memories.memories , currentMemoryId)
+    return {moments, auth ,title , currentMemory}
+}
+
+const getCurrentMemory = (memories , memoryId) => {
+let filteredMemory = memories.filter((memory) => {
+		if(memory.id ==memoryId){
+			return memory;
+		}
+	})
+	return filteredMemory[0];
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -3,7 +3,7 @@ import { take, put, call, fork, select } from 'redux-saga/effects';
 import fetch from 'isomorphic-fetch';
 import * as actions from '../actions/actions';
 import apiUrl from '../config/config';
-import { browserHistory } from 'react-router';
+import { browserHistory ,  hashHistory } from 'react-router';
 
 
 /************************APIS*******************/
@@ -85,7 +85,7 @@ function* fetchMoments(action){
 	const moments = yield call(fetchMomentsApi , action.data);
 	const user = getUser();
 	//This checks if all moments have been loaded or not
-	
+
 	if (moments.moments.length < action.data.rp){
 		yield put(actions.setIsLoaded(action.data.memoryId));
 	}
@@ -110,7 +110,7 @@ function* cleanUpLogOut(action){
 	localStorage.removeItem('cherryToken');
 	yield put(actions.purgeMemories());
 	yield put(actions.purgeMoments());
-	browserHistory.replace('/login');
+	 hashHistory.replace('/login');
 	//yield put(actions.purgeUser());
 }
 
