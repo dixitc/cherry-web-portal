@@ -208,7 +208,7 @@
     }
 
 
-    const verifyUser = (id,otp) => {
+    const verifyUser = (id,otp,redirectRoute) => {
 
         let url = apiUrl + '/verify/' + id + '.json';
         let config = {
@@ -224,8 +224,15 @@
 			.then((response) => response.json())
                 .then((json) => {
                     if (json.authToken) {
-                        dispatch(verifySuccess(json));
-						 hashHistory.replace('/memories');
+						//if success ideally should redirect to original link
+						dispatch(verifySuccess(json));
+						if(redirectRoute == ''){
+							hashHistory.replace('/memories');
+						}else{
+							console.log('redirectRoute');
+							console.log(redirectRoute);
+							hashHistory.replace(redirectRoute);
+						}
                     } else {
                         dispatch(verifyFailed(json));
                     }

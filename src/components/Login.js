@@ -31,6 +31,11 @@ let formatter = new AsYouTypeFormatter('IN');
 
     class LoginComponent extends React.Component {
             constructor(props) {
+				props.location = {
+					state : {
+						nextPathname : '/memories'
+					}
+				}
                 super(props);
                 this.state = {
                     dial_code: '+91',
@@ -39,7 +44,9 @@ let formatter = new AsYouTypeFormatter('IN');
 					otp:''
 
                 };
+				console.log('LOGIN COMPONENT : CHECK FOR NEXTPATHNAME IN PROPS');
 
+				console.log(this.props);
                 this.handleChange = this.handleChange.bind(this);
                 this.handleOtp = this.handleOtp.bind(this);
                 this.setDialCode = this.setDialCode.bind(this);
@@ -107,7 +114,11 @@ let formatter = new AsYouTypeFormatter('IN');
                 formatter = new AsYouTypeFormatter((cc[index].code).toString());
             }
     	render(){
-    		const  {isRegistered , isFetching , handleRegisterUser , handleVerifyUser, handleSetErrorMessage , errorMessage , verificationId  } = this.props;
+    		const  {isRegistered , isFetching , handleRegisterUser , handleVerifyUser, handleSetErrorMessage , errorMessage , verificationId , location } = this.props;
+			let redirectRoute = '/memories';
+			if(location.state){
+				redirectRoute = location.state.nextPathname;
+			}
     		return (
                     <div style={style.loginContainer}>
 
@@ -181,7 +192,13 @@ let formatter = new AsYouTypeFormatter('IN');
                                 }
                                 {!isFetching &&
 
-                                    <RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'CONTINUE' : 'REGISTER'} onClick={() => handleVerifyUser(verificationId ,this.state.otp)}/>
+                                    <RaisedButton
+										style={style.button}
+										labelColor='white'
+										disabled={false}
+										primary={true}
+										label={isRegistered ? 'CONTINUE' : 'REGISTER'}
+										onClick={() => handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}/>
                                 }
                             </div>
                         </div>
@@ -226,7 +243,13 @@ let formatter = new AsYouTypeFormatter('IN');
 							<CircularProgress size={0.8}/>
 						}
 						{!isFetching &&
-							<RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'REGISTER'} onClick={() => handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}/>
+							<RaisedButton
+								style={style.button}
+								labelColor='white'
+								disabled={false}
+								primary={true}
+								label={isRegistered ? 'VERIFY' : 'REGISTER'}
+								onClick={() => handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}/>
 						}
 
 					</div>
@@ -259,7 +282,13 @@ let formatter = new AsYouTypeFormatter('IN');
 						}
 						{!isFetching &&
 
-							<RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'CONTINUE' : 'REGISTER'} onClick={() => handleVerifyUser(verificationId ,this.state.otp)}/>
+							<RaisedButton
+								style={style.button}
+								labelColor='white'
+								disabled={false}
+								primary={true}
+								label={isRegistered ? 'CONTINUE' : 'REGISTER'}
+								onClick={() => handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}/>
 						}
 					</div>
 				</div>
@@ -280,7 +309,8 @@ let formatter = new AsYouTypeFormatter('IN');
         handleSetErrorMessage: PropTypes.func.isRequired,
     	isRegistered: PropTypes.bool.isRequired,
         isFetching: PropTypes.bool.isRequired,
-    	errorMessage: PropTypes.string
+    	errorMessage: PropTypes.string,
+		location: PropTypes.object
     }
 
 
@@ -300,8 +330,8 @@ let formatter = new AsYouTypeFormatter('IN');
     const mapDispatchToProps = (dispatch) => {
     	return {
     		handleRegisterUser: (formattedNumber,dial_code) => {
-				console.log('dial_code');
-				console.log(dial_code);
+				//console.log('dial_code');
+				//console.log(dial_code);
     			let creds = {
 					//need to add in countrycode here , maybe formateed dial_code remove the + or replace with %2b
     				identifier :formattedNumber,
@@ -313,8 +343,10 @@ let formatter = new AsYouTypeFormatter('IN');
     			dispatch(registerUser(creds))
     			//dispatch(registerRequest(auth));
     		},
-    		handleVerifyUser : (id,otp) => {
-    			dispatch(verifyUser(id,otp))
+    		handleVerifyUser : (id,otp,redirectRoute) => {
+				//console.log('CHECK REDIRECTROUTE');
+				//console.log(redirectRoute);
+    			dispatch(verifyUser(id,otp,redirectRoute))
     		},
     		handleSetErrorMessage : (msg) => {
     			dispatch(setErrorMessage(msg))

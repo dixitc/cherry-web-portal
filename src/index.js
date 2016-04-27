@@ -61,6 +61,7 @@ const history = syncHistoryWithStore(hashHistory, store)
 
 const requireAuth = (nextState , replace) => {
 	console.log('STATE');
+	console.log(nextState.location.pathname);
 	console.log(store.getState().auth.isAuthenticated);
 	if (!store.getState().auth.isAuthenticated) {
 		console.log('requireAuth FAILED');
@@ -78,6 +79,7 @@ const requireAuth = (nextState , replace) => {
 }
 
 const verifyAuth = (nextState,replace) => {
+	console.log(nextState);
 	if(!store.getState().auth.isAuthenticated){
 
 	}else{
@@ -97,8 +99,8 @@ const handleMomentsRoute = (nextState , replace) => {
 
 		if(store.getState().auth.isAuthenticated){
 			let memoryId =  nextState.location.pathname.replace('/memory/', '');
-	//		store.dispatch(fetchMemories(store.getState().auth.authToken))
-			console.log(store.getState());
+			//store.dispatch(fetchMemories(store.getState().auth.authToken))
+
 		}else{
 			replace({
 				pathname : '/login',
@@ -115,10 +117,10 @@ console.log(rootPath);
 
 render( < Provider store = {store}>
 	{ /* Tell the Router to use our enhanced history */ }
-      <Router history={hashHistory}>
+      <Router history={history}>
         <Route path={rootPath+'/'} component={App}>
 			<IndexRedirect to={rootPath+'/login'} />
-          <Route path={rootPath+'/login'} component={Login} onEnter={verifyAuth}/>
+          <Route path={rootPath+'/login'} component={Login}/>
           <Route path={rootPath+'/memories'} component={AuthenticatedComponentView} onEnter={requireAuth}>
 			  <IndexRoute component={MemoriesView}/>
 			  <Route path={rootPath+'/memory/:memoryId'} component={MomentsView} onEnter={handleMomentsRoute}/>
