@@ -89,7 +89,7 @@ class MyMemoriesView extends Component {
 
 		return (
 			<div style={{width:'100%',marginLeft:'auto',marginRight:'auto',marginBottom:100}}>
-				{memories.isFetching &&
+		{/*}		{memories.isFetching &&
                     <RefreshIndicator
   size={50}
   left={70}
@@ -98,7 +98,7 @@ class MyMemoriesView extends Component {
   status="loading"
   style={style.refresh}
 />
-				}
+				}  */}
 
 			<Masonry ref="masonryContainer" className={'my-gallery-class'} elementType={'div'} options={masonryOptions} disableImagesLoaded={false}>
 				{childElements}

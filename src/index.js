@@ -18,6 +18,7 @@ import SmartMessage from './components/components';
 import AuthenticatedComponentView from './components/AuthenticatedComponent';
 import MomentsView from './components/MomentsView';
 import MemoriesView from './components/MemoriesView';
+import MemoriesGrid from './components/MemoriesGrid';
 import Login from './components/Login';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/index'

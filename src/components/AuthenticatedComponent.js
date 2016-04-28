@@ -14,8 +14,20 @@ import Avatar from 'material-ui/lib/avatar';
 import style from '../styles/Login';
 import FontIcon from 'material-ui/lib/font-icon';
 import { browserHistory , hashHistory } from 'react-router';
-
+import RefreshIndicator from 'material-ui/lib/refresh-indicator';
 import { Link } from 'react-router';
+
+const baseStyle = {
+	refresh: {
+
+		position :'absolute',
+		margin:'auto',
+		top: '15%',
+		left: '45%',
+		transform: 'translate3d(0, 0, 0)',
+
+	}
+}
 
 class AuthenticatedComponent extends React.Component {
 	constructor(props){
@@ -34,14 +46,27 @@ class AuthenticatedComponent extends React.Component {
 		const { handleLogout , handleFetchMemories , memories , auth , title} = this.props;
 		//const { currentMemory } = memories;
 		let myIconElement;
-
+		let myChildren;
 		if(title === 'Cherry'){
 			myIconElement = <IconButton className='smooth-transit' style={{opacity:0}} onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}else{
 			myIconElement = <IconButton className='smooth-transit' tooltip="memories" onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}
-		console.log('MEMEMEMEMEMEMEMEM');
-		console.log(memories);
+		if(this.props.memories.length > 0){
+			myChildren = this.props.children
+			console.log('MEMEMEMEMEMEMEMEM');
+		}else{
+			myChildren =                     <RefreshIndicator
+			  size={40}
+			  left={70}
+			  top={0}
+			  loadingColor={"#FF9800"}
+			  status="loading"
+			  style={baseStyle.refresh}
+			/>
+			console.log('NONONONONONONONO');
+		}
+		console.log(myChildren);
 		return(
 			<div style={{height:'100%'}}>
 			<AppBar
@@ -76,9 +101,7 @@ class AuthenticatedComponent extends React.Component {
       </IconMenu>}
 			/>
 
-		{this.props.memories.length &&
-			this.props.children
-		}
+		{myChildren}
 
 
 

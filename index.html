@@ -4,6 +4,87 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Cherry App</title>
+	<!--	<link rel="stylesheet" href="./node_modules/react-grid-layout/css/styles.css" media="screen" title="no title" charset="utf-8">
+	<link rel="stylesheet" href="./node_modules/react-resizable/css/styles.css" media="screen" title="no title" charset="utf-8"> -->
+	<style media="screen">
+		.react-grid-layout {
+			position: relative;
+			transition: height 200ms ease;
+		}
+
+		.react-grid-item {
+			transition: all 200ms ease;
+			transition-property: left, top;
+		}
+
+		.react-grid-item.cssTransforms {
+			transition-property: transform;
+		}
+
+		.layout {
+			width: 70%;
+			margin:auto;
+		}
+
+		.react-grid-item.resizing {
+			z-index: 1;
+		}
+
+		.react-grid-item.react-draggable-dragging {
+			transition: none;
+			z-index: 3;
+		}
+
+		.react-grid-item.react-grid-placeholder {
+			background: red;
+			opacity: 0.2;
+			transition-duration: 100ms;
+			z-index: 2;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+
+		.react-grid-item > .react-resizable-handle {
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			bottom: 0;
+			right: 0;
+			background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg08IS0tIEdlbmVyYXRvcjogQWRvYmUgRmlyZXdvcmtzIENTNiwgRXhwb3J0IFNWRyBFeHRlbnNpb24gYnkgQWFyb24gQmVhbGwgKGh0dHA6Ly9maXJld29ya3MuYWJlYWxsLmNvbSkgLiBWZXJzaW9uOiAwLjYuMSAgLS0+DTwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DTxzdmcgaWQ9IlVudGl0bGVkLVBhZ2UlMjAxIiB2aWV3Qm94PSIwIDAgNiA2IiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmMDAiIHZlcnNpb249IjEuMSINCXhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbDpzcGFjZT0icHJlc2VydmUiDQl4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjZweCIgaGVpZ2h0PSI2cHgiDT4NCTxnIG9wYWNpdHk9IjAuMzAyIj4NCQk8cGF0aCBkPSJNIDYgNiBMIDAgNiBMIDAgNC4yIEwgNCA0LjIgTCA0LjIgNC4yIEwgNC4yIDAgTCA2IDAgTCA2IDYgTCA2IDYgWiIgZmlsbD0iIzAwMDAwMCIvPg0JPC9nPg08L3N2Zz4=');
+			background-position: bottom right;
+			padding: 0 3px 3px 0;
+			background-repeat: no-repeat;
+			background-origin: content-box;
+			box-sizing: border-box;
+			cursor: se-resize;
+		}
+	</style>
+	<style media="screen">
+		.react-resizable {
+			position: relative;
+		}
+
+		.react-resizable-handle {
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			bottom: 0;
+			right: 0;
+			background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg08IS0tIEdlbmVyYXRvcjogQWRvYmUgRmlyZXdvcmtzIENTNiwgRXhwb3J0IFNWRyBFeHRlbnNpb24gYnkgQWFyb24gQmVhbGwgKGh0dHA6Ly9maXJld29ya3MuYWJlYWxsLmNvbSkgLiBWZXJzaW9uOiAwLjYuMSAgLS0+DTwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DTxzdmcgaWQ9IlVudGl0bGVkLVBhZ2UlMjAxIiB2aWV3Qm94PSIwIDAgNiA2IiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmMDAiIHZlcnNpb249IjEuMSINCXhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbDpzcGFjZT0icHJlc2VydmUiDQl4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjZweCIgaGVpZ2h0PSI2cHgiDT4NCTxnIG9wYWNpdHk9IjAuMzAyIj4NCQk8cGF0aCBkPSJNIDYgNiBMIDAgNiBMIDAgNC4yIEwgNCA0LjIgTCA0LjIgNC4yIEwgNC4yIDAgTCA2IDAgTCA2IDYgTCA2IDYgWiIgZmlsbD0iIzAwMDAwMCIvPg0JPC9nPg08L3N2Zz4=');
+			background-position: bottom right;
+			padding: 0 3px 3px 0;
+			background-repeat: no-repeat;
+			background-origin: content-box;
+			box-sizing: border-box;
+			cursor: se-resize;
+		}
+	</style>
+	<style media="screen">
+
+	</style>
 	<style media="screen">
 		html,
 		body {
@@ -14,40 +95,54 @@
 			margin: 0px;
 		}
 
-
+		.center-cropped {
+			background-color: grey;
+			background-position: center center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
 
 		.grid-moment {
 			cursor: pointer;
 			margin-left: 0px;
 			width: 100%;
 		}
+
 		.brand {
 			transition: all ease-in 0.4s;
 			font-size: 20px;
 		}
+
 		.momentImgDivLandscape {
 			height: 100%;
 		}
+
 		.momentImgDivLandscape img {
 			height: 100%;
 		}
+
 		.momentImgDivPortrait {
 			height: 100%;
 		}
+
 		.momentImgDivPortrait img {
 			width: 100%;
 		}
+
 		.container--jss-0-0 {
 			background: rgba(0, 0, 0, 1);
 		}
+
 		.imageloader.loading {
 			height: 100%;
 			width: 100%;
 		}
+
 		.full-width {
 			width: 100%;
 			display: block;
 		}
+
 		.momentsContainer {
 			display: 'flex';
 			flex-wrap: 'wrap';
@@ -57,8 +152,7 @@
 		}
 
 		.coverMoment {
-			color : '#FFF',
-			padding : 0
+			color: '#FFF', padding: 0
 		}
 
 		.inner-grid {
@@ -67,16 +161,18 @@
 			opacity: 0;
 			transition: all ease-in 0.3s;
 		}
+
 		.memory-title {
 			font-size: 20px;
-			color:white;
+			color: white;
 		}
+
 		@media only screen and (max-width: 2000px) {
-		    .my-gallery-class {
-		        width: 1200px;
+			.my-gallery-class {
+				width: 1200px;
 				margin-left: auto;
 				margin-right: auto;
-		    }
+			}
 			.grid-item {
 				list-style-type: none;
 				margin-bottom: 4px;
@@ -85,6 +181,7 @@
 				cursor: pointer;
 			}
 		}
+
 		.my-image-loader {
 			height: auto;
 			transform: translateY(-50%);
@@ -93,6 +190,7 @@
 			width: 100%;
 			top: 50%;
 		}
+
 		@media only screen and (max-width: 1200px) {
 			.my-gallery-class {
 				width: 900px;
@@ -107,10 +205,12 @@
 				cursor: pointer;
 			}
 		}
-		.memory-card-header img{
-			height:32px;
+
+		.memory-card-header img {
+			height: 32px;
 			width: 32px;
 		}
+
 		@media only screen and (max-width: 900px) {
 			.my-gallery-class {
 				width: 600px;
@@ -119,20 +219,19 @@
 			}
 			.grid-item {
 				width: 196px;
-				margin:0px;
-				margin:auto;
+				margin: 0px;
+				margin: auto;
 				padding: 0px;
 				list-style-type: none;
 				margin-bottom: 4px;
-
 				overflow: hidden;
 				cursor: pointer;
 			}
 			.memory-title {
 				font-size: 15px;
 			}
-
 		}
+
 		@media only screen and (max-width: 600px) {
 			.my-gallery-class {
 				width: 100%;
@@ -141,17 +240,16 @@
 			}
 			.grid-item {
 				width: 45%;
-				margin:0px;
-				margin:auto;
+				margin: 0px;
+				margin: auto;
 				padding: 0px;
 				list-style-type: none;
 				margin-bottom: 4px;
-
 				overflow: hidden;
 				cursor: pointer;
 			}
-
 		}
+
 		@media only screen and (max-width: 400px) {
 			.my-gallery-class {
 				width: 100%;
@@ -160,29 +258,28 @@
 			}
 			.grid-item {
 				width: 90%;
-				margin:0px;
+				margin: 0px;
 				left: 5%;
-				margin:auto;
+				margin: auto;
 				padding: 0px;
 				list-style-type: none;
 				margin-bottom: 4px;
-
 				overflow: hidden;
 				cursor: pointer;
 			}
 			.momentsContainer {
 				margin-top: 10px;
 			}
-
-					.coverMoment {
-						color : '#FFF',
-						padding : 0;
-						height : 200px;
-					}
+			.coverMoment {
+				color: '#FFF', padding: 0;
+				height: 200px;
+			}
 		}
+
 		.my-grid {
 			margin-left: 0px;
 		}
+
 		#root {
 			height: 100%;
 		}
@@ -190,7 +287,7 @@
 		footer {
 			width: 100%;
 			/*background: rgba(255, 64, 0, 0.43);*/
-			background:rgba(95, 86, 84, 0.24);
+			background: rgba(95, 86, 84, 0.24);
 			position: fixed;
 			bottom: 0px;
 			height: 40px;
@@ -202,8 +299,6 @@
 			text-overflow: ellipsis;
 			max-width: 10px;
 		}
-
-
 
 		.grid-moment:hover .inner-grid {
 			opacity: 1;
@@ -229,9 +324,7 @@
 			width: 4px;
 		}
 
-		.my-gallery-class {
-
-		}
+		.my-gallery-class {}
 
 		label {
 			color: 'orange';
