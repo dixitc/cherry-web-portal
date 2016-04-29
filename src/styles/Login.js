@@ -5,7 +5,7 @@ const style = {
 		display:'table',
 		textAlign : 'center',
 		verticalAlign : 'middle',
-		top:'100px'
+		top:'50px'
 	},
 	loginElement : {
 		display :'table-cell',
@@ -70,7 +70,8 @@ const style = {
   width: '800px',
   margin: '20px',
   textAlign: 'center',
-  display: 'inline-block'
+  display: 'inline-block',
+  boxShadow:'none'
 },
 smallPaper : {
 

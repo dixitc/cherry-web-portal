@@ -53,7 +53,7 @@ const styles = {
 
 
 
-class MemoryView extends Component {
+class MemoryGridView extends Component {
 	constructor(props) {
 		super(props);
 		this.memoryClick = this.memoryClick.bind(this);
@@ -69,39 +69,21 @@ class MemoryView extends Component {
 	}
 	render() {
 		const { memory } = this.props;
-
-		let memoryImg;
-		if(memory.coverUrl){
-
-			 memoryImg = <img style={{minHeight:200,width:'auto',opacity:0}} src={memory.coverUrl} />
-		 }else{
-
-			memoryImg = <img src={dummyImg} />
-		}
-
-        /*should eventually just import memoryView concisely*/
-        /* <div className='grid-item' style={{width:'31%',minWidth:220}} key={memory.id} onClick={this.memoryClick}> */
 		return (
 
-          <div className='grid-item' key={memory.id} onClick={this.memoryClick} >
+          <div className={'memoryGrid'} style={{height:'100%',width:'100%'}} key={memory.id} onClick={this.memoryClick} >
  			<Card >
  			<CardHeader
 				className={'memory-card-header'}
- 			style={styles.cardHeader}
- 			title={memory.owner.name}
-			avatar={memory.owner.photo}
- 			titleColor='white' />
- 			<CardMedia
-				overlayContainerStyle={{background:'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%)'}}
-				overlayStyle={{background:'transparent',overFlow:'hidden'}}
-				overlayContentStyle={{background:'transparent'}}
- 	         overlay={<CardTitle style={{background:'transparent',fontSize:'20px'}} title={<span className={'memory-title'}>{memory.title}</span>} subtitle={memory.momentsCount + ' moments' }
- 		/>}
- 	       >
-		   {memoryImg}
-
-
- 	       </CardMedia>
+ 				style={styles.cardHeader}
+ 				title={<span style={{fontSize:'13px',top:'5px',position:'relative'}}>{memory.owner.name}</span>}
+				avatar={<img style={{borderRadius:'50%'}} src={memory.owner.photo} />}
+ 				titleColor='white' />
+<div className={'bottomTitle'}>
+	{memory.title}
+	<div style={{fontSize:'12px',padding:'5px',color:'#FF5722'}}>
+		 {memory.momentsCount} moments</div>
+	</div>
 
 
 
@@ -115,10 +97,10 @@ class MemoryView extends Component {
 }
 
 
-MemoryView.propTypes = {
+MemoryGridView.propTypes = {
 	memory : React.PropTypes.object.isRequired
 }
 
 
 
-export default connect()(MemoryView)
+export default connect()(MemoryGridView)

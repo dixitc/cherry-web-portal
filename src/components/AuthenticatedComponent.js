@@ -50,7 +50,7 @@ class AuthenticatedComponent extends React.Component {
 		if(title === 'Cherry'){
 			myIconElement = <IconButton className='smooth-transit' style={{opacity:0}} onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}else{
-			myIconElement = <IconButton className='smooth-transit' tooltip="memories" onClick={this.backToMemories}><ArrowBack /></IconButton>
+			myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}
 		if(this.props.memories.length > 0){
 			myChildren = this.props.children
@@ -77,10 +77,13 @@ class AuthenticatedComponent extends React.Component {
 
 				iconElementLeft={myIconElement}
 
-				iconElementRight={ <IconMenu
-        iconButtonElement={
+				iconElementRight={<IconMenu
+
+        iconButtonElement={<div>
+			<span style={{fontSize:'10px',color:'white',position:'relative',top:'-14px',padding:'10px'}}>{auth.profile.name}</span>
           <IconButton style={style.avatarButton} tooltip='settings'
       tooltipPosition="bottom-right">
+
 			  {auth.profile.photo &&
 
 				  <Avatar style={style.noBorder} backgroundColor={'transparent'} src={auth.profile.photo}/>
@@ -90,6 +93,7 @@ class AuthenticatedComponent extends React.Component {
 				 <Avatar icon={<FontIcon className="muidocs-icon-communication-voicemail" />} />
 			  }
       </IconButton>
+  </div>
         }
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}

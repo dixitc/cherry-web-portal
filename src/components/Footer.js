@@ -1,6 +1,8 @@
 import React from 'react';
 import ListItem from 'material-ui/lib/lists/list-item';
 
+/*Need to update footer with links*/
+
 const Footer = () => {
 	return (
 		<footer>

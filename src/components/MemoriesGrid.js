@@ -7,7 +7,9 @@ import {connect} from 'react-redux';
 import IconButton from 'material-ui/lib/icon-button';
 import { fetchMemories , setTitle} from '../actions/actions';
 import MemoryView from './MemoryView';
+import MemoryGridView from './MemoryGridView';
 import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+import dummyImg from '../images/selfie-placeholder.jpg';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -31,6 +33,9 @@ class MyMemoriesGrid extends Component {
 		this.state = {
 		    currentBreakpoint: 'lg',
 		    mounted: false,
+			currentRowHeight : 150,
+			Xmargin : 10,
+			Ymargin : 10,
 		    layouts: {
 		        lg:  [{
 				    i: 'a',
@@ -56,12 +61,15 @@ class MyMemoriesGrid extends Component {
 		    },
 		};
 		this.onLayoutChange = this.onLayoutChange.bind(this);
-
+		this.generateDimensions = this.generateDimensions.bind(this);
+		this.breakPointChanged = this.breakPointChanged.bind(this);
+		this.generateMargin = this.generateMargin.bind(this);
 	}
 	componentDidMount() {
 	    this.setState({
 	        mounted: true
 	    });
+		this.props.handleSetTitle('Cherry');
 	}
 	onBreakpointChange = (breakpoint) => {
 	    this.setState({
@@ -70,27 +78,108 @@ class MyMemoriesGrid extends Component {
 	}
     onLayoutChange = (layout, layouts) => {
         this.props.onLayoutChange(layout, layouts);
-    };
+    }
+	breakPointChanged = (newBreakPoint , newCols) => {
+	//	this.setState({currentBreakpoint : newBreakPoint})
+		switch (newBreakPoint) {
+			case 'lg':
+				this.setState({currentRowHeight : 150})
+				this.setState({Xmargin : 25})
+				this.setState({Ymargin : 25})
+				break;
+			case 'md':
+				this.setState({currentRowHeight : 100})
+				this.setState({Xmargin : 12})
+				this.setState({Ymargin : 12})
+				break;
+			case 'sm':
+				this.setState({currentRowHeight : 80})
+				this.setState({Xmargin : 10})
+				this.setState({Ymargin : 10})
+				break;
+			case 'xs':
+				this.setState({currentRowHeight : 80})
+				this.setState({Xmargin : 7})
+				this.setState({Ymargin : 7})
+				break;
+			case 'xxs':
+				this.setState({currentRowHeight : 80})
+				this.setState({Xmargin : 7})
+				this.setState({Ymargin : 7})
+				break;
+			default:
+				this.setState({currentRowHeight : 100})
+
+		}
+	}
+	generateMargin = () => {
+		return [25,25];
+	}
+	generateDimensions = (index , breakPoint) => {
+		let x ;
+		let y ;
+		let w ;
+		let h ;
+		const numOfCols = 6;
+		const numOfElements = 3;
+		const rowHeight = 2;
+
+		switch (index%3) {
+			case 0:
+				x = 2
+				break;
+			case 1:
+				x = 0;
+				break;
+			case 2:
+				x = 4;
+				break;
+			default:
+				x = 0;
+		}
+
+		return {
+			x : x,
+			y : (Math.floor(index/numOfElements)*rowHeight),
+			w : numOfCols/numOfElements,
+			h : rowHeight
+		}
+	}
 	render(){
 		const{ memories } = this.props;
 		const layout = {
 			lg : []
 		};
+		let memoryChildren = memories.memories.map((memory , i) => {
 
+			if(memory.coverUrl){
+
+				return (
+					<div key={memory.id}  _grid={this.generateDimensions(i , this.state.currentBreakpoint)} style={{backgroundImage:'url('+memory.coverUrl+')'}} className='center-cropped'>
+						<MemoryGridView memory={memory} key={memory.title}/>
+					</div>
+				)
+			}else{
+				return (
+					<div key={memory.id}  _grid={this.generateDimensions(i)} style={{backgroundImage:'url('+dummyImg+')'}} className='center-cropped'>
+					<MemoryGridView memory={memory} key={memory.title}/>
+					</div>
+				)
+			}
+		})
 		return (
 			<div>
+
 				<ResponsiveReactGridLayout
 					className={'layout'}
-					rowHeight={100}
+					rowHeight={this.state.currentRowHeight}
+					margin = {[this.state.Xmargin , this.state.Ymargin]}
 					breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-					cols={{lg: 8, md: 6, sm: 4, xs: 1, xxs: 1}}
+					cols={{lg: 6, md: 4, sm: 4, xs: 1, xxs: 1}}
+					onBreakpointChange={this.breakPointChanged}
 					isDraggable={false}>
 
-		           <div key={'a'}  _grid={{x: 0, y: 0, w: 6, h: 4, static: true}} style={{backgroundImage:'url("https://lh6.googleusercontent.com/le05fcL0tRojIjBFV9Lpxj1BPPvfz6U5z4XXnxaMQpZJ-4vPiI0LPIqSNBGZBBrHq_-2Dg=w90")'}} className='center-cropped'></div>
-		           <div key={'b'} _grid={{x: 6, y: 0, w: 2, h: 2, minW: 2, maxW: 4}} style={{backgroundImage:'url("https://lh6.googleusercontent.com/le05fcL0tRojIjBFV9Lpxj1BPPvfz6U5z4XXnxaMQpZJ-4vPiI0LPIqSNBGZBBrHq_-2Dg=w90")'}} className='center-cropped'></div>
-		           <div key={'c'} _grid={{x: 6, y: 2, w: 2, h: 2}} style={{backgroundImage:'url("https://lh6.googleusercontent.com/le05fcL0tRojIjBFV9Lpxj1BPPvfz6U5z4XXnxaMQpZJ-4vPiI0LPIqSNBGZBBrHq_-2Dg=w90")'}} className='center-cropped'></div>
-		           <div key={'e'} _grid={{x: 0, y: 4, w: 2, h: 2}} style={{backgroundImage:'url("https://lh6.googleusercontent.com/le05fcL0tRojIjBFV9Lpxj1BPPvfz6U5z4XXnxaMQpZJ-4vPiI0LPIqSNBGZBBrHq_-2Dg=w90")'}} className='center-cropped'></div>
-		           <div key={'f'} _grid={{x: 2, y: 4, w: 2, h: 2}} style={{backgroundImage:'url("https://lh6.googleusercontent.com/le05fcL0tRojIjBFV9Lpxj1BPPvfz6U5z4XXnxaMQpZJ-4vPiI0LPIqSNBGZBBrHq_-2Dg=w90")'}} className='center-cropped'></div>
+					{memoryChildren}
 
 	         	</ResponsiveReactGridLayout>
 			</div>

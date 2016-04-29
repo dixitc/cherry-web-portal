@@ -21,10 +21,6 @@
 			transition-property: transform;
 		}
 
-		.layout {
-			width: 70%;
-			margin:auto;
-		}
 
 		.react-grid-item.resizing {
 			z-index: 1;
@@ -165,6 +161,37 @@
 		.memory-title {
 			font-size: 20px;
 			color: white;
+		}
+		.layout {
+			width:100%;
+			max-width: 1500px;
+			margin:auto;
+			margin-bottom: 100px;
+		}
+		@media only screen and (min-width: 1200px) {
+
+			.layout {
+				width:1250px;
+				max-width: 1500px;
+				margin-left:auto;
+				margin-right:auto;
+				margin-bottom: 100px;
+			}
+		}
+
+		.memoryGrid {
+			cursor: pointer;
+		}
+
+		.bottomTitle {
+			position: absolute;
+			bottom:0;
+			color:white;
+			height:30px;
+			font-size: 20px;
+			padding: 20px;
+			width: calc(100% - 40px);
+			background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.68) 100%)
 		}
 
 		@media only screen and (max-width: 2000px) {

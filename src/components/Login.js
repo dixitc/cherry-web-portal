@@ -11,6 +11,7 @@ import PNF from 'google-libphonenumber/dist/browser/libphonenumber';
 import Paper from 'material-ui/lib/paper';
 import style from '../styles/Login';
 import MediaQuery from 'react-responsive';
+import FlatButton from 'material-ui/lib/flat-button';
 
 
 let AsYouTypeFormatter = require('google-libphonenumber').AsYouTypeFormatter;
@@ -40,13 +41,11 @@ let formatter = new AsYouTypeFormatter('IN');
                 this.state = {
                     dial_code: '+91',
                     countryCode: 87,
-                    formattedNumber: '5555555551',
+                    formattedNumber: '',
 					otp:''
 
                 };
-				console.log('LOGIN COMPONENT : CHECK FOR NEXTPATHNAME IN PROPS');
 
-				console.log(this.props);
                 this.handleChange = this.handleChange.bind(this);
                 this.handleOtp = this.handleOtp.bind(this);
                 this.setDialCode = this.setDialCode.bind(this);
@@ -200,12 +199,33 @@ let formatter = new AsYouTypeFormatter('IN');
 										label={isRegistered ? 'CONTINUE' : 'REGISTER'}
 										onClick={() => handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}/>
                                 }
+
                             </div>
                         </div>
                         }
 
+						<p style={{fontSize:'15px',padding:'40px',paddingBottom:'0px',fontStyle:'italic'}}>Cherry . Your memories are here . Forever . </p>
+						<div style={{width:'200px',margin:'auto'}}>
+							<FlatButton
+						      label="Android"
+							  target='_blank'
+							  style={{display:'inline-block',float:'left'}}
+						      linkButton={true}
+						      href='https://play.google.com/store/apps/details?id=com.triconlabs.cherry&hl=en'
+						      primary={true}/>
+
+							<FlatButton
+							label="ios"
+							target='_blank'
+							style={{display:'inline-block'}}
+							linkButton={true}
+							href='https://itunes.apple.com/us/app/cherry-cherish-your-memories/id924848929?mt=8'
+							primary={true}/>
+
+					</div>
                     </div>
                 </Paper>
+
 					</MediaQuery>
 					<MediaQuery maxWidth={820}>
 

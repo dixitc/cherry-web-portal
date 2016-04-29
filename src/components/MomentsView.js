@@ -55,11 +55,12 @@ const style = {
 
 class MyMomentsView extends Component {
     constructor(props) {
-		props.currentMemory = props.currentMemory || {title: 'gotcha',id:'1234234',isFullyLoaded : false}
+		props.currentMemory = props.currentMemory || {title: 'gotcha',id:'1234234',isFullyLoaded : false};
+		props.moments.isFetching = false;
         super(props);
         this.state = {
             page: 0,
-            rp: 20,
+            rp: 40,
             lightboxIsOpen: false,
             currentImage: 0,
 			noMoreMoments : false,
@@ -138,7 +139,7 @@ class MyMomentsView extends Component {
     render() {
         const {moments, auth, handleLike , currentMemory} = this.props;
         const {isFetching} = moments;
-
+		let bottomElement;
 		//Populating Lightbox
         let images = moments.moments.map((moment) => {
             let rObj = {};
@@ -148,6 +149,14 @@ class MyMomentsView extends Component {
 
             return rObj;
         });
+
+		if(currentMemory.isFullyLoaded){
+			bottomElement = <FlatButton label="No more moments" disabled={true} /> ;
+		}else if(isFetching){
+			bottomElement = <CircularProgress size={0.5} />
+		}else{
+			bottomElement = <RaisedButton labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>
+		}
 
 
 			const  memory = this.props.currentMemory;
@@ -200,7 +209,7 @@ class MyMomentsView extends Component {
 										innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
 										style={{color:'#FFF',fontSize:'13px'}}
 										>
-											<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {moments.moments.length} {moments.moments.length == 1 ? 'moment' :  'moments'}</span>
+											<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {memory.momentsCount} {memory.momentsCount == 1 ? 'moment' :  'moments'}</span>
 										</ListItem>}
 									leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
 								>
@@ -256,18 +265,7 @@ rows={2}>
 </GridList>
 </MediaQuery>
 <div style={{marginBottom: 100,textAlign:'center'}}>
-
-	{!this.props.currentMemory.isFullyLoaded &&
-		<RaisedButton labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>
-	}
-
-	{this.props.currentMemory.isFullyLoaded &&
-		<FlatButton label="No more moments" disabled={true} />
-	}
-
-	{isFetching &&
-		<CircularProgress size={0.5} />
-	}
+	{bottomElement}
 
 </div>
                 </div>
@@ -292,6 +290,8 @@ const mapStateToProps = (state) => {
 
     const {auth , title} = state;
     const moments = state.moments;
+	console.log('CURRENT MEMORY ID');
+	console.log(state);
 	let currentMemoryId = (state.routing.locationBeforeTransitions.pathname).replace('/memory/','')
 	//console.log(state.routing.locationBeforeTransitions.pathname);
 	//console.log(currentMemoryId);
@@ -303,6 +303,8 @@ const mapStateToProps = (state) => {
 const getCurrentMemory = (memories , memoryId) => {
 let filteredMemory = memories.filter((memory) => {
 		if(memory.id ==memoryId){
+			console.log('MEMORY TITLE CHECK 1');
+			console.log(memory.title);
 			return memory;
 		}
 	})

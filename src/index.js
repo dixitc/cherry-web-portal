@@ -123,7 +123,7 @@ render( < Provider store = {store}>
 			<IndexRedirect to={rootPath+'/login'} />
           <Route path={rootPath+'/login'} component={Login}/>
           <Route path={rootPath+'/memories'} component={AuthenticatedComponentView} onEnter={requireAuth}>
-			  <IndexRoute component={MemoriesView}/>
+			  <IndexRoute component={MemoriesGrid}/>
 			  <Route path={rootPath+'/memory/:memoryId'} component={MomentsView} onEnter={handleMomentsRoute}/>
 		  </Route>
 

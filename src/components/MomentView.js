@@ -31,14 +31,21 @@ const MomentView = ({ moment , handleLikeCLick , onClick}) => {
 	  return <div style={{height:'100%',width:'100%',textAlign:'center',backgroundColor:'rgb(103, 103, 103)',zIndex:'1000'}}></div>;
 	}
 	let customImageLoader;
-	if(moment.orientation.COMPRESSED == 'LANDSCAPE'){
-		customImageLoader = 	<ImageLoader src={moment.imageUrl} className='momentImgDivLandscape' wrapper={React.DOM.div} preloader={preloader}>
+	if(moment.orientation){
+
+		if(moment.orientation.COMPRESSED == 'LANDSCAPE'){
+			customImageLoader = 	<ImageLoader src={moment.imageUrl} className='momentImgDivLandscape' wrapper={React.DOM.div} preloader={preloader}>
 				Image load failed
 			</ImageLoader>
-	}else if(moment.orientation.COMPRESSED == 'PORTRAIT'){
+		}else if(moment.orientation.COMPRESSED == 'PORTRAIT'){
+			customImageLoader = 	<ImageLoader src={moment.imageUrl} className='momentImgDivPortrait' wrapper={React.DOM.div} preloader={preloader}>
+				Image load failed
+			</ImageLoader>
+		}
+	}else{
 		customImageLoader = 	<ImageLoader src={moment.imageUrl} className='momentImgDivPortrait' wrapper={React.DOM.div} preloader={preloader}>
-				Image load failed
-			</ImageLoader>
+			Image load failed
+		</ImageLoader>
 	}
 		return (
 

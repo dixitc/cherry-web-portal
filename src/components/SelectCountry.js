@@ -5,12 +5,12 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import countryCodes from '../constants/country-codes';
 
 
-console.log(countryCodes[1]);
+
 
 const items = [];
 for (let i = 0; i < countryCodes.length; i++ ) {
 
-  items.push(<MenuItem value={i} key={i} primaryText={countryCodes[i].name}/>);
+  items.push(<MenuItem value={i} key={i} primaryText={countryCodes[i].name}  />);
 }
 
 
