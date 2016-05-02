@@ -7,6 +7,7 @@ import TextField from 'material-ui/lib/text-field';
 import RaisedButton from 'material-ui/lib/raised-button';
 import CircularProgress from 'material-ui/lib/circular-progress';
 import SelectFieldExampleSimple from './SelectCountry';
+import phoneNumberInput from './phoneNumberInput';
 import PNF from 'google-libphonenumber/dist/browser/libphonenumber';
 import Paper from 'material-ui/lib/paper';
 import style from '../styles/Login';
@@ -25,12 +26,18 @@ let formatter = new AsYouTypeFormatter('IN');
     ISSUES :
         [-] mobile number label color on error [FIXED]
 		- backspace anywhere in input clears only last character
-
+		Replace this instead of messy html (separate into component)
+		<phoneNumberInput
+			style={style}
+			formatNumber={this.state.formattedNumber}
+			countryValue={this.state.countryCode}
+			dialCode={this.setDialCode}
+			handleChange={this.handleChange}
+			value={this.formatNumber(this.state.formattedNumber)}
+			serrormessage={errorMessage}/>
     */
 
-
-
-    class LoginComponent extends React.Component {
+	class LoginComponent extends React.Component {
             constructor(props) {
 				props.location = {
 					state : {
@@ -39,9 +46,10 @@ let formatter = new AsYouTypeFormatter('IN');
 				}
                 super(props);
                 this.state = {
+					redirectRoute : '/memories',
                     dial_code: '+91',
                     countryCode: 87,
-                    formattedNumber: '',
+                    formattedNumber: '5555555551',
 					otp:''
 
                 };
@@ -56,11 +64,14 @@ let formatter = new AsYouTypeFormatter('IN');
                 for (var i = 0; i < stringNumber.length; i++) {
                     formatter.inputDigit(stringNumber[i]);
                 }
-                return this.state.dial_code + ' ' + formatter.currentOutput_;
+                //return this.state.dial_code + ' ' + formatter.currentOutput_;
+                return formatter.currentOutput_;
 
             }
 			handleOtp(e){
-
+				this.props.handleSetErrorMessage('');
+				console.log('ENTER ING ');
+				console.log(e);
 				this.setState({otp:e.target.value});
 			}
             handleChange(e) {
@@ -78,10 +89,11 @@ let formatter = new AsYouTypeFormatter('IN');
                         });
 
                         break;
-    				//HANDLE ON PRESS ENTER
+    				/*HANDLE ON PRESS ENTER handling by textfield element itself
                     case (e.keyCode == 13 || e.keyCode == 229):
                         this.props.handleRegisterUser(this.state.formattedNumber,this.state.dial_code);
                         break;
+					*/
     				//HANDLE ON PRESS BACKSPACE
                     case (e.keyCode == 8):
                     /*    console.log(e.nativeEvent.target.selectionStart-4);
@@ -114,7 +126,7 @@ let formatter = new AsYouTypeFormatter('IN');
             }
     	render(){
     		const  {isRegistered , isFetching , handleRegisterUser , handleVerifyUser, handleSetErrorMessage , errorMessage , verificationId , location } = this.props;
-			let redirectRoute = '/memories';
+			let redirectRoute = this.state.redirectRoute;
 			if(location.state){
 				redirectRoute = location.state.nextPathname;
 			}
@@ -127,7 +139,10 @@ let formatter = new AsYouTypeFormatter('IN');
 
                     <Paper style={style.paper} zDepth={1}>
                     <div >
+
+
                         {!isRegistered &&
+
                             <div>
                             <div style={style.wrapperDiv}>
 
@@ -144,6 +159,7 @@ let formatter = new AsYouTypeFormatter('IN');
                                         onKeyDown={this.handleChange}
                                         onSelect={this.checkForTab}
                                         errorStyle={style.errorStyle}
+										onEnterKeyDown={() => {handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}}
                                         underlineFocusStyle={style.cherry}
                                         floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
                                         floatingLabelText="Mobile Number"
@@ -158,7 +174,7 @@ let formatter = new AsYouTypeFormatter('IN');
 									<CircularProgress size={0.8}/>
                                 }
                                 {!isFetching &&
-									<RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'REGISTER'} onClick={() => handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}/>
+									<RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'GET OTP'} onClick={() => handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}/>
 								}
 
                             </div>
@@ -175,7 +191,10 @@ let formatter = new AsYouTypeFormatter('IN');
                                     <TextField hintText={this.state.formattedNumber.length ? 'otp here' : ''}
                                         style={style.otpField}
 										onChange={this.handleOtp}
+										errorText={errorMessage}
+										onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}}
 										value={this.state.otp}
+										errorStyle={style.errorStyle}
 										underlineFocusStyle={style.cherry}
                                         floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
                                         floatingLabelText="OTP"
@@ -196,7 +215,7 @@ let formatter = new AsYouTypeFormatter('IN');
 										labelColor='white'
 										disabled={false}
 										primary={true}
-										label={isRegistered ? 'CONTINUE' : 'REGISTER'}
+										label={isRegistered ? 'CONTINUE' : 'GET OTP'}
 										onClick={() => handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}/>
                                 }
 
@@ -247,6 +266,7 @@ let formatter = new AsYouTypeFormatter('IN');
 								errorText={errorMessage}
 								value={this.formatNumber(this.state.formattedNumber)}
 								onKeyDown={this.handleChange}
+								onEnterKeyDown={() => {handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}}
 								onSelect={this.checkForTab}
 								errorStyle={style.errorStyle}
 								underlineFocusStyle={style.cherry}
@@ -268,7 +288,7 @@ let formatter = new AsYouTypeFormatter('IN');
 								labelColor='white'
 								disabled={false}
 								primary={true}
-								label={isRegistered ? 'VERIFY' : 'REGISTER'}
+								label={isRegistered ? 'VERIFY' : 'GET OTP'}
 								onClick={() => handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}/>
 						}
 
@@ -286,6 +306,9 @@ let formatter = new AsYouTypeFormatter('IN');
 							<TextField hintText={this.state.formattedNumber.length ? 'otp here' : ''}
 								style={style.otpField}
 								onChange={this.handleOtp}
+								errorText={errorMessage}
+								errorStyle={style.errorStyle}
+								onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}}
 								value={this.state.otp}
 								underlineFocusStyle={style.cherry}
 								floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
@@ -307,7 +330,7 @@ let formatter = new AsYouTypeFormatter('IN');
 								labelColor='white'
 								disabled={false}
 								primary={true}
-								label={isRegistered ? 'CONTINUE' : 'REGISTER'}
+								label={isRegistered ? 'CONTINUE' : 'GET OTP'}
 								onClick={() => handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}/>
 						}
 					</div>

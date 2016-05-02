@@ -27,6 +27,9 @@ function fetchMemoriesApi (token) {
 
 function* fetchMemories(action){
 	const memories = yield call(fetchMemoriesApi , action.token);
+	if(memories.length > 0){
+		yield put(actions.purgeMemories());
+	}
 	console.log('GOT JSON MEMORIES');
 	console.log(memories);
 	yield put(actions.receiveMemories(memories));

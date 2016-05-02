@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">41.38% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>12/29</span>
+        <span class='fraction'>11/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">37.04% </span>
+        <span class="strong">39.13% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>10/27</span>
+        <span class='fraction'>9/23</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">50% </span>
-        <span class="quiet">Functions</span>
-        <span class='fraction'>1/2</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">52.17% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/23</span>
+        <span class='fraction'>11/22</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -145,22 +145,10 @@
 100
 101
 102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+103</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -193,11 +181,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -205,8 +189,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -251,13 +233,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -270,9 +252,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-&nbsp;
-var _extends = Object.assign || <span class="fstat-no" title="function not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >function (target) {</span> <span class="cstat-no" title="statement not covered" >for (var i = 1; i &lt; arguments.length; i++) { <span class="cstat-no" title="statement not covered" >var source = arguments[i]; <span class="cstat-no" title="statement not covered" ></span>for (var key in source) { <span class="cstat-no" title="statement not covered" >if (Object.prototype.hasOwnProperty.call(source, key)) { <span class="cstat-no" title="statement not covered" >target[key] = source[key]; </span>} </span>} </span>} <span class="cstat-no" title="statement not covered" ></span>return target; </span>};</span>
-&nbsp;
 var myToken = JSON.parse(localStorage.getItem('cherryToken'));
 <span class="missing-if-branch" title="if path not taken" >I</span>if (myToken) {
 &nbsp;
@@ -300,43 +279,37 @@ var authReducer = function authReducer() {
 <span class="cstat-no" title="statement not covered" >            return state;</span>
         case 'REGISTER_REQUEST':
             //console.log("reducer: authReducer REGISTER_REQUEST");
-            return _extends({}, state, {
-                isFetching: true
-            });
+            return Object.assign({}, state, { isFetching: true });
 <span class="branch-2 cbranch-no" title="branch not covered" >        case 'REGISTER_SUCCESS':</span>
             //console.log("reducer: authReducer REGISTER_SUCCESS");
             // on receiving the verification token from the server set verificationId somewhere
-<span class="cstat-no" title="statement not covered" >            return _extends({}, state, {</span>
-                isFetching: false,
+<span class="cstat-no" title="statement not covered" >            return Object.assign({}, state, { isFetching: false,</span>
                 isRegistered: true,
-                verificationId: action.id
-            });
+                verificationId: action.id });
 <span class="cstat-no" title="statement not covered" >            return state;</span>
 <span class="branch-3 cbranch-no" title="branch not covered" >        case 'REGISTER_FAIL':</span>
             //console.log("reducer: authReducer REGISTER_FAIL");
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return _extends({}, state, {</span>
-                isFetching: false,
+<span class="cstat-no" title="statement not covered" >            return Object.assign({}, state, { isFetching: false,</span>
                 isAuthenticated: false,
                 isRegistered: false,
                 errorMessage: action.errMsg
-&nbsp;
             });
 &nbsp;
         //return state;
 <span class="branch-4 cbranch-no" title="branch not covered" >        case 'LOGOUT_USER':</span>
             //console.log("reducer: authReducer LOGOUT_USER");
-<span class="cstat-no" title="statement not covered" >            return _extends({}, state, {</span>
-                isFetching: false,
+<span class="cstat-no" title="statement not covered" >            return Object.assign({}, state, { isFetching: false,</span>
                 isAuthenticated: false,
                 isRegistered: false,
                 authToken: '',
                 profile: {}
             });
+&nbsp;
         //return state;
 <span class="branch-5 cbranch-no" title="branch not covered" >        case 'SET_ERROR_MESSAGE':</span>
             //console.log("reducer: authReducer SET_ERRORMESSAGE");
-<span class="cstat-no" title="statement not covered" >            return _extends({}, state, { errorMessage: action.msg });</span>
+<span class="cstat-no" title="statement not covered" >            return Object.assign({}, state, { errorMessage: action.msg });</span>
 <span class="branch-6 cbranch-no" title="branch not covered" >        case 'VERIFY_USER':</span>
             //console.log("reducer: authReducer VERIFY_USER");
 <span class="cstat-no" title="statement not covered" >            return state;</span>
@@ -355,20 +328,20 @@ var authReducer = function authReducer() {
         case 'VERIFY_REQUEST':
             //console.log("reducer: authReducer VERIFY_REQUEST");
             //on sending a verify request to verify api update state (show loading icon etc)
-            return _extends({}, state, {
-                isFetching: true,
+            return Object.assign({}, state, { isFetching: true,
                 isAuthenticated: false
             });
 &nbsp;
 <span class="branch-9 cbranch-no" title="branch not covered" >        case 'VERIFY_FAIL':</span>
             //console.log("reducer: authReducer VERIFY_FAIL");
             // on verify request fail , update state and redirect to login ???
-            /*return Object.assign({} , state , {
-            	isFetching : false,
-            	isAuthenticated : false,
-            	errorMessage : action.message
-            })*/
-<span class="cstat-no" title="statement not covered" >            return state;</span>
+<span class="cstat-no" title="statement not covered" >            return Object.assign({}, state, {</span>
+                isRegistered: true,
+                isAuthenticated: false,
+                isFetching: false,
+                errorMessage: action.msg
+            });
+        //return state;
 <span class="branch-10 cbranch-no" title="branch not covered" >        default:</span>
 <span class="cstat-no" title="statement not covered" >            return state;</span>
 &nbsp;
@@ -382,7 +355,7 @@ exports.authReducer = authReducer;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 27 2016 17:20:29 GMT+0530 (IST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 02 2016 21:04:27 GMT+0530 (IST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

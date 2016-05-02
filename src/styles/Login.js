@@ -41,8 +41,10 @@ const style = {
 		fontSize:'16px'
 	},
 	otpField : {
-		margin : '0px',
-		width:'100px'
+		top:'8px',
+		marginLeft:'20px',
+
+		fontSize:'16px'
 	},
 	avatarButton : {
 		padding : '0px'

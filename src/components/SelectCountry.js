@@ -8,9 +8,10 @@ import countryCodes from '../constants/country-codes';
 
 
 const items = [];
+
 for (let i = 0; i < countryCodes.length; i++ ) {
 
-  items.push(<MenuItem value={i} key={i} primaryText={countryCodes[i].name}  />);
+  items.push(<MenuItem value={i} key={i} primaryText={countryCodes[i].name + '   '+ countryCodes[i].dial_code}  />);
 }
 
 

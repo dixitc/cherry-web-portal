@@ -37,29 +37,6 @@
     const VERIFY_FAIL = 'VERIFY_FAIL';
     const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 
-
-    /*
-    // API CALLS  => ASYNC ACTIONS
-    consider using redux-sagas
-	using  redux sagas to handle all async calls now (not registration yet though)
-    {
-    type : 'FETCH_MEMORIES',
-    id : memoryId
-    }
-
-    {
-    type: 'REGISTER_USER',
-    creds: {
-    	identifier:"",
-    	identifierType:"PHONE",
-    	verificationMode:"OTP_MSG"
-    }
-    }
-
-    */
-
-
-
     //action creators
 
     const doSomething = (text) => {
@@ -200,10 +177,10 @@
 
     }
 
-    const verifyFail = (msg) => {
+    const verifyFailed = (msg) => {
         return {
             type: VERIFY_FAIL,
-            error: msg
+            msg: msg
         }
     }
 
@@ -220,6 +197,7 @@
         }
         return dispatch => {
             //dispatch() dispatch requestverify
+			dispatch(verifyRequest());
             return fetch(url, config)
 			.then((response) => response.json())
                 .then((json) => {
@@ -234,7 +212,14 @@
 							hashHistory.replace(redirectRoute);
 						}
                     } else {
-                        dispatch(verifyFailed(json));
+						console.log('CHECK ERROR MESSAGE');
+						console.log(json.err.errorMessage);
+						if(json.err.errorMessage){
+
+							dispatch(verifyFailed(json.err.errorMessage));
+						}else{
+							dispatch(verifyFailed('Incorrect otp'));
+						}
                     }
                 })
         }
@@ -366,7 +351,7 @@
         registerFail,
         registerSuccess,
         verifyUser,
-        verifyFail,
+        verifyFailed,
         verifySuccess,
         setErrorMessage,
 		fetchMemories,
