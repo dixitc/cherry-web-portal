@@ -337,7 +337,7 @@
 	const setIsLoaded = (payload) => {
 		return {
 			type: SET_ISLOADED,
-			memoryId : payload
+			data : payload
 		}
 	}
 

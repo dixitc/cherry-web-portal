@@ -90,7 +90,7 @@ function* fetchMoments(action){
 	//This checks if all moments have been loaded or not
 
 	if (moments.moments.length < action.data.rp){
-		yield put(actions.setIsLoaded(action.data.memoryId));
+		yield put(actions.setIsLoaded({memoryId : action.data.memoryId , isLoaded : true}));
 	}
 
 	yield put(actions.refineMoments( {moments : moments , userId:user.profile.id}));

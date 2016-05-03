@@ -28,18 +28,16 @@ const memoriesReducer = (state = initState, action) => {
                 isFetching:false
 			})
 			//return state;
-			case 'SET_ISLOADED':
-			console.log('MOMENTS - MOMENTS - MOMENTS - MOMENTS');
-			console.log(state.memories);
-				const refinedMemories =  state.memories.map((memory) => {
-					if(memory.id == action.memoryId){
-						memory.isFullyLoaded = true;
-					}
-					return memory;
-				})
-				return Object.assign({} , state ,{
-					memories : refinedMemories
-				});
+		case 'SET_ISLOADED':
+			const refinedMemories =  state.memories.map((memory) => {
+				if(memory.id == action.data.memoryId){
+					memory.isFullyLoaded = action.data.isLoaded;
+				}
+				return memory;
+			})
+			return Object.assign({} , state ,{
+				memories : refinedMemories
+			});
 		case 'FETCH_MEMORIES':
         //console.log("reducer: memoriesReducer FETCH_MEMORIES");
 

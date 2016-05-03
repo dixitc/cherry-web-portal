@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {fetchMoments} from '../actions/actions';
+import { fetchMoments , setIsLoaded } from '../actions/actions';
 import {connect} from 'react-redux';
 import CircularProgress from 'material-ui/lib/circular-progress';
 import MemoryView from './MemoryView';
@@ -93,6 +93,9 @@ class MyMomentsView extends Component {
 			this.props.handleFetchMoments({memoryId: this.props.currentMemory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
 		}
     }
+	componentWillUnmount() {
+		this.props.handleIsLoaded({memoryId : this.props.currentMemory.id , isLoaded : false})
+	}
     openLightbox(index, event) {
         event.preventDefault();
         this.setState({currentImage: index, lightboxIsOpen: true});
@@ -280,6 +283,7 @@ MyMomentsView.propTypes = {
     moments: React.PropTypes.object.isRequired,
     handleFetchMoments: PropTypes.func.isRequired,
     handleLike: PropTypes.func.isRequired,
+    handleIsLoaded: PropTypes.func.isRequired,
     handleSetTitle: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired
@@ -322,7 +326,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         handleSetTitle: (title) => {
             dispatch(setTitle(title))
-        }
+        },
+		handleIsLoaded: (memoryId) => {
+			dispatch(setIsLoaded(memoryId))
+		}
     }
 }
 

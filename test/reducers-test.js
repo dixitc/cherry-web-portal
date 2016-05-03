@@ -142,5 +142,88 @@ describe("authReducer test suite", function() {
 			lastUpdated : ''
 		});
 	})
+	it("momentsReducer PURGE_MOMENTS", function() {
+		let initState = {
+			moments: [1,2,3,4],
+			isFetching : false
+
+		}
+
+
+		let action = {
+			type: "PURGE_MOMENTS"
+		}
+
+		let updatedStateSlice = momentsReducer(initState, action);
+		expect(updatedStateSlice).toBeAn('object');
+		expect(updatedStateSlice).toEqual({
+			moments: [],
+			isFetching : false
+
+		});
+	})
+	it("momentsReducer FETCH_MOMENTS", function() {
+		let initState = {
+			moments: [1,2,3,4],
+			isFetching : false
+
+		}
+
+
+		let action = {
+			type: "FETCH_MOMENTS"
+		}
+
+		let updatedStateSlice = momentsReducer(initState, action);
+		expect(updatedStateSlice).toBeAn('object');
+		expect(updatedStateSlice).toEqual({
+			moments: [1,2,3,4],
+			isFetching : true
+		});
+	})
+	it("momentsReducer LIKE_MOMENT_SUCCESS", function() {
+		let initState = {
+			moments: [{id:'asdf',hasLiked:false},{id:'xyzzy',hasLiked:false},{id:'aassdf',hasLiked:false}],
+			isFetching : false
+
+		}
+
+		const data = {
+			momentId : 'xyzzy'
+		}
+		let action = {
+			type: "LIKE_MOMENT_SUCCESS",
+			data: data
+		}
+
+		let updatedStateSlice = momentsReducer(initState, action);
+		expect(updatedStateSlice).toBeAn('object');
+		expect(updatedStateSlice).toEqual({
+			moments: [{id:'asdf',hasLiked:false},{id:'xyzzy',hasLiked:true},{id:'aassdf',hasLiked:false}],
+			isFetching : false
+		});
+	})
+	it("momentsReducer REFINE_MOMENTS", function() {
+		let initState = {
+			moments: [],
+			isFetching : true
+
+		}
+		const moments = {
+			moments : [{like:{hasLiked:true},likedUserList:[]},{like:{hasLiked:true},likedUserList:[]},{like:{hasLiked:true},likedUserList:[123]}]
+		}
+		var asyncData = {moments:moments , userId :123}
+		let action = {
+			type: "REFINE_MOMENTS",
+			data : asyncData
+		}
+
+		let updatedStateSlice = momentsReducer(initState, action);
+		expect(updatedStateSlice).toBeAn('object');
+		expect(updatedStateSlice).toEqual({
+			moments: [{like:{hasLiked:true},hasLiked:false,likedUserList:[]},{like:{hasLiked:true},hasLiked:false,likedUserList:[]},{like:{hasLiked:true},hasLiked:true,likedUserList:[123]}],
+			isFetching : false
+		});
+	})
 
 })

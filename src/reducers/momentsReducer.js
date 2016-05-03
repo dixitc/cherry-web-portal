@@ -12,14 +12,6 @@ const initState = {
 const momentsReducer = (state = initState, action) => {
     switch (action.type) {
 
-		case 'RECEIVE_MOMENTS':
-		//console.log("reducer: momentsReducer RECEIVE_MOMENTS");
-			/*return Object.assign({},state , {
-				moments : action.data.moments,
-				isFetching : false
-			});*/
-			return state;
-
 		case 'REFINE_MOMENTS':
 			//console.log('reducer: momentsReducer REFINE_MOMENTS');
 
