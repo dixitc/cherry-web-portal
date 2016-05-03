@@ -71,8 +71,7 @@ const momentsReducer = (state = initState, action) => {
 		})*/
 		case 'PURGE_MOMENTS':
 			return Object.assign({},state,{
-				moments : [],
-				isFetching : false
+				moments : []
 			})
 			//return state;
         default:

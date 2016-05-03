@@ -49,7 +49,7 @@ let formatter = new AsYouTypeFormatter('IN');
 					redirectRoute : '/memories',
                     dial_code: '+91',
                     countryCode: 87,
-                    formattedNumber: '5555555551',
+                    formattedNumber: '',
 					otp:''
 
                 };
@@ -64,9 +64,7 @@ let formatter = new AsYouTypeFormatter('IN');
                 for (var i = 0; i < stringNumber.length; i++) {
                     formatter.inputDigit(stringNumber[i]);
                 }
-                //return this.state.dial_code + ' ' + formatter.currentOutput_;
                 return formatter.currentOutput_;
-
             }
 			handleOtp(e){
 				this.props.handleSetErrorMessage('');

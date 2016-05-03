@@ -5,28 +5,28 @@
 
     //todo get user , memories only if needed , need to make a separate thunk for this
     //actions types
-    const DO_SOMETHING = 'DO_SOMETHING';
+
     const FETCH_MEMORIES = 'FETCH_MEMORIES';
     const FETCH_MEMORIES_SUCCESS = 'FETCH_MEMORIES_SUCCESS';
     const FETCH_MEMORIES_FAIL = 'FETCH_MEMORIES_FAIL';
     const RECEIVE_MEMORIES = 'RECEIVE_MEMORIES';
     const PURGE_MEMORIES = 'PURGE_MEMORIES';
+	const SET_ISLOADED = 'SET_ISLOADED';
+
 	const FETCH_MOMENTS = 'FETCH_MOMENTS';
     const FETCH_MOMENTS_SUCCESS = 'FETCH_MOMENTS_SUCCESS';
     const FETCH_MOMENTS_FAIL = 'FETCH_MOMENTS_FAIL';
-    const RECEIVE_MOMENTS = 'RECEIVE_MOMENTS';
     const REFINE_MOMENTS = 'REFINE_MOMENTS';
     const PURGE_MOMENTS = 'PURGE_MOMENTS';
-    const PURGE_USER = 'PURGE_USER';
-    const SET_TITLE = 'SET_TITLE';
-    const SET_ISLOADED = 'SET_ISLOADED';
-
 	const LIKE_MOMENT = 'LIKE_MOMENT';
 	const LIKE_MOMENT_SUCCESS = 'LIKE_MOMENT_SUCCESS';
 
 
-	const LOGOUT_USER = 'LOGOUT_USER';
 
+	const PURGE_USER = 'PURGE_USER';
+	const SET_TITLE = 'SET_TITLE';
+
+	const LOGOUT_USER = 'LOGOUT_USER';
     const REGISTER_USER = 'REGISTER_USER';
     const REGISTER_REQUEST = 'REGISTER_REQUEST';
     const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
@@ -39,12 +39,7 @@
 
     //action creators
 
-    const doSomething = (text) => {
-        return {
-            type: 'DO_SOMETHING',
-            text: text
-        }
-    }
+
     const validateCredentials = (creds) => {
 
 		//DEMO CASE
@@ -289,13 +284,7 @@
     }
 
 
-//on moments receive success
-    const receiveMoments = (json) => {
-        return {
-            type: RECEIVE_MOMENTS,
-            data: json
-        }
-    }
+
 
 	//on moments receive success
 	    const refineMoments = (json) => {
@@ -345,7 +334,7 @@
     //eventually move all action names into constants
 	//eventually separate out action according to what the action is
     export {
-        doSomething,
+        
     	registerUser,
         registerRequest,
         registerFail,
@@ -361,7 +350,7 @@
 		logOutUser,
 		purgeMemories,
 		fetchMoments,
-		receiveMoments,
+
 		refineMoments,
 		logOutUser,
 		setIsLoaded,

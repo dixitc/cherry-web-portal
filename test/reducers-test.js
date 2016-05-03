@@ -6,7 +6,7 @@ import { momentsReducer } from '../src/reducers/momentsReducer';
 
 //todo : then this into a dynamic test generator
 //check if the reducers returns are as expected when passed in different actions
-describe("authReducer test suite", function() {
+describe("ALL REDUCERS TEST SUITE", function() {
     it("authReducer REGISTER_REQUEST", function() {
         let initAuth = {
             profile: {},

@@ -70,5 +70,3 @@ const memoriesReducer = (state = initState, action) => {
 
 
 export { memoriesReducer };
-
-//export inputReducer;

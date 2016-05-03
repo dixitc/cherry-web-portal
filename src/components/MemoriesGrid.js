@@ -35,30 +35,7 @@ class MyMemoriesGrid extends Component {
 		    mounted: false,
 			currentRowHeight : 150,
 			Xmargin : 10,
-			Ymargin : 10,
-		    layouts: {
-		        lg:  [{
-				    i: 'a',
-				    x: 0,
-				    y: 0,
-				    w: 1,
-				    h: 2
-				}, {
-				    i: 'b',
-				    x: 1,
-				    y: 0,
-				    w: 3,
-				    h: 2,
-				    minW: 2,
-				    maxW: 4
-				}, {
-				    i: 'c',
-				    x: 4,
-				    y: 0,
-				    w: 1,
-				    h: 2
-				}]
-		    },
+			Ymargin : 10
 		};
 		this.onLayoutChange = this.onLayoutChange.bind(this);
 		this.generateDimensions = this.generateDimensions.bind(this);
@@ -162,7 +139,7 @@ class MyMemoriesGrid extends Component {
 			}else{
 				return (
 					<div key={memory.id}  _grid={this.generateDimensions(i)} style={{backgroundImage:'url('+dummyImg+')'}} className='center-cropped'>
-					<MemoryGridView memory={memory} key={memory.title}/>
+						<MemoryGridView memory={memory} key={memory.title}/>
 					</div>
 				)
 			}

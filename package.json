@@ -75,6 +75,7 @@
     "react-image-lightbox": "^2.0.0",
     "react-imageloader": "^2.1.0",
     "react-images": "^0.3.2",
+    "react-infinite-scroll": "^0.1.5",
     "react-intl-tel-input": "^2.5.1",
     "react-lightbox-component": "^0.2.0",
     "react-masonry-component": "^4.0.0",

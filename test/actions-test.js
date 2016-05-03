@@ -16,7 +16,6 @@ import {
 	logOutUser,
 	purgeMemories,
 	fetchMoments,
-	receiveMoments,
 	refineMoments,
 	purgeMoments,
 	purgeUser
@@ -27,7 +26,7 @@ import {
 
 //async actions like registerUser will need asynchronous mocha function  (https://mochajs.org/#asynchronous-code)
 
-describe('actions test suite', function() {
+describe('ALL ACTIONS TEST SUITE', function() {
 
     it('actions registerRequest()', function() {
         expect(registerRequest("asdf")).toEqual({
@@ -70,12 +69,6 @@ describe('actions test suite', function() {
 			data : 'asdf'
 		});
 	})
-	it('actions receiveMoments()', function() {
-			expect(receiveMoments([])).toEqual({
-				type: 'RECEIVE_MOMENTS',
-				data : []
-			});
-		})
 	it('actions purgeMemories()', function() {
 				expect(purgeMemories()).toEqual({
 					type: "PURGE_MEMORIES"

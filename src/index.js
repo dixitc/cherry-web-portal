@@ -120,7 +120,7 @@ render( < Provider store = {store}>
 	{ /* Tell the Router to use our enhanced history */ }
       <Router history={history}>
         <Route path={rootPath+'/'} component={App}>
-			<IndexRedirect to={rootPath+'/login'} />
+			<IndexRedirect to={rootPath+'/memories'} />
           <Route path={rootPath+'/login'} component={Login}/>
           <Route path={rootPath+'/memories'} component={AuthenticatedComponentView} onEnter={requireAuth}>
 			  <IndexRoute component={MemoriesGrid}/>

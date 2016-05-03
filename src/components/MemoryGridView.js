@@ -79,10 +79,11 @@ class MemoryGridView extends Component {
  				title={<span style={{fontSize:'13px',top:'5px',position:'relative'}}>{memory.owner.name}</span>}
 				avatar={<img style={{borderRadius:'50%'}} src={memory.owner.photo} />}
  				titleColor='white' />
-<div className={'bottomTitle'}>
+	<div className={'bottomTitle'}>
 	{memory.title}
 	<div style={{fontSize:'12px',padding:'5px',color:'#FF5722'}}>
-		 {memory.momentsCount} moments</div>
+	{memory.momentsCount} moments
+	</div>
 	</div>
 
 

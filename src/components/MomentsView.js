@@ -18,6 +18,9 @@ import Lightbox from 'react-image-lightbox';
 import RaisedButton from 'material-ui/lib/raised-button';
 import ImageLoader from 'react-imageloader';
 import MediaQuery from 'react-responsive';
+import dummyImg from '../images/selfie-placeholder.jpg';
+
+let InfiniteScroll = require('react-infinite-scroll')(React);
 
 const mystyle = {
 	listItem : {
@@ -54,19 +57,20 @@ const style = {
 }
 
 class MyMomentsView extends Component {
+	static defaultProps = {
+	 moments: {
+		 isFetching : true
+	 }
+ };
     constructor(props) {
-		props.currentMemory = props.currentMemory || {title: 'gotcha',id:'1234234',isFullyLoaded : false};
-		props.moments.isFetching = false;
         super(props);
         this.state = {
             page: 0,
             rp: 40,
             lightboxIsOpen: false,
             currentImage: 0,
-			noMoreMoments : false,
-			currentMemoory : {
-				title: 'Your moment'
-			}
+			noMoreMoments : false
+
         }
 		//handle pagination
         this.paginate = this.paginate.bind(this);
@@ -83,15 +87,15 @@ class MyMomentsView extends Component {
     }
     componentDidMount() {
 
-			//this.props.handleSetTitle(this.state.currentMemory.title);
-			this.props.handleSetTitle(this.props.currentMemory.title);
-
-
-        //this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
 		if(this.props.currentMemory.id){
 
 			this.props.handleFetchMoments({memoryId: this.props.currentMemory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
 		}
+		//this.props.handleSetTitle(this.state.currentMemory.title);
+		this.props.handleSetTitle(this.props.currentMemory.title);
+
+		this.props.moments.isFetching = true;
+        //this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
     }
 	componentWillUnmount() {
 		this.props.handleIsLoaded({memoryId : this.props.currentMemory.id , isLoaded : false})
@@ -132,26 +136,23 @@ class MyMomentsView extends Component {
             return {src: moment.imageUrl, title: 'moment', description: 'cool moment'}
         })
     }
-		parseCoverUrl(url){
-		//console.log('parseCoverUrl');
-		//console.log(url);
+	parseCoverUrl(url){
 		return 'https://docs.google.com/uc?id='+ url.substr(url.indexOf('id=')+3,url.length - 1);
-		//https://drive.google.com/thumbnail?authuser=0&sz=w360&id=0ByxtQn1WtMnoZ1VIUzZ3Zmd5RVE
-		//return url;
 	}
     render() {
         const {moments, auth, handleLike , currentMemory} = this.props;
-        const {isFetching} = moments;
+        let {isFetching} = moments;
 		let bottomElement;
 		//Populating Lightbox
         let images = moments.moments.map((moment) => {
             let rObj = {};
-            //https://docs.google.com/uc?id=0ByxtQn1WtMnodC1JSi1GWXhiUEE
             rObj['src'] = moment.image.CURRENT_IMAGE;
             rObj['owner'] = moment.owner.name;
 
             return rObj;
         });
+		console.log('CHECKING ISFETCHING');
+		console.log(isFetching);
 
 		if(currentMemory.isFullyLoaded){
 			bottomElement = <FlatButton label="No more moments" disabled={true} /> ;
@@ -164,7 +165,7 @@ class MyMomentsView extends Component {
 
 			const  memory = this.props.currentMemory;
 
-			console.log(memory);
+
 
 
 		//populating moments
@@ -201,7 +202,7 @@ class MyMomentsView extends Component {
                     <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 
                         <GridTile
-
+							style={{background:'grey'}}
 							title={
 								<ListItem
 									style={mystyle.listItem}
@@ -222,11 +223,14 @@ class MyMomentsView extends Component {
 
 							titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.68) 100%)'}
 
-						cols={5}
-						rows={2}>
-                        {memory.coverUrl &&
-							<img src={this.parseCoverUrl(memory.coverUrl)} />
-						}
+							cols={5}
+							rows={2}>
+	                        {memory.coverUrl &&
+								<img style={{width:'100%'}} src={this.parseCoverUrl(memory.coverUrl)} />
+							}
+							{!memory.coverUrl &&
+								<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-228px'}} />
+							}
 
                         </GridTile>
 						{momentChildren}
@@ -236,7 +240,7 @@ class MyMomentsView extends Component {
 <GridList cols={3} padding={2} cellHeight={100} style={styles.gridList}>
 
 <GridTile
-style={{height:'200px'}}
+style={{height:'200px',background:'grey'}}
 title={
 	<ListItem
 		style={mystyle.listItem}
@@ -262,9 +266,13 @@ rows={2}>
 {memory.coverUrl &&
 <img src={this.parseCoverUrl(memory.coverUrl)} />
 }
-
+{!memory.coverUrl &&
+	<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-68px'}} />
+}
 </GridTile>
+
 {momentChildren}
+
 </GridList>
 </MediaQuery>
 <div style={{marginBottom: 100,textAlign:'center'}}>
@@ -272,6 +280,9 @@ rows={2}>
 
 </div>
                 </div>
+				{!currentMemory.isPresent &&
+					<p> You have no power here </p>
+				}
             </div>
 
         )
@@ -294,24 +305,32 @@ const mapStateToProps = (state) => {
 
     const {auth , title} = state;
     const moments = state.moments;
-	console.log('CURRENT MEMORY ID');
-	console.log(state);
+
+
 	let currentMemoryId = (state.routing.locationBeforeTransitions.pathname).replace('/memory/','')
 	//console.log(state.routing.locationBeforeTransitions.pathname);
 	//console.log(currentMemoryId);
 	//console.log(location);
-	const currentMemory = getCurrentMemory(state.memories.memories , currentMemoryId)
+	let currentMemory = getCurrentMemory(state.memories.memories , currentMemoryId);
+	if(currentMemory.title){
+		currentMemory.isPresent = true ;
+	}else{
+		currentMemory = {
+			isPresent : false
+		}
+	}
     return {moments, auth ,title , currentMemory}
 }
 
 const getCurrentMemory = (memories , memoryId) => {
 let filteredMemory = memories.filter((memory) => {
 		if(memory.id ==memoryId){
-			console.log('MEMORY TITLE CHECK 1');
-			console.log(memory.title);
+
+
 			return memory;
 		}
 	})
+
 	return filteredMemory[0];
 }
 
