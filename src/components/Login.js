@@ -223,29 +223,34 @@ let formatter = new AsYouTypeFormatter('IN');
                         </div>
                         }
 
-						<p style={{fontSize:'15px',padding:'40px',paddingBottom:'0px',fontStyle:'italic'}}>Cherry . Your memories are here . Forever . </p>
-						<div style={{width:'200px',margin:'auto'}}>
-							<FlatButton
-						      label="Android"
-							  target='_blank'
-							  style={{display:'inline-block',float:'left'}}
-						      linkButton={true}
-						      href='https://play.google.com/store/apps/details?id=com.triconlabs.cherry&hl=en'
-						      primary={true}/>
 
-							<FlatButton
-							label="ios"
-							target='_blank'
-							style={{display:'inline-block'}}
-							linkButton={true}
-							href='https://itunes.apple.com/us/app/cherry-cherish-your-memories/id924848929?mt=8'
-							primary={true}/>
-
-					</div>
                     </div>
                 </Paper>
-
 					</MediaQuery>
+					<div style={{position: 'absolute',
+						bottom: '100px',
+						textAlign: 'center',
+						width: '100%'}}>
+						<p className={'loginInfoText'}>Cherry . Your memories here . Forever . </p>
+						<div style={{width:'200px',margin:'auto'}}>
+							<FlatButton
+								label="Android"
+								target='_blank'
+								style={{display:'inline-block',float:'left'}}
+								linkButton={true}
+								href='https://play.google.com/store/apps/details?id=com.triconlabs.cherry&hl=en'
+								primary={true}/>
+
+							<FlatButton
+								label="ios"
+								target='_blank'
+								style={{display:'inline-block'}}
+								linkButton={true}
+								href='https://itunes.apple.com/us/app/cherry-cherish-your-memories/id924848929?mt=8'
+								primary={true}/>
+
+						</div>
+					</div>
 					<MediaQuery maxWidth={820}>
 
 
