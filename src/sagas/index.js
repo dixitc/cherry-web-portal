@@ -57,6 +57,42 @@ function fetchMomentsApi (params) {
 	})
 }
 
+
+//params : [ shortCode ]
+function fetchPublicMemoryApi (params) {
+
+	const url = apiUrl+'/v2/weblink/'+params.shortCode+'/getMemory.json';
+
+	let config = {
+      method: 'GET'
+	}
+
+	return fetch(url , config)
+	.then((response) => response.json())
+	.then((json) => {
+		return json;
+	})
+}
+
+
+//params : [ shortCode ]
+function fetchPublicMomentsApi (params) {
+	const { page , rp } = params;
+	const url = apiUrl+'/v2/weblink/'+params.memoryId+'/getMoments.json?page='+page+'&rp='+rp;
+
+	let config = {
+      method: 'GET'
+	}
+
+	return fetch(url , config)
+	.then((response) => response.json())
+	.then((json) => {
+		return json;
+	})
+}
+
+
+
 function* likeMomentApi(params){
 	const user = getUser();
 	const token = user.authToken;
@@ -97,6 +133,39 @@ function* fetchMoments(action){
 	 /*This should effectively pass moments and userId and add a hasLiked field to all moments*/
 	//yield put(actions.refineMoments(moments,userId));
 }
+
+
+function* fetchPublicMemory(action){
+
+			yield put(actions.purgeMemories());
+
+	const publicMemory = yield call(fetchPublicMemoryApi , action.data);
+	//This checks if all moments have been loaded or not
+
+//	yield put(actions.receiveMemories({memories:[publicMemory.memory]}));
+	yield put(actions.receiveCurrentMemory(publicMemory));
+
+	 /*This should effectively pass moments and userId and add a hasLiked field to all moments*/
+	//yield put(actions.refineMoments(moments,userId));
+}
+
+
+function* fetchPublicMoments(action){
+	if(action.data.page == 0){
+			yield put(actions.purgeMoments(moments));
+	}
+	const moments = yield call(fetchPublicMomentsApi , action.data);
+	//This checks if all moments have been loaded or not
+	console.log('CHECKING RETURNED PUBLIC MOMENTS');
+	if (moments.moments.length < action.data.rp){
+		yield put(actions.setIsLoaded({memoryId : action.data.memoryId , isLoaded : true}));
+	}
+
+	yield put(actions.refineMoments( {moments : moments , userId:'xxx'}));
+	 /*This should effectively pass moments and userId and add a hasLiked field to all moments*/
+	//yield put(actions.refineMoments(moments,userId));
+}
+
 
 function getUser(){
 	return JSON.parse(localStorage.getItem('cherryToken'))
@@ -154,6 +223,16 @@ function* watchFetchMoments(){
 	yield* takeLatest('FETCH_MOMENTS', fetchMoments);
 }
 
+//watcher function for fetchPublicMemory
+function* watchFetchPublicMemory(){
+	yield* takeLatest('FETCH_PUBLIC_MEMORY', fetchPublicMemory);
+}
+
+//watcher function for fetchPublicMoments
+function* watchFetchPublicMoments(){
+	yield* takeLatest('FETCH_PUBLIC_MOMENTS', fetchPublicMoments);
+}
+
 
 //watcher function for like some Moment
 function* watchLikeMoment(){
@@ -161,14 +240,12 @@ function* watchLikeMoment(){
 }
 
 
-
-
-
-
 export default function* root() {
 
 
   yield fork(watchFetchMemories),
+  yield fork(watchFetchPublicMemory),
+  yield fork(watchFetchPublicMoments),
   yield fork(watchVerifySuccess),
   yield fork(watchLogOut)
   yield fork(watchFetchMoments)

@@ -19,7 +19,6 @@ const momentsReducer = (state = initState, action) => {
 				let truth = false;
 				//eventually move this into momentReducer
 				if(moment.like.hasLiked){
-
 					moment.likedUserList.map((user)=> {
 						if (user == action.data.userId){
 							truth = true;

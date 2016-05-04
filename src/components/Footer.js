@@ -5,7 +5,7 @@ import ListItem from 'material-ui/lib/lists/list-item';
 
 const Footer = () => {
 	return (
-		<footer>
+		<footer className={'foot'} >
 			<ListItem
 				innerDivStyle={{height:'20px',lineHeight:'20px',paddingTop:'10px',paddingBottom:'10px'}}
         primaryText={<span style={{fontSize:'12px'}}>a <b>Tricon Infotech</b> product</span>}

@@ -19,6 +19,7 @@ import AuthenticatedComponentView from './components/AuthenticatedComponent';
 import MomentsView from './components/MomentsView';
 import MemoriesView from './components/MemoriesView';
 import MemoriesGrid from './components/MemoriesGrid';
+import simpleMomentsView from './components/simpleMomentsView';
 import Login from './components/Login';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/index'
@@ -34,7 +35,7 @@ let initState = {
 	isFetching : true
 }
 
-const middleware = routerMiddleware(hashHistory)
+const middleware = routerMiddleware(hashHistory);
 
 const loggerMiddleware = createLogger();
 
@@ -126,7 +127,7 @@ render( < Provider store = {store}>
 			  <IndexRoute component={MemoriesGrid}/>
 			  <Route path={rootPath+'/memory/:memoryId'} component={MomentsView} onEnter={handleMomentsRoute}/>
 		  </Route>
-
+		  <Route path={rootPath+'/memories/public/:memoryTitle/:shortCode'} component={simpleMomentsView}/>
     	</Route>
       </Router>
 	</Provider>, rootEl);

@@ -51,10 +51,10 @@ let formatter = new AsYouTypeFormatter('IN');
                     countryCode: 87,
                     formattedNumber: '',
 					otp:''
-
-                };
+				};
 
                 this.handleChange = this.handleChange.bind(this);
+                this.altHandleChange = this.altHandleChange.bind(this);
                 this.handleOtp = this.handleOtp.bind(this);
                 this.setDialCode = this.setDialCode.bind(this);
             }
@@ -68,9 +68,14 @@ let formatter = new AsYouTypeFormatter('IN');
             }
 			handleOtp(e){
 				this.props.handleSetErrorMessage('');
-				console.log('ENTER ING ');
-				console.log(e);
 				this.setState({otp:e.target.value});
+			}
+			altHandleChange(e){
+				this.props.handleSetErrorMessage('');
+				//console.log('ALT FORMATTED NUMBER');
+				this.setState({
+					formattedNumber: e.target.value
+				});
 			}
             handleChange(e) {
                 //remove any previous error messages asuser is making changes to input
@@ -153,8 +158,8 @@ let formatter = new AsYouTypeFormatter('IN');
                                     <TextField hintText={this.state.formattedNumber.length ? 'Enter your mobile number' : ''}
                                         style={style.textField}
                                         errorText={errorMessage}
-                                        value={this.formatNumber(this.state.formattedNumber)}
-                                        onKeyDown={this.handleChange}
+                                        value={this.state.formattedNumber}
+                                        onChange={this.altHandleChange}
                                         onSelect={this.checkForTab}
                                         errorStyle={style.errorStyle}
 										onEnterKeyDown={() => {handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}}
@@ -225,7 +230,7 @@ let formatter = new AsYouTypeFormatter('IN');
                     </div>
                 </Paper>
 					</MediaQuery>
-					<div style={{position: 'absolute',
+					<div className={'infoDiv'} ref='infoDiv' style={{position: 'absolute',
 						bottom: '100px',
 						textAlign: 'center',
 						width: '100%'}}>
@@ -267,10 +272,11 @@ let formatter = new AsYouTypeFormatter('IN');
 							<TextField hintText={this.state.formattedNumber.length ? 'Enter your mobile number' : ''}
 								style={style.textField}
 								errorText={errorMessage}
-								value={this.formatNumber(this.state.formattedNumber)}
-								onKeyDown={this.handleChange}
+								value={this.state.formattedNumber}
+								onFocus={() => {console.log('TEST HIDE FOOTER');document.getElementsByClassName('foot')[0].style.display='none';this.refs.infoDiv.style.display = 'none';}}
+								onBlur={() => {this.refs.infoDiv.style.display = 'block';document.getElementsByClassName('foot')[0].style.display='block'}}
+								onChange={this.altHandleChange}
 								onEnterKeyDown={() => {handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}}
-								onSelect={this.checkForTab}
 								errorStyle={style.errorStyle}
 								underlineFocusStyle={style.cherry}
 								floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
@@ -310,6 +316,8 @@ let formatter = new AsYouTypeFormatter('IN');
 								style={style.otpField}
 								onChange={this.handleOtp}
 								errorText={errorMessage}
+								onFocus={() => {document.getElementsByClassName('foot')[0].style.display='none';this.refs.infoDiv.style.display = 'none';}}
+								onBlur={() => {this.refs.infoDiv.style.display = 'block';document.getElementsByClassName('foot')[0].style.display='block'}}
 								errorStyle={style.errorStyle}
 								onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}}
 								value={this.state.otp}

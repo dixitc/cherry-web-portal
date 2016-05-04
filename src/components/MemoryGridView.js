@@ -44,6 +44,7 @@ const styles = {
 	  position : 'absolute',
 	  zIndex : 10,
 	  width : '100%',
+	  display:'none',
 	  background : 'linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, transparent 100%)'
   },
   overlayContent : {

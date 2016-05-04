@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var WebpackStripLoader = require('strip-loader');
 
 module.exports = {
   devtool: 'source-map',
@@ -28,7 +29,7 @@ module.exports = {
       noParse: ['/node_modules/google-libphonenumber/dist/*'],
       loaders: [{
           test: /\.js$/,
-          loaders: ['react-hot', 'babel'],
+          loaders: ['react-hot', 'babel',WebpackStripLoader.loader('console.log')],
           include: path.join(__dirname, 'src')
       }, {
           test: /masonry|fizzy\-ui\-utils|desandro\-|outlayer|get\-size|doc\-ready|eventie|eventemitter/,

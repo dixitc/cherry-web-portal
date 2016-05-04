@@ -7,14 +7,10 @@ import MyRawTheme from './Themes/cherryTheme';
 import Snackbar from 'material-ui/lib/snackbar';
 import Footer from './components/Footer';
 import backGroundImg from './images/geometry2.png';
-
-
 /*
 NOTES :
 	-can enable app wide theme here
 */
-
-
 export default class App extends Component {
 getChildContext () {
   return { muiTheme:  getMuiTheme(MyRawTheme),};
@@ -27,6 +23,7 @@ getChildContext () {
 
 			{this.props.children}
 <Footer />
+
 	  </div>
     );
   }

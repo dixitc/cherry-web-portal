@@ -20,8 +20,6 @@ import ImageLoader from 'react-imageloader';
 import MediaQuery from 'react-responsive';
 import dummyImg from '../images/selfie-placeholder.jpg';
 
-let InfiniteScroll = require('react-infinite-scroll')(React);
-
 const mystyle = {
 	listItem : {
 		color:'#fff',
@@ -251,7 +249,7 @@ title={
 			innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
 			style={{color:'#FFF',fontSize:'13px'}}
 			>
-				<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {moments.moments.length} {moments.moments.length == 1 ? 'moment' :  'moments'}</span>
+				<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {memory.momentsCount} {memory.momentsCount == 1 ? 'moment' :  'moments'}</span>
 			</ListItem>}
 		leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
 	>

@@ -22,6 +22,9 @@
 	const LIKE_MOMENT_SUCCESS = 'LIKE_MOMENT_SUCCESS';
 
 
+	const FETCH_PUBLIC_MOMENTS = 'FETCH_PUBLIC_MOMENTS';
+	const FETCH_PUBLIC_MEMORY = 'FETCH_PUBLIC_MEMORY';
+	const RECEIVE_CURRENT_MEMORY = 'RECEIVE_CURRENT_MEMORY';
 
 	const PURGE_USER = 'PURGE_USER';
 	const SET_TITLE = 'SET_TITLE';
@@ -51,16 +54,22 @@
             return '*required field';
         }
         let phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-        let phoneNumber = phoneUtil.parse(creds.identifier, 'IN');
-        let truth =  phoneUtil.isValidNumber(phoneNumber);
+		let truth;
+		try {
+			let phoneNumber = phoneUtil.parse(creds.identifier, 'IN');
+
+			 truth =  phoneUtil.isValidNumber(phoneNumber);
+		} catch (e) {
+			truth = false;
+
+		}
 
 
         if(truth){
             return '';
         }else {
             return 'check your number';
-
-        }
+		}
         //dispatch error message action
     }
 
@@ -261,6 +270,13 @@
         }
     }
 
+	const receiveCurrentMemory = (data) => {
+		return {
+			type: 'RECEIVE_CURRENT_MEMORY',
+			data:data
+		}
+	}
+
 	const purgeUser = () => {
 		return {
 			type: PURGE_USER
@@ -284,6 +300,20 @@
     }
 
 
+	const fetchPublicMemory = (data) => {
+		return {
+			type:'FETCH_PUBLIC_MEMORY',
+			data: data
+		}
+	}
+
+
+	const fetchPublicMoments = (data) => {
+		return {
+			type:'FETCH_PUBLIC_MOMENTS',
+			data: data
+		}
+	}
 
 
 	//on moments receive success
@@ -334,7 +364,7 @@
     //eventually move all action names into constants
 	//eventually separate out action according to what the action is
     export {
-        
+
     	registerUser,
         registerRequest,
         registerFail,
@@ -347,10 +377,12 @@
 		likeMoment,
 		likeMomentSuccess,
 		receiveMemories,
-		logOutUser,
+		receiveCurrentMemory,
 		purgeMemories,
+		logOutUser,
 		fetchMoments,
-
+		fetchPublicMemory,
+		fetchPublicMoments,
 		refineMoments,
 		logOutUser,
 		setIsLoaded,
