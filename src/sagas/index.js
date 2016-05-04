@@ -77,6 +77,8 @@ function fetchPublicMemoryApi (params) {
 
 //params : [ shortCode ]
 function fetchPublicMomentsApi (params) {
+	console.log('CHECK PARAMS');
+	console.log(params);
 	const { page , rp } = params;
 	const url = apiUrl+'/v2/weblink/'+params.memoryId+'/getMoments.json?page='+page+'&rp='+rp;
 
@@ -157,6 +159,7 @@ function* fetchPublicMoments(action){
 	const moments = yield call(fetchPublicMomentsApi , action.data);
 	//This checks if all moments have been loaded or not
 	console.log('CHECKING RETURNED PUBLIC MOMENTS');
+	console.log(moments);
 	if (moments.moments.length < action.data.rp){
 		yield put(actions.setIsLoaded({memoryId : action.data.memoryId , isLoaded : true}));
 	}

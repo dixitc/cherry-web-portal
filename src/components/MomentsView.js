@@ -149,6 +149,7 @@ class MyMomentsView extends Component {
 
             return rObj;
         });
+		
 		console.log('CHECKING ISFETCHING');
 		console.log(isFetching);
 

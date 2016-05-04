@@ -64,12 +64,10 @@ class MySimpleMomentsView extends Component {
 		isFetching : false,
 		title : '',
 		owner : {
-			profile :
-			{
 				name : '',
 				photo : '',
 				id:''
-			}
+
 		}
 	 }
  };
@@ -99,14 +97,12 @@ class MySimpleMomentsView extends Component {
     }
     componentDidMount() {
 		this.props.handleFetchPublicMemory({shortCode:'8YrkPA'});
-		console.log('HANDLING FETCH PUBLIC MOMENTS 1');
-        //this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
     }
 	componentDidUpdate(){
 
-		console.log('HANDLING FETCH PUBLIC MOMENTS 2');
-		console.log(this.props.currentMemory.id);
-		if(!this.state.initialFetch){
+
+
+		if(this.props.currentMemory.id && !this.state.initialFetch){
 			this.setState({initialFetch : true})
 			this.props.handleFetchPublicMoments({memoryId: this.props.currentMemory.id, page: this.state.page, rp: this.state.rp});
 		}
@@ -155,18 +151,9 @@ class MySimpleMomentsView extends Component {
 	}
     render() {
         const {moments ,  currentMemory} = this.props;
+		const  memory = this.props.currentMemory;
         let {isFetching} = moments;
 		let bottomElement;
-		//Populating Lightbox
-        /*let images = moments.moments.map((moment) => {
-            let rObj = {};
-            rObj['src'] = moment.image.CURRENT_IMAGE;
-            rObj['owner'] = moment.owner.name;
-
-            return rObj;
-        }); */
-		console.log('CHECKING ISFETCHING');
-		console.log(moments);
 
 		if(currentMemory.isFullyLoaded){
 			bottomElement = <FlatButton label="No more moments" disabled={true} /> ;
@@ -177,40 +164,142 @@ class MySimpleMomentsView extends Component {
 		}
 
 
-			const  memory = this.props.currentMemory;
 
 
+		let momentChildren;
+
+		if(moments.moments){
+			//Populating Lightbox
+			let images = moments.moments.map((moment) => {
+			let rObj = {};
+			rObj['src'] = moment.image.CURRENT_IMAGE;
+			rObj['owner'] = moment.owner.name;
+
+			return rObj;
+			});
+
+			console.log(images[this.state.currentImage % images.length]);
 
 
-		//populating moments
-	    /*const momentChildren =   moments.moments.map((moment, i) => {
+			//populating moments
+			 momentChildren = moments.moments.map((moment, i) => {
 
-	            return (<MomentView moment={moment} key={moment.id} onClick={(event) => {this.openLightbox(i, event)}}
-				 handleLikeCLick={() => handleLike({
-	                memoryId: moment.memoryId,
-	                momentId: moment.id,
-	                like: !moment.hasLiked
-	            })}/>)
 
-	        })*/
+			return (
+				<MomentView moment={moment} key={moment.id} onClick={(event) => {this.openLightbox(i, event)}}/>)
+
+			})
+		}else{
+
+			 momentChildren = <span>Fetching moments ...</span>
+		}
 
 			//imagesloader preloader
 			const preloader = () => {
 			  return <div style={{height:'100%',width:'100%'}}><CircularProgress /></div>;
 			}
         return (
-    <div>
-		<AppBar
-			style={{zIndex:2}}
-			className={'smooth-transit'}
-			title={<span className='brand'>{currentMemory.title}</span>}
-			primary={true}
 
-			iconElementLeft={<span></span>}
-		/>
-	<p> Nothing to see here . Move on sir</p>
+				<div className={'momentsContainer'}>
 
-	</div>
+					{this.state.lightboxIsOpen &&
+						<Lightbox
+							mainSrc={(images[this.state.currentImage]).src}
+							nextSrc={images[((this.state.currentImage + 1) % images.length)].src}
+							prevSrc={images[((this.state.currentImage + images.length - 1) % images.length)].src}
+							onMovePrevRequest={this.gotoPrevious}
+							onMoveNextRequest={this.gotoNext}
+							onCloseRequest={this.closeLightbox}/>
+					}
+
+					<div className={'full-width'}>
+					<MediaQuery minWidth={800}>
+						<GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
+
+							<GridTile
+								style={{background:'grey'}}
+								title={
+									<ListItem
+										style={mystyle.listItem}
+										key={memory.id}
+										innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
+										primaryText={<span className={'white-text'}>{memory.owner.name}</span>}
+										secondaryText={	< ListItem
+											innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
+											style={{color:'#FFF',fontSize:'13px'}}
+											>
+												<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {memory.momentsCount} {memory.momentsCount == 1 ? 'moment' :  'moments'}</span>
+											</ListItem>}
+										leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
+									>
+
+									</ListItem>
+								}
+
+								titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.68) 100%)'}
+
+								cols={5}
+								rows={2}>
+								{memory.coverUrl &&
+									<img style={{width:'100%'}} src={this.parseCoverUrl(memory.coverUrl)} />
+								}
+								{!memory.coverUrl &&
+									<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-228px'}} />
+								}
+
+							</GridTile>
+							{momentChildren}
+						</GridList>
+						</MediaQuery>
+						<MediaQuery maxWidth={600}>
+			<GridList cols={3} padding={2} cellHeight={100} style={styles.gridList}>
+
+			<GridTile
+			style={{height:'200px',background:'grey'}}
+			title={
+			<ListItem
+			style={mystyle.listItem}
+			key={memory.id}
+			innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
+			primaryText={<span style={{color:'white'}}>{memory.owner.name}</span>}
+			secondaryText={	< ListItem
+				innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
+				style={{color:'#FFF',fontSize:'13px'}}
+				>
+					<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {memory.momentsCount} {memory.momentsCount == 1 ? 'moment' :  'moments'}</span>
+				</ListItem>}
+			leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
+			>
+
+			</ListItem>
+			}
+
+			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 100%)'}
+
+			cols={3}
+			rows={2}>
+			{memory.coverUrl &&
+			<img src={this.parseCoverUrl(memory.coverUrl)} />
+			}
+			{!memory.coverUrl &&
+			<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-68px'}} />
+			}
+			</GridTile>
+
+			{momentChildren}
+
+			</GridList>
+			</MediaQuery>
+			<div style={{marginBottom: 100,textAlign:'center'}}>
+			{bottomElement}
+
+			</div>
+					</div>
+					{!currentMemory.isPresent &&
+						<p> You have no power here </p>
+					}
+				</div>
+
 
         )
     }
@@ -225,9 +314,22 @@ MySimpleMomentsView.propTypes = {
 
 
 const mapStateToProps = (state) => {
+	let currentMemory;
+if(state.memories.currentMemory){
 
-    const { currentMemory} = state.memories;
-	const { moments } = state.moments;
+	 currentMemory = state.memories.currentMemory;
+}else{
+	 currentMemory = {
+		title:'',
+		owner:{
+			name:'',
+			photo:''
+		},
+		momentsCount:null,
+		members:[]
+	}
+}
+	const  moments = state.moments;
 	console.log('currentMemorycurrentMemorycurrentMemory');
 	console.log(currentMemory);
 
