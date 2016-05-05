@@ -23,9 +23,12 @@ const mystyle = {
 	listItem : {
 		color : '#FFF',
 		padding : 0
+	},
+	hideListItem : {
+		display:'none'
 	}
 }
-const MomentView = ({ moment , handleLikeCLick , onClick}) => {
+const MomentView = ({ moment , handleLikeCLick , onClick , showDetail}) => {
 
 	function preloader() {
 	  return <div style={{height:'100%',width:'100%',textAlign:'center',backgroundColor:'rgb(103, 103, 103)',zIndex:'1000'}}></div>;
@@ -59,7 +62,7 @@ const MomentView = ({ moment , handleLikeCLick , onClick}) => {
 
 		<ListItem
 
-			style={mystyle.listItem}
+			style={showDetail ? mystyle.listItem : mystyle.listItem}
 			className={'inner-grid'}
 			innerDivStyle={{paddingLeft:40,paddingBottom:14,paddingTop:17}}
 			primaryText={<span style={{color:'#fff',fontSize:'12px'}}>{moment.owner.name}</span>}
@@ -69,7 +72,7 @@ const MomentView = ({ moment , handleLikeCLick , onClick}) => {
 		</ListItem>}
 			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.9) 100%)'}
 			className='grid-moment'
-			actionIcon={<IconButton className={'inner-grid'} onClick={(e) => {e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} style={{height:'12px',width:'12px'}}  color="white"/> }</IconButton>}>
+			actionIcon={<IconButton className={'inner-grid'} style={showDetail ? {display:'block'} : {display:'none'}}  onClick={(e) => {e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} style={{height:'12px',width:'12px'}}  color="white"/> }</IconButton>}>
 
 			{customImageLoader}
 
@@ -82,7 +85,8 @@ const MomentView = ({ moment , handleLikeCLick , onClick}) => {
 MomentView.propTypes = {
 	moment : React.PropTypes.object.isRequired,
 	handleLikeCLick : React.PropTypes.func.isRequired,
-	onClick : React.PropTypes.func.isRequired
+	onClick : React.PropTypes.func.isRequired,
+	showDetail : React.PropTypes.bool.isRequired
 }
 
 export default MomentView;

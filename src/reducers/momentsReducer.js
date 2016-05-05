@@ -44,6 +44,8 @@ const momentsReducer = (state = initState, action) => {
 				isFetching : true
 
 			});
+		case 'FETCH_PUBLIC_MOMENTS':
+			return Object.assign({},state,{isFetching:true})
 		case 'LIKE_MOMENT_SUCCESS':
 			//console.log('reducer: momentsReducer LIKE_MOMENT_SUCCESS');
 

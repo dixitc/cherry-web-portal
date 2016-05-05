@@ -149,7 +149,7 @@ class MyMomentsView extends Component {
 
             return rObj;
         });
-		
+
 		console.log('CHECKING ISFETCHING');
 		console.log(isFetching);
 
@@ -170,7 +170,7 @@ class MyMomentsView extends Component {
 		//populating moments
 	    const momentChildren =   moments.moments.map((moment, i) => {
 
-	            return (<MomentView moment={moment} key={moment.id} onClick={(event) => {this.openLightbox(i, event)}}
+	            return (<MomentView moment={moment} showDetail={true} key={moment.id} onClick={(event) => {this.openLightbox(i, event)}}
 				 handleLikeCLick={() => handleLike({
 	                memoryId: moment.memoryId,
 	                momentId: moment.id,

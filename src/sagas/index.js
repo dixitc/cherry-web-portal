@@ -30,8 +30,8 @@ function* fetchMemories(action){
 	if(memories.length > 0){
 		yield put(actions.purgeMemories());
 	}
-	console.log('GOT JSON MEMORIES');
-	console.log(memories);
+
+
 	yield put(actions.receiveMemories(memories));
 }
 
@@ -77,8 +77,8 @@ function fetchPublicMemoryApi (params) {
 
 //params : [ shortCode ]
 function fetchPublicMomentsApi (params) {
-	console.log('CHECK PARAMS');
-	console.log(params);
+
+
 	const { page , rp } = params;
 	const url = apiUrl+'/v2/weblink/'+params.memoryId+'/getMoments.json?page='+page+'&rp='+rp;
 
@@ -98,7 +98,7 @@ function fetchPublicMomentsApi (params) {
 function* likeMomentApi(params){
 	const user = getUser();
 	const token = user.authToken;
-	console.log('TOKEN '+token );
+
 	const url = apiUrl+'/v1/memory/'+params.memoryId+'/like/'+params.momentId+'.json';
 	const myHeaders = new Headers({
 	  'authToken' : token,
@@ -112,7 +112,7 @@ function* likeMomentApi(params){
 	return fetch(url,config)
 	.then((response) => response.json())
 	.then((json) => {
-		console.log(json);
+
 		return json
 	})
 }
@@ -142,10 +142,16 @@ function* fetchPublicMemory(action){
 			yield put(actions.purgeMemories());
 
 	const publicMemory = yield call(fetchPublicMemoryApi , action.data);
+	console.log('SAGAS FETCHPUBLICMEMORYAPI RESPONSE JSON');
+	console.log(publicMemory);
+	if(publicMemory.memory){
+		yield put(actions.receiveCurrentMemory(publicMemory));
+	}else if(publicMemory.err){
+		yield put(actions.rejectCurrentMemory('rejected'));
+	}
 	//This checks if all moments have been loaded or not
 
 //	yield put(actions.receiveMemories({memories:[publicMemory.memory]}));
-	yield put(actions.receiveCurrentMemory(publicMemory));
 
 	 /*This should effectively pass moments and userId and add a hasLiked field to all moments*/
 	//yield put(actions.refineMoments(moments,userId));
@@ -158,10 +164,10 @@ function* fetchPublicMoments(action){
 	}
 	const moments = yield call(fetchPublicMomentsApi , action.data);
 	//This checks if all moments have been loaded or not
-	console.log('CHECKING RETURNED PUBLIC MOMENTS');
-	console.log(moments);
+
+
 	if (moments.moments.length < action.data.rp){
-		yield put(actions.setIsLoaded({memoryId : action.data.memoryId , isLoaded : true}));
+		yield put(actions.setIsLoadedPublicMemory('asdf'));
 	}
 
 	yield put(actions.refineMoments( {moments : moments , userId:'xxx'}));
@@ -192,10 +198,10 @@ function* cleanUpLogOut(action){
 
 //a function that handles cleanup after LOGOUT_USER is called
 function* likeMoment(action){
-	console.log(' indexSaga : likeMoment');
-	console.log(action);
+
+
 	const  payload  = action.data;
-	console.log(payload);
+
 	let likeReponse = yield call(likeMomentApi , action.data);
 	// check if likeReponse idicates successfull completion
 	if(likeReponse = {}){

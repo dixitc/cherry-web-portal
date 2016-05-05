@@ -24,7 +24,9 @@
 
 	const FETCH_PUBLIC_MOMENTS = 'FETCH_PUBLIC_MOMENTS';
 	const FETCH_PUBLIC_MEMORY = 'FETCH_PUBLIC_MEMORY';
+	const SET_IS_LOADED_PUBLIC_MEMORY = 'SET_IS_LOADED_PUBLIC_MEMORY';
 	const RECEIVE_CURRENT_MEMORY = 'RECEIVE_CURRENT_MEMORY';
+	const REJECT_CURRENT_MEMORY = 'REJECT_CURRENT_MEMORY';
 
 	const PURGE_USER = 'PURGE_USER';
 	const SET_TITLE = 'SET_TITLE';
@@ -277,6 +279,13 @@
 		}
 	}
 
+	const rejectCurrentMemory = (data) => {
+		return {
+			type: 'REJECT_CURRENT_MEMORY',
+			data:data
+		}
+	}
+
 	const purgeUser = () => {
 		return {
 			type: PURGE_USER
@@ -312,6 +321,13 @@
 		return {
 			type:'FETCH_PUBLIC_MOMENTS',
 			data: data
+		}
+	}
+
+	const setIsLoadedPublicMemory = (data) => {
+		return {
+			type:'SET_IS_LOADED_PUBLIC_MEMORY',
+			data:data
 		}
 	}
 
@@ -378,10 +394,12 @@
 		likeMomentSuccess,
 		receiveMemories,
 		receiveCurrentMemory,
+		rejectCurrentMemory,
 		purgeMemories,
 		logOutUser,
 		fetchMoments,
 		fetchPublicMemory,
+		setIsLoadedPublicMemory,
 		fetchPublicMoments,
 		refineMoments,
 		logOutUser,

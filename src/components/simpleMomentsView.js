@@ -12,6 +12,7 @@ import { likeMoment , setTitle} from '../actions/actions';
 import Avatar from 'material-ui/lib/avatar';
 import FlatButton from 'material-ui/lib/flat-button';
 import AppBar from 'material-ui/lib/app-bar';
+import RefreshIndicator from 'material-ui/lib/refresh-indicator';
 
 import ListItem from 'material-ui/lib/lists/list-item';
 import Lightbox from 'react-image-lightbox';
@@ -51,37 +52,40 @@ const style = {
         width: 700,
         marginTop: 100,
         margin: 'auto'
+    },refresh: {
+
+        position :'absolute',
+        margin:'auto',
+        top: '15%',
+        left: '45%',
+        transform: 'translate3d(0, 0, 0)',
+
     }
 }
 
 class MySimpleMomentsView extends Component {
-	static defaultProps = {
-	 moments: {
-		 isFetching : false,
-		 moments:[]
-	 },
-	 currentMemory: {
-		isFetching : false,
-		title : '',
-		owner : {
-				name : '',
-				photo : '',
-				id:''
+    constructor(props) {
+		props.currentMemory = {
+		    isFetching: true,
+		    title: '',
+			members:[],
+		    owner: {
+		        name: 'asd',
+		        photo: '',
+		        id: ''
+
+		    }
+		}
+		super(props);
+		this.state = {
+		    page: 0,
+		    rp: 40,
+		    lightboxIsOpen: false,
+		    currentImage: 0,
+		    noMoreMoments: false,
+		    initialFetch: false
 
 		}
-	 }
- };
-    constructor(props) {
-        super(props);
-        this.state = {
-            page: 0,
-            rp: 40,
-            lightboxIsOpen: false,
-            currentImage: 0,
-			noMoreMoments : false,
-			initialFetch:false
-
-        }
 		//handle pagination
         this.paginate = this.paginate.bind(this);
 
@@ -96,11 +100,9 @@ class MySimpleMomentsView extends Component {
 
     }
     componentDidMount() {
-		this.props.handleFetchPublicMemory({shortCode:'8YrkPA'});
+		this.props.handleFetchPublicMemory({shortCode:this.props.shortCode});
     }
 	componentDidUpdate(){
-
-
 
 		if(this.props.currentMemory.id && !this.state.initialFetch){
 			this.setState({initialFetch : true})
@@ -138,7 +140,7 @@ class MySimpleMomentsView extends Component {
             'page': newPage
         }, function() {
 
-            this.props.handleFetchMoments({memoryId: this.props.currentMemory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp})
+            this.props.handleFetchPublicMoments({memoryId: this.props.currentMemory.id, page: this.state.page, rp: this.state.rp})
         });
     }
     populateLightox() {
@@ -168,30 +170,39 @@ class MySimpleMomentsView extends Component {
 
 		let momentChildren;
 
-		if(moments.moments){
-			//Populating Lightbox
-			let images = moments.moments.map((moment) => {
+		//Populating Lightbox
+		let images = moments.moments.map((moment) => {
 			let rObj = {};
 			rObj['src'] = moment.image.CURRENT_IMAGE;
 			rObj['owner'] = moment.owner.name;
 
 			return rObj;
-			});
-
-			console.log(images[this.state.currentImage % images.length]);
-
-
+		});
+		if(moments.moments){
 			//populating moments
 			 momentChildren = moments.moments.map((moment, i) => {
 
 
 			return (
-				<MomentView moment={moment} key={moment.id} onClick={(event) => {this.openLightbox(i, event)}}/>)
+				<MomentView moment={moment} showDetail={false} key={moment.id} onClick={(event) => {this.openLightbox(i, event)}}/>)
 
 			})
 		}else{
 
 			 momentChildren = <span>Fetching moments ...</span>
+		}
+		let simpleLightBox
+		if(this.state.lightboxIsOpen){
+
+			simpleLightBox =  <Lightbox
+				mainSrc={images[this.state.currentImage % images.length].src}
+				nextSrc={images[((this.state.currentImage + 1) % images.length)].src}
+				prevSrc={images[((this.state.currentImage + images.length - 1) % images.length)].src}
+				onMovePrevRequest={this.gotoPrevious}
+				onMoveNextRequest={this.gotoNext}
+				onCloseRequest={this.closeLightbox}/>
+		}else{
+			simpleLightBox = ''
 		}
 
 			//imagesloader preloader
@@ -199,114 +210,143 @@ class MySimpleMomentsView extends Component {
 			  return <div style={{height:'100%',width:'100%'}}><CircularProgress /></div>;
 			}
         return (
+			<div>
+								<AppBar
+									style={{zIndex:2}}
+									className={'smooth-transit'}
+									title={<span className='brand'>{currentMemory.title}</span>}
+									primary={true}
+									iconElementLeft={''}/>
 
 				<div className={'momentsContainer'}>
 
-					{this.state.lightboxIsOpen &&
-						<Lightbox
-							mainSrc={(images[this.state.currentImage]).src}
-							nextSrc={images[((this.state.currentImage + 1) % images.length)].src}
-							prevSrc={images[((this.state.currentImage + images.length - 1) % images.length)].src}
-							onMovePrevRequest={this.gotoPrevious}
-							onMoveNextRequest={this.gotoNext}
-							onCloseRequest={this.closeLightbox}/>
-					}
+
+					{simpleLightBox}
 
 					<div className={'full-width'}>
 					<MediaQuery minWidth={800}>
-						<GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
+						{currentMemory.isFetching &&
 
-							<GridTile
-								style={{background:'grey'}}
-								title={
-									<ListItem
-										style={mystyle.listItem}
-										key={memory.id}
-										innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
-										primaryText={<span className={'white-text'}>{memory.owner.name}</span>}
-										secondaryText={	< ListItem
-											innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
-											style={{color:'#FFF',fontSize:'13px'}}
-											>
-												<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {memory.momentsCount} {memory.momentsCount == 1 ? 'moment' :  'moments'}</span>
+							<RefreshIndicator
+								size={50}
+								left={70}
+								top={0}
+								loadingColor={"#FF9800"}
+								status="loading"
+								style={style.refresh}
+								/>
+						}
+						{!currentMemory.isFetching &&
+
+							<GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
+
+								<GridTile
+									style={{background:'grey'}}
+									title={
+										<ListItem
+											style={mystyle.listItem}
+											key={currentMemory.id}
+											innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
+											primaryText={<span className={'white-text'}>{currentMemory.owner.name}</span>}
+											secondaryText={	< ListItem
+												innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
+												style={{color:'#FFF',fontSize:'13px'}}
+												>
+												<span style={{color:'#FF5722',marginRight:5}}>{currentMemory.members.length} {currentMemory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {currentMemory.momentsCount} {currentMemory.momentsCount == 1 ? 'moment' :  'moments'}</span>
 											</ListItem>}
-										leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
-									>
+											leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={currentMemory.owner.photo} />}
+											>
 
-									</ListItem>
-								}
+										</ListItem>
+									}
 
-								titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.68) 100%)'}
+									titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.68) 100%)'}
 
-								cols={5}
-								rows={2}>
-								{memory.coverUrl &&
-									<img style={{width:'100%'}} src={this.parseCoverUrl(memory.coverUrl)} />
-								}
-								{!memory.coverUrl &&
-									<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-228px'}} />
-								}
+									cols={5}
+									rows={2}>
+									{currentMemory.coverUrl &&
+										<img style={{width:'100%'}} src={this.parseCoverUrl(currentMemory.coverUrl)} />
+									}
+									{!currentMemory.coverUrl &&
+										<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-228px'}} />
+									}
 
-							</GridTile>
-							{momentChildren}
-						</GridList>
+								</GridTile>
+								{momentChildren}
+							</GridList>
+						}
 						</MediaQuery>
 						<MediaQuery maxWidth={600}>
-			<GridList cols={3} padding={2} cellHeight={100} style={styles.gridList}>
+							{currentMemory.isFetching &&
+								<RefreshIndicator
+									size={30}
+									left={70}
+									top={0}
+									loadingColor={"#FF9800"}
+									status="loading"
+									style={style.refresh}
+									/>
+							}
+							{!currentMemory.isFetching &&
 
-			<GridTile
-			style={{height:'200px',background:'grey'}}
-			title={
-			<ListItem
-			style={mystyle.listItem}
-			key={memory.id}
-			innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
-			primaryText={<span style={{color:'white'}}>{memory.owner.name}</span>}
-			secondaryText={	< ListItem
-				innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
-				style={{color:'#FFF',fontSize:'13px'}}
-				>
-					<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {memory.momentsCount} {memory.momentsCount == 1 ? 'moment' :  'moments'}</span>
-				</ListItem>}
-			leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
-			>
+								<GridList cols={3} padding={2} cellHeight={100} style={styles.gridList}>
 
-			</ListItem>
-			}
+									<GridTile
+										style={{height:'200px',background:'grey'}}
+										title={
+											<ListItem
+												style={mystyle.listItem}
+												key={memory.id}
+												innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
+												primaryText={<span style={{color:'white'}}>{memory.owner.name}</span>}
+												secondaryText={	< ListItem
+													innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
+													style={{color:'#FFF',fontSize:'13px'}}
+													>
+													<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {memory.momentsCount} {memory.momentsCount == 1 ? 'moment' :  'moments'}</span>
+												</ListItem>}
+												leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
+												>
 
-			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 100%)'}
+											</ListItem>
+										}
 
-			cols={3}
-			rows={2}>
-			{memory.coverUrl &&
-			<img src={this.parseCoverUrl(memory.coverUrl)} />
-			}
-			{!memory.coverUrl &&
-			<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-68px'}} />
-			}
-			</GridTile>
+										titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 100%)'}
 
-			{momentChildren}
+										cols={3}
+										rows={2}>
+										{memory.coverUrl &&
+											<img src={this.parseCoverUrl(memory.coverUrl)} />
+										}
+										{!memory.coverUrl &&
+											<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-68px'}} />
+										}
+									</GridTile>
 
-			</GridList>
+									{momentChildren}
+
+								</GridList>
+							}
 			</MediaQuery>
-			<div style={{marginBottom: 100,textAlign:'center'}}>
-			{bottomElement}
+			{!currentMemory.isFetching &&
 
-			</div>
+				<div style={{marginBottom: 100,textAlign:'center'}}>
+					{bottomElement}
+
+				</div>
+			}
 					</div>
-					{!currentMemory.isPresent &&
-						<p> You have no power here </p>
-					}
+
 				</div>
 
-
+</div>
         )
     }
 }
 
 MySimpleMomentsView.propTypes = {
 	currentMemory: React.PropTypes.object.isRequired,
+	shortCode: React.PropTypes.string.isRequired,
     moments: React.PropTypes.object.isRequired,
     handleFetchPublicMoments: PropTypes.func.isRequired,
     handleFetchPublicMemory: PropTypes.func.isRequired
@@ -314,26 +354,16 @@ MySimpleMomentsView.propTypes = {
 
 
 const mapStateToProps = (state) => {
-	let currentMemory;
-if(state.memories.currentMemory){
+	console.log(state.memories.currentMemory);
+	const currentMemory = state.memories.currentMemory;
 
-	 currentMemory = state.memories.currentMemory;
-}else{
-	 currentMemory = {
-		title:'',
-		owner:{
-			name:'',
-			photo:''
-		},
-		momentsCount:null,
-		members:[]
-	}
-}
-	const  moments = state.moments;
-	console.log('currentMemorycurrentMemorycurrentMemory');
-	console.log(currentMemory);
+	const  { moments } = state;
+	const url = state.routing.locationBeforeTransitions.pathname;
 
-	return { currentMemory , moments }
+	const urlList = url.split('/')
+	const shortCode = urlList[4]
+// 	const shortCode = url.replace(/memories/public/i,'')
+	return { currentMemory , moments , shortCode }
 }
 
 const mapDispatchToProps = (dispatch) => {

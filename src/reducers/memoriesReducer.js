@@ -2,7 +2,16 @@ const initState = {
     memories: [],
     isFetching : false,
 	lastUpdated : '',
-	currentMemory : ''
+	currentMemory : {
+	   title:'',
+	   owner:{
+		   name:'',
+		   photo:''
+	   },
+	   momentsCount:null,
+	   members:[],
+	   isFullyLoaded : false
+   }
 }
 
 
@@ -44,6 +53,9 @@ const memoriesReducer = (state = initState, action) => {
 			return Object.assign({},state,{
 			isFetching : true
 		})
+		case 'SET_IS_LOADED_PUBLIC_MEMORY':
+			console.log('CHECKING STATE IS LOADED PUBLIC MEMORY');
+			return Object.assign({} , state , {currentMemory : {...state.currentMemory,isFullyLoaded : action.data}});
 		case 'FETCH_MEMORIES_SUCCESS':
 			return state;
 			/*return Object.assign(...state,{
@@ -56,11 +68,23 @@ const memoriesReducer = (state = initState, action) => {
 			/*return Object(...state , {
 			isFetching : false
 		})*/
+		case 'FETCH_PUBLIC_MEMORY':
+			return Object.assign({},state,{currentMemory:{...state.currentMemory , isFetching:true}})
+		case 'REJECT_CURRENT_MEMORY':
+			return Object.assign({},state,{currentMemory:{...state.currentMemory , isPresent:false}})
 		case 'RECEIVE_CURRENT_MEMORY':
 			if(action.data.memory){
 
+				let updateCurrentMemory = Object.assign({} , action.data.memory );
+				console.log(updateCurrentMemory);
 				return Object.assign({} , state , {
-					currentMemory : action.data.memory
+					currentMemory : {
+						...state.currentMemory,
+						...updateCurrentMemory,
+						isFullyLoaded : false,
+						isPresent:true,
+						isFetching : false
+					}
 				})
 			}else {
 				return state;
