@@ -24,8 +24,8 @@ let formatter = new AsYouTypeFormatter('IN');
         -separate out text field into phonetext field
 
     ISSUES :
-        [-] mobile number label color on error [FIXED]
-		- backspace anywhere in input clears only last character
+
+
 		Replace this instead of messy html (separate into component)
 		<phoneNumberInput
 			style={style}
@@ -77,45 +77,32 @@ let formatter = new AsYouTypeFormatter('IN');
 					formattedNumber: e.target.value
 				});
 			}
-            handleChange(e) {
-                //remove any previous error messages asuser is making changes to input
+			handleChange(e) {
+			    //remove any previous error messages asuser is making changes to input
 
-                this.props.handleSetErrorMessage('');
-                switch (true) {
-    				//ALLOW ONLY NUMBER INPUT
-                    case (e.keyCode >= 48 && e.keyCode <= 57):
-                        let updatedFormattedNumber;
+			    this.props.handleSetErrorMessage('');
+			    switch (true) {
+			            //ALLOW ONLY NUMBER INPUT
+			        case(e.keyCode >= 48 && e.keyCode <= 57):
+			            let updatedFormattedNumber;
 
-                        updatedFormattedNumber = this.state.formattedNumber + (String.fromCharCode(e.keyCode)).toString();
-                        this.setState({
-                            formattedNumber: updatedFormattedNumber
-                        });
+			            updatedFormattedNumber = this.state.formattedNumber + (String.fromCharCode(e.keyCode)).toString();
+			            this.setState({formattedNumber: updatedFormattedNumber});
 
-                        break;
-    				/*HANDLE ON PRESS ENTER handling by textfield element itself
-                    case (e.keyCode == 13 || e.keyCode == 229):
-                        this.props.handleRegisterUser(this.state.formattedNumber,this.state.dial_code);
-                        break;
-					*/
-    				//HANDLE ON PRESS BACKSPACE
-                    case (e.keyCode == 8):
-                    /*    console.log(e.nativeEvent.target.selectionStart-4);
-                        console.log(e.nativeEvent.target.selectionEnd-4);
-                        console.log(this.state.formattedNumber.substr(0, e.nativeEvent.target.selectionStart - 5));
-                        console.log(this.state.formattedNumber.substr( e.nativeEvent.target.selectionEnd -4,this.state.formattedNumber.length)); */
-                        let newNumber = this.state.formattedNumber.substr(0, this.state.formattedNumber.length - 1);
+			            break;
+			        case(e.keyCode == 8):
 
-                        this.setState({
-                            formattedNumber: ''
-                        });
+			            let newNumber = this.state.formattedNumber.substr(0, this.state.formattedNumber.length - 1);
 
-                        break;
-                    default:
+			            this.setState({formattedNumber: ''});
 
-                        break;
-                }
+			            break;
+			        default:
 
-            }
+			            break;
+			    }
+
+			}
             setDialCode(event, index, value) {
 
                 this.setState({

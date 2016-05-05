@@ -71,7 +71,7 @@ const memoriesReducer = (state = initState, action) => {
 		case 'FETCH_PUBLIC_MEMORY':
 			return Object.assign({},state,{currentMemory:{...state.currentMemory , isFetching:true}})
 		case 'REJECT_CURRENT_MEMORY':
-			return Object.assign({},state,{currentMemory:{...state.currentMemory , isPresent:false}})
+			return Object.assign({},state,{currentMemory:{...state.currentMemory , isPresent:false , isFetching : false}})
 		case 'RECEIVE_CURRENT_MEMORY':
 			if(action.data.memory){
 

@@ -211,6 +211,8 @@ class MySimpleMomentsView extends Component {
 			}
         return (
 			<div>
+				{currentMemory.isPresent &&
+					<div>
 								<AppBar
 									style={{zIndex:2}}
 									className={'smooth-transit'}
@@ -338,7 +340,13 @@ class MySimpleMomentsView extends Component {
 					</div>
 
 				</div>
-
+			</div>
+			}
+			{!currentMemory.isPresent &&
+				<div style={!currentMemory.isFetching ? {marginBottom: 100,position:'absolute',width:'100%',top:'40%',textAlign:'center'} : {display:'none'}}>
+				<FlatButton label='You have no power here' />
+				</div>
+			}
 </div>
         )
     }
