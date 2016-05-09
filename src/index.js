@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { createStore , applyMiddleware , compose } from 'redux';
 import { combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { Router , IndexRedirect, Route, browserHistory , hashHistory , IndexRoute } from 'react-router';
+import { Router , IndexRedirect, Route, browserHistory , hashHistory , IndexRoute , Redirect } from 'react-router';
 import { syncHistoryWithStore, routerReducer , routerMiddleware } from 'react-router-redux';
 import App from './App';
 import { memoriesReducer } from './reducers/memoriesReducer';
@@ -18,6 +18,7 @@ import SmartMessage from './components/components';
 import AuthenticatedComponentView from './components/AuthenticatedComponent';
 import MomentsView from './components/MomentsView';
 import MemoriesView from './components/MemoriesView';
+import ProfileView from './components/ProfileView';
 import MemoriesGrid from './components/MemoriesGrid';
 import simpleMomentsView from './components/simpleMomentsView';
 import Login from './components/Login';
@@ -111,6 +112,22 @@ const handleMomentsRoute = (nextState , replace) => {
 		}
 	}
 }
+const handleProfileRoute = (nextState , replace) => {
+
+
+
+		if(store.getState().auth.isAuthenticated){
+
+			//store.dispatch(fetchMemories(store.getState().auth.authToken))
+
+		}else{
+			replace({
+				pathname : '/login',
+				state: { nextPathname: nextState.location.pathname }
+			})
+		}
+
+}
 
 //const rootPath = window.location.pathname;
 const rootPath = '';
@@ -127,6 +144,7 @@ render( < Provider store = {store}>
 			  <IndexRoute component={MemoriesGrid}/>
 			  <Route path={rootPath+'/memory/:memoryId'} component={MomentsView} onEnter={handleMomentsRoute}/>
 		  </Route>
+
 		  <Route path={rootPath+'/memories/public/:memoryTitle/:shortCode'} component={simpleMomentsView}/>
     	</Route>
       </Router>

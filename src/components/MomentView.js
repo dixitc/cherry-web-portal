@@ -65,14 +65,14 @@ const MomentView = ({ moment , handleLikeCLick , onClick , showDetail}) => {
 			style={showDetail ? mystyle.listItem : mystyle.listItem}
 			className={'inner-grid'}
 			innerDivStyle={{paddingLeft:40,paddingBottom:14,paddingTop:17}}
-			primaryText={<span style={{color:'#fff',fontSize:'12px'}}>{moment.owner.name}</span>}
-			leftAvatar={<Avatar backgroundColor={'transparent'} style={{width:30,height:30,left:0}} src={moment.owner.photo} />}
+			primaryText={<span style={{color:'#fff',fontSize:'10px'}}>{moment.owner.name}</span>}
+			leftAvatar={<Avatar backgroundColor={'transparent'} style={{left:0}} size={30} src={moment.owner.photo} />}
 		>
 
 		</ListItem>}
 			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.9) 100%)'}
 			className='grid-moment'
-			actionIcon={<IconButton className={'inner-grid'} style={showDetail ? {display:'block'} : {display:'none'}}  onClick={(e) => {e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} style={{height:'12px',width:'12px'}}  color="white"/> }</IconButton>}>
+			actionIcon={<IconButton className={'inner-grid'} iconStyle={{height:'20px',width:'20px'}} style={showDetail ? {display:'block'} : {display:'none'}}  onClick={(e) => {e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} style={{height:'12px',width:'12px'}}  color="white"/> }</IconButton>}>
 
 			{customImageLoader}
 

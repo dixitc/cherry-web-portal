@@ -1,28 +1,4 @@
 
-render ({
-	let name = this.props.product.stocked ?
-	this.props.product.name :
-	<span style={{color : 'red'}}>
-	this.props.product.name
-	</span>
-	return (
-		<div>{{name}}</div>
-	);
-})
-
-
-const todo = (state , action) => {
-	switch (action.type) {
-		case 'TOGGLE_TODO':
-
-		default:
-			return state;
-	}
-}
-
-
-
-
 
 
 Setup checklist
@@ -71,7 +47,6 @@ get some minimal app with authentication working
 get minimal app to work with cherry backend
 finalize directory structure
 
-done till here
 
 start building static components
 fetch data from cherry (use redux-async-connect or redux-sagas) with no interactivity
@@ -79,6 +54,7 @@ add user-interactions
 
 // FUTURE THINGS TODO
 
+done till here
 PROFILE APP
 
 //text animation on cherry site

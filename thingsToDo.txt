@@ -1,28 +1,28 @@
 SUPER-CRITICAL :
 	[-] handle memory display when there is no coverUrl
-	- handle moments display when there is no coverUrl
-	- shit needs to be responsive
+	[-] handle moments display when there is no coverUrl
+	[-] shit needs to be responsive
 	[-] figure out importing images (IN pROD ??)
 	[-] figure out moments slideshow
 	[-] pass country code during register
-	- handle input edit login
+	[-] handle input edit login
 	- google analytics
 	[-] header shows memeory title
-	- Memories View use imagesloaded (use react-imageloader)
+	[-] Memories View use imagesloaded (use react-imageloader)
 	[-] moments view back button
 	- handle user avatar when there is no image
 	- lightbox loading image icon
-	- Fix coverUrl
-	- footer
-	- Overhaul memories Staggered view
+	[-] Fix coverUrl
+	[-] footer
+	[-] Overhaul memories Staggered view
 
 CRITICAL :
 	[-] separate out singleMomentreducer (to better handle moment level actions) (DONE)
 
 PROGRESS :
-    -prev = hooking up verificationId (done , need to set and get user when token is present (refresh user details))
-    -current = setup memories view (https://github.com/eiriklv/react-masonry-component) [MASONRY_COMPONENT] (doing) look for alternatives
-	-next = (MemoriesView(handles fetching memories) , MemoryView(handles clicking on options , memory , redirection to momentsView) , MomentsView (handles fetching and displaying moments), MomentView(handle like etc))
+    [-]prev = hooking up verificationId (done , need to set and get user when token is present (refresh user details))
+    [-]current = setup memories view (https://github.com/eiriklv/react-masonry-component) [MASONRY_COMPONENT] (doing) look for alternatives
+	[-]next = (MemoriesView(handles fetching memories) , MemoryView(handles clicking on options , memory , redirection to momentsView) , MomentsView (handles fetching and displaying moments), MomentView(handle like etc))
 		-separate authenticated component from MemoriesView (done partially , its the default /memories route need to change this)
 		-populate momentsView (need to define state shape) (done partially state shape not finalized , need to normalize)
 		-setup initial profile (name and image) consider normalizing response
@@ -34,10 +34,10 @@ thingsToDo  :
 	- setup testing environment (done unit-tests mocha , karma , , e2e testing nightwatch (pending) http://nightwatchjs.org/)
 		- dynamically generating tests for reducers and actions  (https://mochajs.org/#dynamically-generating-tests)
 		- consider replacing expect with chai (assertion library choice)
-	- login redirect should include the original(authenticated) url that the user was trying to access and redirect accordingly (pending)
-	- separate configs for dev and prod (pending)
-	- handle all error messages using material TextField and snackbar centrally ?? (implementation decision)
-	- use spread operators and es6 syntax wherever possible
+	[-] login redirect should include the original(authenticated) url that the user was trying to access and redirect accordingly (pending)
+	[-] separate configs for dev and prod (pending)
+	[-] handle all error messages using material TextField and snackbar centrally ?? (implementation decision)
+	[-] use spread operators and es6 syntax wherever possible
 	[-] country code number validation (DONE)
 	- Testing up to date (50% coverage FRIDAY)
-	- grid layout (https://github.com/STRML/react-grid-layout)
+	[-] grid layout (https://github.com/STRML/react-grid-layout)

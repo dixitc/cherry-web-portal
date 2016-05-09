@@ -11,7 +11,8 @@ import MomentView from './MomentView';
 import { likeMoment , setTitle} from '../actions/actions';
 import Avatar from 'material-ui/lib/avatar';
 import FlatButton from 'material-ui/lib/flat-button';
-
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
+import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 import ListItem from 'material-ui/lib/lists/list-item';
 //import Lightbox from 'react-images';
 import Lightbox from 'react-image-lightbox';
@@ -160,6 +161,20 @@ class MyMomentsView extends Component {
 		}else{
 			bottomElement = <RaisedButton labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>
 		}
+let membersList;
+
+		if(currentMemory.members.length > 0){
+			membersList = currentMemory.members.map((member) => {
+
+			   return <div style={{display:'inline-block',width:'40px',paddingRight:'5px'}}><ListItem
+				   innerDivStyle={{display:'inline-block',width:'40px'}}
+
+					leftAvatar={<Avatar style={{left:0}} src={member.profile ? member.profile.photo : ''} />}
+				   ></ListItem></div>
+		   })
+		}else {
+			 membersList = ''
+		}
 
 
 			const  memory = this.props.currentMemory;
@@ -197,17 +212,60 @@ class MyMomentsView extends Component {
 				}
 
                 <div className={'full-width'}>
-				<MediaQuery minWidth={800}>
-                    <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
+					<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px'}} zDepth={2}  >
+						<ContentAdd tooltip={'add moments'} />
+					</FloatingActionButton>
+					<MediaQuery minWidth={800}>
+	                    <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 
-                        <GridTile
-							style={{background:'grey'}}
+	                        <GridTile
+								style={{background:'grey'}}
+								title={
+									<ListItem
+										style={mystyle.listItem}
+										key={memory.id}
+										innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
+										primaryText={<span className={'white-text'}>{memory.owner.name}</span>}
+										secondaryText={	< ListItem
+											innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
+											style={{color:'#FFF',fontSize:'13px'}}
+											>
+												<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {memory.momentsCount} {memory.momentsCount == 1 ? 'moment' :  'moments'}</span>
+											</ListItem>}
+										leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
+									>
+
+									</ListItem>
+
+								}
+
+								titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.68) 100%)'}
+
+								cols={5}
+								rows={2}>
+		                        {memory.coverUrl &&
+									<img style={{width:'100%'}} src={this.parseCoverUrl(memory.coverUrl)} />
+								}
+								{!memory.coverUrl &&
+									<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-228px'}} />
+								}
+
+	                        </GridTile>
+
+							{momentChildren}
+	                    </GridList>
+					</MediaQuery>
+					<MediaQuery maxWidth={600}>
+						<GridList cols={3} padding={2} cellHeight={100} style={styles.gridList}>
+
+							<GridTile
+							style={{height:'200px',background:'grey'}}
 							title={
 								<ListItem
 									style={mystyle.listItem}
 									key={memory.id}
 									innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
-									primaryText={<span className={'white-text'}>{memory.owner.name}</span>}
+									primaryText={<span style={{color:'white'}}>{memory.owner.name}</span>}
 									secondaryText={	< ListItem
 										innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
 										style={{color:'#FFF',fontSize:'13px'}}
@@ -220,65 +278,28 @@ class MyMomentsView extends Component {
 								</ListItem>
 							}
 
-							titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.68) 100%)'}
+							titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 100%)'}
 
-							cols={5}
+							cols={3}
 							rows={2}>
-	                        {memory.coverUrl &&
-								<img style={{width:'100%'}} src={this.parseCoverUrl(memory.coverUrl)} />
+							{memory.coverUrl &&
+							<img src={this.parseCoverUrl(memory.coverUrl)} />
 							}
 							{!memory.coverUrl &&
-								<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-228px'}} />
+								<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-68px'}} />
 							}
+							</GridTile>
 
-                        </GridTile>
-						{momentChildren}
-                    </GridList>
+								{momentChildren}
+						</GridList>
 					</MediaQuery>
-					<MediaQuery maxWidth={600}>
-<GridList cols={3} padding={2} cellHeight={100} style={styles.gridList}>
 
-<GridTile
-style={{height:'200px',background:'grey'}}
-title={
-	<ListItem
-		style={mystyle.listItem}
-		key={memory.id}
-		innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
-		primaryText={<span style={{color:'white'}}>{memory.owner.name}</span>}
-		secondaryText={	< ListItem
-			innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
-			style={{color:'#FFF',fontSize:'13px'}}
-			>
-				<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {memory.momentsCount} {memory.momentsCount == 1 ? 'moment' :  'moments'}</span>
-			</ListItem>}
-		leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
-	>
+					<div style={{marginBottom: 100,textAlign:'center'}}>
+						{bottomElement}
+					</div>
 
-	</ListItem>
-}
-
-titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 100%)'}
-
-cols={3}
-rows={2}>
-{memory.coverUrl &&
-<img src={this.parseCoverUrl(memory.coverUrl)} />
-}
-{!memory.coverUrl &&
-	<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-68px'}} />
-}
-</GridTile>
-
-{momentChildren}
-
-</GridList>
-</MediaQuery>
-<div style={{marginBottom: 100,textAlign:'center'}}>
-	{bottomElement}
-
-</div>
                 </div>
+
 				{!currentMemory.isPresent &&
 					<p> You have no power here </p>
 				}
@@ -324,8 +345,6 @@ const mapStateToProps = (state) => {
 const getCurrentMemory = (memories , memoryId) => {
 let filteredMemory = memories.filter((memory) => {
 		if(memory.id ==memoryId){
-
-
 			return memory;
 		}
 	})

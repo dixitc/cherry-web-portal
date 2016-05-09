@@ -70,7 +70,8 @@ class AuthenticatedComponent extends React.Component {
 		return(
 			<div style={{height:'100%'}}>
 			<AppBar
-				style={{zIndex:2}}
+				style={{zIndex:'2',height:'60px',position:'fixed',top:'0'}}
+				titleStyle={{height:'60px'}}
 				className={'smooth-transit'}
 				title={<span className='brand'>{title}</span>}
 				primary={true}
@@ -86,11 +87,10 @@ class AuthenticatedComponent extends React.Component {
 
 			  {auth.profile.photo &&
 
-				  <Avatar style={style.noBorder} backgroundColor={'transparent'} src={auth.profile.photo}/>
+				  <Avatar style={style.noBorder} backgroundColor={'transparent'} src={auth.profile.photo} size={32}/>
 			  }
 			  {!auth.profile.photo &&
-
-				 <Avatar icon={<FontIcon className="muidocs-icon-communication-voicemail" />} />
+				  <Avatar icon={<FontIcon className="muidocs-icon-communication-voicemail" />} />
 			  }
       </IconButton>
   </div>
@@ -104,7 +104,7 @@ class AuthenticatedComponent extends React.Component {
 
       </IconMenu>}
 			/>
-
+		<div style={{height:'100px'}}></div>
 		{myChildren}
 
 
