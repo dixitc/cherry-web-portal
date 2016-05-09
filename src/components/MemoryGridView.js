@@ -16,6 +16,8 @@ import GridTile from 'material-ui/lib/grid-list/grid-tile';
 import IconButton from 'material-ui/lib/icon-button';
 import FavouriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
 import Favourite from 'material-ui/lib/svg-icons/action/favorite';
+import ImageIcon from 'material-ui/lib/svg-icons/image/image';
+import MemberIcon from 'material-ui/lib/svg-icons/action/face';
 
 //this.props.dispatch(push('/some/path'));
 
@@ -82,8 +84,10 @@ class MemoryGridView extends Component {
  				titleColor='white' />
 	<div className={'bottomTitle'}>
 	{memory.title}
-	<div style={{fontSize:'12px',padding:'5px',color:'#FF5722'}}>
-	{memory.momentsCount} moments
+	<div style={{fontSize:'12px',padding:'5px',color:'whitesmoke'}}>
+	<ImageIcon style={{fontSize:'12px',height:'14px',position:'relative',top:'2px',left:'-8px'}} color={'#E6E668'}/><span style={{position:'relative',left:'-6px'}}>{memory.momentsCount}</span>
+	 <MemberIcon tooltip='asdf' style={{paddingLeft:'20px',paddingRight:'0px',fontSize:'12px',height:'14px',position:'relative',top:'2px',left:'-5px'}} color={'#E6E668'}/>
+	 <span style={{position:'relative',left:'-2px'}}>{memory.members.length}</span>
 	</div>
 	</div>
 
