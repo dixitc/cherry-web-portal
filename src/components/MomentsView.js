@@ -7,7 +7,7 @@ import {GridList , GridTile} from 'material-ui/GridList';
 import FavouriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import IconButton from 'material-ui/IconButton';
 import MomentView from './MomentView';
-import { likeMoment , setTitle} from '../actions/actions';
+import { likeMoment , setTitle , addMoments , uploadImage , publishMoments} from '../actions/actions';
 import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -20,7 +20,8 @@ import ImageLoader from 'react-imageloader';
 import MediaQuery from 'react-responsive';
 import dummyImg from '../images/selfie-placeholder.jpg';
 import Dialog from 'material-ui/Dialog';
-import DropzoneComponent from 'react-dropzone-component/lib/react-dropzone';
+//import DropzoneComponent from 'react-dropzone-component/lib/react-dropzone';
+var Dropzone = require('react-dropzone');
 
 const mystyle = {
 	listItem : {
@@ -82,6 +83,8 @@ class MyMomentsView extends Component {
         this.openLightbox = this.openLightbox.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.createMoments = this.createMoments.bind(this);
+        this.onDrop = this.onDrop.bind(this);
 
 		//parsing coverUrl to ewnder optimal image
         this.parseCoverUrl = this.parseCoverUrl.bind(this);
@@ -122,6 +125,15 @@ class MyMomentsView extends Component {
             currentImage: this.state.currentImage + 1
         });
     }
+	generateUUID = () => {
+	    var d = new Date().getTime();
+	    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	        var r = (d + Math.random()*16)%16 | 0;
+	        d = Math.floor(d/16);
+	        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+	    });
+	    return uuid;
+	}
     paginate() {
 
         const newPage = this.state.page + 1;
@@ -148,8 +160,26 @@ class MyMomentsView extends Component {
 	handleClose = () => {
 		this.setState({open: false});
 	}
+	createMoments = (files) => {
+		let newMoments = files.map((file) => {
+			return {
+				id : this.generateUUID(),
+				memoryId : this.props.currentMemory.id,
+				caption:"",
+				time : Date.now()
+			}
+		})
+		console.log('CHECK THIS SHIT OUT');
+		console.log(newMoments);
+		this.props.handleAddMoments({newMoments:newMoments,memoryId:this.props.currentMemory.id});
+		this.handleClose();
+	}
+	onDrop = (files) => {
+  		console.log('Received files: ', files);
+		this.createMoments(files)
+	}
     render() {
-        const {moments, auth, handleLike , currentMemory} = this.props;
+        const {moments, auth, handleLike , currentMemory , handleAddMoments , handleUploadImage , handlePublishMoments } = this.props;
         let {isFetching} = moments;
 		let bottomElement;
 		//Populating Lightbox
@@ -171,8 +201,8 @@ class MyMomentsView extends Component {
 		}else{
 			bottomElement = <RaisedButton labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>
 		}
-let membersList;
 
+		let membersList;
 		if(currentMemory.members.length > 0){
 			membersList = currentMemory.members.map((member) => {
 
@@ -187,9 +217,7 @@ let membersList;
 		}
 
 
-			const  memory = this.props.currentMemory;
-
-
+		const  memory = this.props.currentMemory;
 
 
 		//populating moments
@@ -224,22 +252,22 @@ let membersList;
    const componentConfig = {
     iconFiletypes: ['.jpg', '.png', '.gif'],
     showFiletypeIcon: true,
-    postUrl: '/uploadHandler'
+    postUrl: null
 };
         return (
             <div className={'momentsContainer'}>
 				<Dialog
 		          title="Add your moments"
-				  autoScrollBodyContent={true}
+
 		          actions={actions}
 		          modal={false}
-				  style={{top:'0'}}
+
 		          open={this.state.open}
 		          onRequestClose={this.handleClose}
 		        >
-				<DropzoneComponent config={componentConfig}
-
-					 />
+				<Dropzone onDrop={this.onDrop}>
+		              <div>Try dropping some files here, or click to select files to upload.</div>
+		            </Dropzone>
 		        </Dialog>
                 {this.state.lightboxIsOpen &&
 					<Lightbox
@@ -406,6 +434,15 @@ const mapDispatchToProps = (dispatch) => {
         },
 		handleIsLoaded: (memoryId) => {
 			dispatch(setIsLoaded(memoryId))
+		},
+		handleAddMoments: (payload) => {
+			dispatch(addMoments(payload))
+		},
+		handleUploadImage: (payload) => {
+			dispatch(uploadImage(payload))
+		},
+		handlePublishMoments: (payload) => {
+			dispatch(publishMoments(payload))
 		}
     }
 }

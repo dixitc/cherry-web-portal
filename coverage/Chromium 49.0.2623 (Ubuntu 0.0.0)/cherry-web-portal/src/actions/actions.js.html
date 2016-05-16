@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.38% </span>
+        <span class="strong">59.46% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>101/173</span>
+        <span class='fraction'>110/185</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">16.67% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>4/24</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">19.51% </span>
+        <span class="strong">18.18% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>8/41</span>
+        <span class='fraction'>8/44</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">58.14% </span>
+        <span class="strong">59.24% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>100/172</span>
+        <span class='fraction'>109/184</span>
       </div>
     </div>
   </div>
@@ -445,7 +445,33 @@
 400
 401
 402
-403</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -481,6 +507,9 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -501,6 +530,26 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -821,6 +870,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -852,7 +904,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.purgeUser = exports.setTitle = exports.purgeMoments = exports.setIsLoaded = exports.refineMoments = exports.fetchPublicMoments = exports.setIsLoadedPublicMemory = exports.fetchPublicMemory = exports.fetchMoments = exports.logOutUser = exports.purgeMemories = exports.rejectCurrentMemory = exports.receiveCurrentMemory = exports.receiveMemories = exports.likeMomentSuccess = exports.likeMoment = exports.fetchMemories = exports.setErrorMessage = exports.verifySuccess = exports.verifyFailed = exports.verifyUser = exports.registerSuccess = exports.registerFail = exports.registerRequest = exports.registerUser = undefined;
+exports.purgeUser = exports.setTitle = exports.purgeMoments = exports.setIsLoaded = exports.refineMoments = exports.fetchPublicMoments = exports.setIsLoadedPublicMemory = exports.fetchPublicMemory = exports.fetchMoments = exports.logOutUser = exports.purgeMemories = exports.rejectCurrentMemory = exports.receiveCurrentMemory = exports.receiveMemories = exports.likeMomentSuccess = exports.uploadImage = exports.publishMoments = exports.addMoments = exports.likeMoment = exports.fetchMemories = exports.setErrorMessage = exports.verifySuccess = exports.verifyFailed = exports.verifyUser = exports.registerSuccess = exports.registerFail = exports.registerRequest = exports.registerUser = undefined;
 &nbsp;
 var _isomorphicFetch = require('isomorphic-fetch');
 &nbsp;
@@ -883,6 +935,9 @@ var REFINE_MOMENTS = 'REFINE_MOMENTS';
 var PURGE_MOMENTS = 'PURGE_MOMENTS';
 var LIKE_MOMENT = 'LIKE_MOMENT';
 var LIKE_MOMENT_SUCCESS = 'LIKE_MOMENT_SUCCESS';
+var ADD_MOMENTS = 'ADD_MOMENTS';
+var UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+var PUBLISH_MOMENTS = 'PUBLISH_MOMENTS';
 &nbsp;
 var FETCH_PUBLIC_MOMENTS = 'FETCH_PUBLIC_MOMENTS';
 var FETCH_PUBLIC_MEMORY = 'FETCH_PUBLIC_MEMORY';
@@ -905,6 +960,26 @@ var VERIFY_FAIL = 'VERIFY_FAIL';
 var SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 &nbsp;
 //action creators
+var addMoments = <span class="fstat-no" title="function not covered" >function addMoments(payload) {</span>
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: ADD_MOMENTS,
+    data: payload
+  };
+};
+&nbsp;
+var uploadImage = <span class="fstat-no" title="function not covered" >function uploadImage(payload) {</span>
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: UPLOAD_IMAGE,
+    data: payload
+  };
+};
+&nbsp;
+var publishMoments = <span class="fstat-no" title="function not covered" >function publishMoments(payload) {</span>
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: PUBLISH_MOMENTS,
+    data: payload
+  };
+};
 &nbsp;
 var validateCredentials = <span class="fstat-no" title="function not covered" >function validateCredentials(creds) {</span>
 &nbsp;
@@ -1233,6 +1308,9 @@ exports.verifySuccess = verifySuccess;
 exports.setErrorMessage = setErrorMessage;
 exports.fetchMemories = fetchMemories;
 exports.likeMoment = likeMoment;
+exports.addMoments = addMoments;
+exports.publishMoments = publishMoments;
+exports.uploadImage = uploadImage;
 exports.likeMomentSuccess = likeMomentSuccess;
 exports.receiveMemories = receiveMemories;
 exports.receiveCurrentMemory = receiveCurrentMemory;
@@ -1255,7 +1333,7 @@ exports.purgeUser = purgeUser;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 16 2016 16:32:13 GMT+0530 (IST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon May 16 2016 17:35:30 GMT+0530 (IST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

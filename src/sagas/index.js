@@ -117,6 +117,41 @@ function* likeMomentApi(params){
 	})
 }
 
+
+function* uploadImageApi(i){
+	setTimeout(() => {
+		console.log(i+"th image successfully uploaded");
+
+		return {uploaded:true};
+	},1000)
+}
+
+
+function* addMomentsApi(params){
+	const user = getUser();
+	const token = user.authToken;
+	console.log(params.newMoments);
+	console.log(params);
+	const url = apiUrl+'/v1/memory/'+params.memoryId+'/moments.json';
+	const myHeaders = new Headers({
+	    'authToken': token,
+	    'Accept': 'application/json',
+	    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+
+	});
+	let config = {
+		method : 'POST',
+		headers : myHeaders,
+		body: "newMoments="+JSON.stringify(params.newMoments)+"&returnMoments=true"
+	}
+	return fetch(url,config)
+	.then((response) => response.json())
+	.then((json) => {
+
+		return json
+	})
+}
+
 /*******************HANDLERS*******************/
 
 function* fetchMoments(action){
@@ -211,6 +246,21 @@ function* likeMoment(action){
 	//else snackbar error message
 
 }
+
+
+
+//a function that handles cleanup after LOGOUT_USER is called
+function* addMoments(action){
+
+	console.log('in HERE');
+	const  payload  = action.data;
+	//const files = action.data.files
+	let addMomentsReponse = yield call(addMomentsApi , action.data);
+	console.log(addMomentsReponse);
+	yield addMomentsReponse.moments.map(moment => call(uploadImageApi, moment.id))
+}
+
+
 /*******************WATCHERS*****************/
 
 function* watchFetchMemories() {
@@ -248,6 +298,11 @@ function* watchLikeMoment(){
 	yield* takeEvery('LIKE_MOMENT', likeMoment);
 }
 
+//watcher function for like some Moment
+function* watchAddMoments(){
+	yield* takeEvery('ADD_MOMENTS', addMoments);
+}
+
 
 export default function* root() {
 
@@ -259,5 +314,6 @@ export default function* root() {
   yield fork(watchLogOut)
   yield fork(watchFetchMoments)
   yield fork(watchLikeMoment)
+  yield fork(watchAddMoments)
 
 }

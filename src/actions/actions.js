@@ -20,6 +20,9 @@
     const PURGE_MOMENTS = 'PURGE_MOMENTS';
 	const LIKE_MOMENT = 'LIKE_MOMENT';
 	const LIKE_MOMENT_SUCCESS = 'LIKE_MOMENT_SUCCESS';
+	const ADD_MOMENTS = 'ADD_MOMENTS';
+	const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+	const PUBLISH_MOMENTS = 'PUBLISH_MOMENTS';
 
 
 	const FETCH_PUBLIC_MOMENTS = 'FETCH_PUBLIC_MOMENTS';
@@ -43,7 +46,26 @@
     const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 
     //action creators
+const addMoments = (payload) => {
+	return {
+		type : ADD_MOMENTS,
+		data : payload
+	}
+}
 
+const uploadImage = (payload) => {
+	return {
+		type : UPLOAD_IMAGE,
+		data : payload
+	}
+}
+
+const publishMoments = (payload) => {
+	return {
+		type : PUBLISH_MOMENTS,
+		data : payload
+	}
+}
 
     const validateCredentials = (creds) => {
 
@@ -391,6 +413,9 @@
         setErrorMessage,
 		fetchMemories,
 		likeMoment,
+		addMoments,
+		publishMoments,
+		uploadImage,
 		likeMomentSuccess,
 		receiveMemories,
 		receiveCurrentMemory,
