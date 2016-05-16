@@ -1,22 +1,22 @@
 import React, {Component, PropTypes} from 'react';
 import { fetchPublicMoments , fetchPublicMemory } from '../actions/actions';
 import {connect} from 'react-redux';
-import CircularProgress from 'material-ui/lib/circular-progress';
+import CircularProgress from 'material-ui/CircularProgress';
 import MemoryView from './MemoryView';
-import GridList from 'material-ui/lib/grid-list/grid-list';
-import GridTile from 'material-ui/lib/grid-list/grid-tile';
-import FavouriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
-import IconButton from 'material-ui/lib/icon-button';
+import {GridList, GridTile} from 'material-ui/GridList';
+
+import FavouriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import IconButton from 'material-ui/IconButton';
 import MomentView from './MomentView';
 import { likeMoment , setTitle} from '../actions/actions';
-import Avatar from 'material-ui/lib/avatar';
-import FlatButton from 'material-ui/lib/flat-button';
-import AppBar from 'material-ui/lib/app-bar';
-import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+import Avatar from 'material-ui/Avatar';
+import FlatButton from 'material-ui/FlatButton';
+import AppBar from 'material-ui/AppBar';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 
-import ListItem from 'material-ui/lib/lists/list-item';
+import {List, ListItem} from 'material-ui/List';
 import Lightbox from 'react-image-lightbox';
-import RaisedButton from 'material-ui/lib/raised-button';
+import RaisedButton from 'material-ui/RaisedButton';
 import ImageLoader from 'react-imageloader';
 import MediaQuery from 'react-responsive';
 import dummyImg from '../images/selfie-placeholder.jpg';

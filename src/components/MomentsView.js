@@ -1,26 +1,25 @@
 import React, {Component, PropTypes} from 'react';
 import { fetchMoments , setIsLoaded } from '../actions/actions';
 import {connect} from 'react-redux';
-import CircularProgress from 'material-ui/lib/circular-progress';
+import CircularProgress from 'material-ui/CircularProgress';
 import MemoryView from './MemoryView';
-import GridList from 'material-ui/lib/grid-list/grid-list';
-import GridTile from 'material-ui/lib/grid-list/grid-tile';
-import FavouriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
-import IconButton from 'material-ui/lib/icon-button';
+import {GridList , GridTile} from 'material-ui/GridList';
+import FavouriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import IconButton from 'material-ui/IconButton';
 import MomentView from './MomentView';
 import { likeMoment , setTitle} from '../actions/actions';
-import Avatar from 'material-ui/lib/avatar';
-import FlatButton from 'material-ui/lib/flat-button';
-import FloatingActionButton from 'material-ui/lib/floating-action-button';
-import ContentAdd from 'material-ui/lib/svg-icons/content/add';
-import ListItem from 'material-ui/lib/lists/list-item';
+import Avatar from 'material-ui/Avatar';
+import FlatButton from 'material-ui/FlatButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import {ListItem} from 'material-ui/List';
 //import Lightbox from 'react-images';
 import Lightbox from 'react-image-lightbox';
-import RaisedButton from 'material-ui/lib/raised-button';
+import RaisedButton from 'material-ui/RaisedButton';
 import ImageLoader from 'react-imageloader';
 import MediaQuery from 'react-responsive';
 import dummyImg from '../images/selfie-placeholder.jpg';
-import Dialog from 'material-ui/lib/Dialog';
+import Dialog from 'material-ui/Dialog';
 import DropzoneComponent from 'react-dropzone-component/lib/react-dropzone';
 
 const mystyle = {
@@ -218,7 +217,7 @@ let membersList;
 	 <FlatButton
 	   label="Upload"
 	   primary={true}
-	   
+
 	   onTouchTap={this.handleClose}
 	 />,
    ];

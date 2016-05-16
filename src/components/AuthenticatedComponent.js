@@ -1,20 +1,20 @@
 import React , {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { logOutUser , fetchMemories} from '../actions/actions';
-import RaisedButton from 'material-ui/lib/raised-button';
+import RaisedButton from 'material-ui/RaisedButton';
 import MemoriesView from './MemoriesView';
-import AppBar from 'material-ui/lib/app-bar';
-import IconButton from 'material-ui/lib/icon-button';
-import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
-import ArrowBack from 'material-ui/lib/svg-icons/navigation/arrow-back';
-import IconMenu from 'material-ui/lib/menus/icon-menu';
-import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import Avatar from 'material-ui/lib/avatar';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import MenuItem from 'material-ui/MenuItem';
+import Avatar from 'material-ui/Avatar';
 import style from '../styles/Login';
-import FontIcon from 'material-ui/lib/font-icon';
+import FontIcon from 'material-ui/FontIcon';
 import { browserHistory , hashHistory } from 'react-router';
-import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 import { Link } from 'react-router';
 
 const baseStyle = {

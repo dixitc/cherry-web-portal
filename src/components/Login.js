@@ -3,16 +3,16 @@ import React , {Component , PropTypes} from 'react';
 import { connect } from 'react-redux';
 import {registerRequest ,registerUser, setErrorMessage , verifyUser } from '../actions/actions';
 import cc from '../constants/country-codes';
-import TextField from 'material-ui/lib/text-field';
-import RaisedButton from 'material-ui/lib/raised-button';
-import CircularProgress from 'material-ui/lib/circular-progress';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
 import SelectFieldExampleSimple from './SelectCountry';
 import phoneNumberInput from './phoneNumberInput';
 import PNF from 'google-libphonenumber/dist/browser/libphonenumber';
-import Paper from 'material-ui/lib/paper';
+import Paper from 'material-ui/Paper';
 import style from '../styles/Login';
 import MediaQuery from 'react-responsive';
-import FlatButton from 'material-ui/lib/flat-button';
+import FlatButton from 'material-ui/FlatButton';
 
 
 let AsYouTypeFormatter = require('google-libphonenumber').AsYouTypeFormatter;

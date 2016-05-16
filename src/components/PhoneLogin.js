@@ -1,10 +1,10 @@
 
 import React , {Component , PropTypes} from 'react';
 import { connect } from 'react-redux';
-import TextField from 'material-ui/lib/text-field';
+import TextField from 'material-ui/TextField';
 import {registerRequest ,registerUser } from '../actions/actions';
-import RaisedButton from 'material-ui/lib/raised-button';
-import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+import RaisedButton from 'material-ui/RaisedButton';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 import cc from '../constants/country-codes';
 import SelectFieldExampleSimple from './SelectCountry';
 import AutoCompleteCountry from './AutoCompleteCountry';

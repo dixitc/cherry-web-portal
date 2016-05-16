@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import SmartMessage from './components/components';
 import { Link } from 'react-router';
 
-import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MyRawTheme from './Themes/cherryTheme';
-import Snackbar from 'material-ui/lib/snackbar';
+import Snackbar from 'material-ui/Snackbar';
 import Footer from './components/Footer';
 import backGroundImg from './images/geometry2.png';
 /*

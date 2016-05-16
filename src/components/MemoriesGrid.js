@@ -4,11 +4,11 @@ import PureRenderMixin from 'react/lib/ReactComponentWithPureRenderMixin';
 import ReactGridLayout from 'react-grid-layout';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import {connect} from 'react-redux';
-import IconButton from 'material-ui/lib/icon-button';
+import IconButton from 'material-ui/IconButton';
 import { fetchMemories , setTitle} from '../actions/actions';
 import MemoryView from './MemoryView';
 import MemoryGridView from './MemoryGridView';
-import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 import dummyImg from '../images/selfie-placeholder.jpg';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);

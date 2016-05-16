@@ -1,22 +1,19 @@
 import React,{Component} from 'react';
 
 //import needs cleanup
-import Card from 'material-ui/lib/card/card';
-import CardActions from 'material-ui/lib/card/card-actions';
-import CardHeader from 'material-ui/lib/card/card-header';
-import CardMedia from 'material-ui/lib/card/card-media';
-import CardTitle from 'material-ui/lib/card/card-title';
-import FlatButton from 'material-ui/lib/flat-button';
-import CardText from 'material-ui/lib/card/card-text';
-import { push } from 'react-router-redux';
-import Avatar from 'material-ui/lib/avatar';
-import ListItem from 'material-ui/lib/lists/list-item';
-import CircularProgress from 'material-ui/lib/circular-progress';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
-import GridTile from 'material-ui/lib/grid-list/grid-tile';
-import FavouriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
-import Favourite from 'material-ui/lib/svg-icons/action/favorite';
-import IconButton from 'material-ui/lib/icon-button';
+import FlatButton from 'material-ui/FlatButton';
+
+import { push } from 'react-router-redux';
+import Avatar from 'material-ui/Avatar';
+import {ListItem} from 'material-ui/List';
+import CircularProgress from 'material-ui/CircularProgress';
+
+import {GridTile} from 'material-ui/GridList';
+import FavouriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import Favourite from 'material-ui/svg-icons/action/favorite';
+import IconButton from 'material-ui/IconButton';
 import ImageLoader from 'react-imageloader'
 
 const mystyle = {

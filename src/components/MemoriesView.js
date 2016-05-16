@@ -1,12 +1,12 @@
 import React,{ Component , PropTypes } from 'react';
 import {connect} from 'react-redux';
-import GridList from 'material-ui/lib/grid-list/grid-list';
+import { GridList } from 'material-ui/GridList';
 
 
-import IconButton from 'material-ui/lib/icon-button';
+import IconButton from 'material-ui/IconButton';
 import { fetchMemories , setTitle} from '../actions/actions';
 import MemoryView from './MemoryView';
-import RefreshIndicator from 'material-ui/lib/refresh-indicator';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
 
 
 let Masonry = require('react-masonry-component');

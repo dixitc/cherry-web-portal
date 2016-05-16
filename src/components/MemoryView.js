@@ -3,19 +3,13 @@ import {connect} from 'react-redux';
 
 
 
-import Card from 'material-ui/lib/card/card';
-import CardActions from 'material-ui/lib/card/card-actions';
-import CardHeader from 'material-ui/lib/card/card-header';
-import CardMedia from 'material-ui/lib/card/card-media';
-import CardTitle from 'material-ui/lib/card/card-title';
-import FlatButton from 'material-ui/lib/flat-button';
-import CardText from 'material-ui/lib/card/card-text';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import { push } from 'react-router-redux';
 import dummyImg from '../images/test.png';
-import GridTile from 'material-ui/lib/grid-list/grid-tile';
-import IconButton from 'material-ui/lib/icon-button';
-import FavouriteBorder from 'material-ui/lib/svg-icons/action/favorite-border';
-import Favourite from 'material-ui/lib/svg-icons/action/favorite';
+import {GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import FavouriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import Favourite from 'material-ui/svg-icons/action/favorite';
 
 //this.props.dispatch(push('/some/path'));
 

@@ -1,7 +1,7 @@
 	import React , {PropTypes} from 'react';
 	import { connect } from 'react-redux';
 	import doSomething from '../actions/actions';
-	import TextField from 'material-ui/lib/text-field';
+	import TextField from 'material-ui/TextField';
 
 
 	const Message = ({memory , clickHandler}) => (

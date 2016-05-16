@@ -1,5 +1,5 @@
 import React from 'react';
-import ListItem from 'material-ui/lib/lists/list-item';
+import {ListItem} from 'material-ui/List';
 
 /*Need to update footer with links*/
 
