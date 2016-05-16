@@ -20,6 +20,8 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import ImageLoader from 'react-imageloader';
 import MediaQuery from 'react-responsive';
 import dummyImg from '../images/selfie-placeholder.jpg';
+import Dialog from 'material-ui/lib/Dialog';
+import DropzoneComponent from 'react-dropzone-component/lib/react-dropzone';
 
 const mystyle = {
 	listItem : {
@@ -68,9 +70,9 @@ class MyMomentsView extends Component {
             rp: 40,
             lightboxIsOpen: false,
             currentImage: 0,
-			noMoreMoments : false
-
-        }
+			noMoreMoments : false,
+			open: false
+		}
 		//handle pagination
         this.paginate = this.paginate.bind(this);
 
@@ -79,6 +81,8 @@ class MyMomentsView extends Component {
         this.gotoNext = this.gotoNext.bind(this);
         this.gotoPrevious = this.gotoPrevious.bind(this);
         this.openLightbox = this.openLightbox.bind(this);
+        this.handleOpen = this.handleOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
 
 		//parsing coverUrl to ewnder optimal image
         this.parseCoverUrl = this.parseCoverUrl.bind(this);
@@ -137,6 +141,13 @@ class MyMomentsView extends Component {
     }
 	parseCoverUrl(url){
 		return 'https://docs.google.com/uc?id='+ url.substr(url.indexOf('id=')+3,url.length - 1);
+	}
+	handleOpen = () => {
+		this.setState({open: true});
+	}
+
+	handleClose = () => {
+		this.setState({open: false});
 	}
     render() {
         const {moments, auth, handleLike , currentMemory} = this.props;
@@ -198,9 +209,39 @@ let membersList;
 			const preloader = () => {
 			  return <div style={{height:'100%',width:'100%'}}><CircularProgress /></div>;
 			}
+			const actions = [
+	 <FlatButton
+	   label="Cancel"
+	   primary={true}
+	   onTouchTap={this.handleClose}
+	 />,
+	 <FlatButton
+	   label="Upload"
+	   primary={true}
+	   
+	   onTouchTap={this.handleClose}
+	 />,
+   ];
+   const componentConfig = {
+    iconFiletypes: ['.jpg', '.png', '.gif'],
+    showFiletypeIcon: true,
+    postUrl: '/uploadHandler'
+};
         return (
             <div className={'momentsContainer'}>
+				<Dialog
+		          title="Add your moments"
+				  autoScrollBodyContent={true}
+		          actions={actions}
+		          modal={false}
+				  style={{top:'0'}}
+		          open={this.state.open}
+		          onRequestClose={this.handleClose}
+		        >
+				<DropzoneComponent config={componentConfig}
 
+					 />
+		        </Dialog>
                 {this.state.lightboxIsOpen &&
 					<Lightbox
 						mainSrc={images[this.state.currentImage % images.length].src}
@@ -212,7 +253,7 @@ let membersList;
 				}
 
                 <div className={'full-width'}>
-					<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px'}} zDepth={2}  >
+					<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px'}} zDepth={2} onTouchTap={this.handleOpen} >
 						<ContentAdd tooltip={'add moments'} />
 					</FloatingActionButton>
 					<MediaQuery minWidth={800}>
