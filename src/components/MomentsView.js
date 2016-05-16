@@ -83,7 +83,7 @@ class MyMomentsView extends Component {
         this.openLightbox = this.openLightbox.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.createMoments = this.createMoments.bind(this);
+        this.createAndUploadMoments = this.createAndUploadMoments.bind(this);
         this.onDrop = this.onDrop.bind(this);
 
 		//parsing coverUrl to ewnder optimal image
@@ -160,7 +160,7 @@ class MyMomentsView extends Component {
 	handleClose = () => {
 		this.setState({open: false});
 	}
-	createMoments = (files) => {
+	createAndUploadMoments = (files) => {
 		let newMoments = files.map((file) => {
 			return {
 				id : this.generateUUID(),
@@ -176,7 +176,7 @@ class MyMomentsView extends Component {
 	}
 	onDrop = (files) => {
   		console.log('Received files: ', files);
-		this.createMoments(files)
+		this.createAndUploadMoments(files)
 	}
     render() {
         const {moments, auth, handleLike , currentMemory , handleAddMoments , handleUploadImage , handlePublishMoments } = this.props;

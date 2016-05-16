@@ -303,18 +303,17 @@ function* likeMoment(action){
 
 
 
-//a function that handles cleanup after LOGOUT_USER is called
+//a function that comprehensively handles adding new moments flow
+//as well as updating state for according ui changes
 function* addMoments(action){
 
 
-	//const  payload  = action.data;
-	//const files = action.data.files
-	let addMomentsReponse = yield call(addMomentsApi , action.data);
-	console.log(addMomentsReponse);
-	yield addMomentsReponse.moments.map((moment,i) => call(uploadImage , {data:{momentId:moment.id,file:action.data.files[i]}}))
+	let addMomentsResponse = yield call(addMomentsApi , action.data);
+	console.log(addMomentsResponse);
+	yield addMomentsResponse.moments.map((moment,i) => call(uploadImage , {data:{momentId:moment.id,file:action.data.files[i]}}))
 	let momentIds = '';
-	addMomentsReponse.moments.map((moment,i) => {
-		if(i == addMomentsReponse.moments.length - 1){
+	addMomentsResponse.moments.map((moment,i) => {
+		if(i == addMomentsResponse.moments.length - 1){
 			momentIds = momentIds + (moment.id).toString()
 		}else{
 			momentIds = momentIds + (moment.id).toString() + ','
