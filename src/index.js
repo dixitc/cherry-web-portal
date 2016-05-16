@@ -47,15 +47,18 @@ const rootReducer = combineReducers({
 	title : titleReducer,
 	routing : routerReducer
 })
+const sagaMiddleware = createSagaMiddleware()
 
 let store = createStore(rootReducer,
 	{},
 	compose(
-		applyMiddleware(thunkMiddleware , loggerMiddleware, createSagaMiddleware(rootSaga) , middleware),
+		applyMiddleware(thunkMiddleware , loggerMiddleware, sagaMiddleware , middleware),
 		window.devToolsExtension ? window.devToolsExtension() : f => f
 
   )
 );
+sagaMiddleware.run(rootSaga)
+
 
 const rootEl = document.getElementById('root');
 

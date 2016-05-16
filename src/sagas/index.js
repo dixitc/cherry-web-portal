@@ -1,5 +1,5 @@
 import { takeEvery, takeLatest } from 'redux-saga'
-import { take, put, call, fork, select } from 'redux-saga/effects';
+import { take, actionChannel , put, call, fork, select } from 'redux-saga/effects';
 import fetch from 'isomorphic-fetch';
 import * as actions from '../actions/actions';
 import apiUrl from '../config/config';
@@ -95,7 +95,7 @@ function fetchPublicMomentsApi (params) {
 
 
 
-function* likeMomentApi(params){
+function likeMomentApi(params){
 	const user = getUser();
 	const token = user.authToken;
 
@@ -118,16 +118,42 @@ function* likeMomentApi(params){
 }
 
 
-function* uploadImageApi(i){
-	setTimeout(() => {
-		console.log(i+"th image successfully uploaded");
+function uploadImageApi(params){
+	/*setTimeout(() => {
+		console.log(i+'th image successfully uploaded');
 
 		return {uploaded:true};
-	},1000)
+	},1000)*/
+	const user = getUser();
+	const token = user.authToken;
+	console.log(params.file);
+	console.log(params);
+	const url = apiUrl+'/v1/memory/moments/'+params.momentId+'/image.json';
+	const myHeaders = new Headers({
+		'authToken': token
+
+	});
+
+	let data = new FormData()
+	data.append('imageFile', params.file)
+	data.append('version', 'COMPRESSED')
+
+	let config = {
+		method : 'POST',
+		headers : myHeaders,
+		body: data
+	}
+	return fetch(url,config)
+	.then((response) => response.json())
+	.then((json) => {
+		console.log('COLLECTING JSON');
+		console.log(json);
+		return json
+	})
 }
 
 
-function* addMomentsApi(params){
+function addMomentsApi(params){
 	const user = getUser();
 	const token = user.authToken;
 	console.log(params.newMoments);
@@ -135,19 +161,46 @@ function* addMomentsApi(params){
 	const url = apiUrl+'/v1/memory/'+params.memoryId+'/moments.json';
 	const myHeaders = new Headers({
 	    'authToken': token,
-	    'Accept': 'application/json',
-	    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+	    'Content-Type': 'application/x-www-form-urlencoded'
 
 	});
 	let config = {
 		method : 'POST',
 		headers : myHeaders,
-		body: "newMoments="+JSON.stringify(params.newMoments)+"&returnMoments=true"
+		body: 'newMoments='+JSON.stringify(params.newMoments)+'&returnMoments=true'
 	}
 	return fetch(url,config)
 	.then((response) => response.json())
 	.then((json) => {
+		console.log('COLLECTING JSON');
+		console.log(json);
+		return json
+	})
+}
 
+
+function publishMomentsApi(params){
+	const user = getUser();
+	const token = user.authToken;
+
+	console.log(params);
+
+	const url = apiUrl+'/v1/memory/'+params.memoryId+'/publishmoments.json';
+	const myHeaders = new Headers({
+	    'authToken': token,
+	    'Content-Type': 'application/x-www-form-urlencoded'
+
+	});
+	let config = {
+		method : 'POST',
+		headers : myHeaders,
+		body: 'momentIds=' + params.momentIds
+	}
+	return fetch(url,config)
+	.then((response) => response.json())
+	.then((json) => {
+		console.log('COLLECTING JSON');
+		console.log(json);
 		return json
 	})
 }
@@ -238,6 +291,7 @@ function* likeMoment(action){
 	const  payload  = action.data;
 
 	let likeReponse = yield call(likeMomentApi , action.data);
+	console.log(likeReponse);
 	// check if likeReponse idicates successfull completion
 	if(likeReponse = {}){
 
@@ -252,16 +306,50 @@ function* likeMoment(action){
 //a function that handles cleanup after LOGOUT_USER is called
 function* addMoments(action){
 
-	console.log('in HERE');
-	const  payload  = action.data;
+
+	//const  payload  = action.data;
 	//const files = action.data.files
 	let addMomentsReponse = yield call(addMomentsApi , action.data);
 	console.log(addMomentsReponse);
-	yield addMomentsReponse.moments.map(moment => call(uploadImageApi, moment.id))
+	yield addMomentsReponse.moments.map((moment,i) => call(uploadImage , {data:{momentId:moment.id,file:action.data.files[i]}}))
+	let momentIds = '';
+	addMomentsReponse.moments.map((moment,i) => {
+		if(i == addMomentsReponse.moments.length - 1){
+			momentIds = momentIds + (moment.id).toString()
+		}else{
+			momentIds = momentIds + (moment.id).toString() + ','
+		}
+	})
+	console.log((momentIds).toString());
+	console.log(' IMAGES UPLOADED');
+	yield call(publishMomentsApi , {momentIds:momentIds,memoryId:action.data.memoryId})
+	console.log(' MOMENTS PUBLISHED ');
+}
+
+//a function that handles cleanup after LOGOUT_USER is called
+function* uploadImage(action){
+
+	console.log('in HERE');
+	const  payload  = action.data;
+	//const files = action.data.files
+	 yield call(uploadImageApi , action.data);
+
+
 }
 
 
 /*******************WATCHERS*****************/
+
+function* watchUploadImage() {
+  // 1- Create a channel for request actions
+  const requestChan = yield actionChannel('UPLOAD_IMAGE')
+  while (true) {
+    // 2- take from the channel
+    const {payload} = yield take(requestChan)
+    // 3- Note that we're using a blocking call
+    yield call(uploadImage, payload)
+  }
+}
 
 function* watchFetchMemories() {
   yield* takeEvery('FETCH_MEMORIES', fetchMemories);
@@ -303,17 +391,23 @@ function* watchAddMoments(){
 	yield* takeEvery('ADD_MOMENTS', addMoments);
 }
 
+//watcher function for like some Moment
+/* function* watchUploadImage(){
+	yield* take('UPLOAD_IMAGE', uploadImage);
+} */
+
 
 export default function* root() {
 
 
-  yield fork(watchFetchMemories),
-  yield fork(watchFetchPublicMemory),
-  yield fork(watchFetchPublicMoments),
-  yield fork(watchVerifySuccess),
-  yield fork(watchLogOut)
-  yield fork(watchFetchMoments)
-  yield fork(watchLikeMoment)
-  yield fork(watchAddMoments)
-
+  yield [watchFetchMemories()
+  , watchFetchPublicMemory()
+  , watchFetchPublicMoments()
+  , watchVerifySuccess()
+  , watchLogOut()
+  , watchFetchMoments()
+  , watchLikeMoment()
+  , watchAddMoments()
+  , watchUploadImage()
+]
 }

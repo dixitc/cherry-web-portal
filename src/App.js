@@ -7,6 +7,10 @@ import MyRawTheme from './Themes/cherryTheme';
 import Snackbar from 'material-ui/Snackbar';
 import Footer from './components/Footer';
 import backGroundImg from './images/geometry2.png';
+import LinearProgress from 'material-ui/LinearProgress';
+import {List, ListItem} from 'material-ui/List';
+import Paper from 'material-ui/Paper';
+
 /*
 NOTES :
 	-can enable app wide theme here
@@ -22,7 +26,13 @@ getChildContext () {
 
 
 			{this.props.children}
-<Footer />
+            <Paper style={{position:'fixed',top:'60px',width:'95%',left:'2.5%',zIndex:'3',background:'white'}}>
+                <ListItem style={{height:'50px'}} innerDivStyle={{paddingTop:'22px'}}>
+            <LinearProgress  mode="determinate" value={6} style={{width:'95%',margin:'auto'}}/>
+            </ListItem>
+            </Paper>
+<Footer >
+</Footer>
 
 	  </div>
     );

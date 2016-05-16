@@ -165,13 +165,13 @@ class MyMomentsView extends Component {
 			return {
 				id : this.generateUUID(),
 				memoryId : this.props.currentMemory.id,
-				caption:"",
+				caption:'',
 				time : Date.now()
 			}
 		})
 		console.log('CHECK THIS SHIT OUT');
 		console.log(newMoments);
-		this.props.handleAddMoments({newMoments:newMoments,memoryId:this.props.currentMemory.id});
+		this.props.handleAddMoments({newMoments:newMoments,files:files,memoryId:this.props.currentMemory.id});
 		this.handleClose();
 	}
 	onDrop = (files) => {
