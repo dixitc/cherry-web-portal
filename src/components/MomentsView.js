@@ -280,7 +280,7 @@ class MyMomentsView extends Component {
         return (
             <div className={'momentsContainer'}>
 				<Dialog
-		          title="Add your moments"
+		          title={'Add your moments '+(this.state.files.filter((file)=>{return file.isSelected})).length+' moments'}
 				  titleStyle={{border:'none'}}
 				  bodyStyle={{padding:'0px 2px'}}
 				  contentStyle={{border:'none',width:'90%',margin:'0px auto'}}
