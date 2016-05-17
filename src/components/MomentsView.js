@@ -71,6 +71,7 @@ class MyMomentsView extends Component {
             lightboxIsOpen: false,
             currentImage: 0,
 			noMoreMoments : false,
+			files: [],
 			open: false
 		}
 		//handle pagination
@@ -158,9 +159,10 @@ class MyMomentsView extends Component {
 	}
 
 	handleClose = () => {
-		this.setState({open: false});
+		this.setState({open: false,files:[]});
 	}
-	createAndUploadMoments = (files) => {
+	createAndUploadMoments = () => {
+		let files = this.state.files;
 		let newMoments = files.map((file) => {
 			return {
 				id : this.generateUUID(),
@@ -175,8 +177,13 @@ class MyMomentsView extends Component {
 		this.handleClose();
 	}
 	onDrop = (files) => {
-  		console.log('Received files: ', files);
-		this.createAndUploadMoments(files)
+		files.map((file) => {
+			file.imageSrc =  URL.createObjectURL(file)
+		})
+		console.log('Received files: ', files);
+
+		this.setState({files : files})
+		//this.createAndUploadMoments(files)
 	}
     render() {
         const {moments, auth, handleLike , currentMemory , handleAddMoments , handleUploadImage , handlePublishMoments } = this.props;
@@ -245,9 +252,8 @@ class MyMomentsView extends Component {
 	 <FlatButton
 	   label="Upload"
 	   primary={true}
+	   onClick={this.createAndUploadMoments}/>
 
-	   onTouchTap={this.handleClose}
-	 />,
    ];
    const componentConfig = {
     iconFiletypes: ['.jpg', '.png', '.gif'],
@@ -258,15 +264,32 @@ class MyMomentsView extends Component {
             <div className={'momentsContainer'}>
 				<Dialog
 		          title="Add your moments"
-
+				  titleStyle={{border:'none'}}
+				  bodyStyle={{border:'none'}}
+				  repositionOnUpdate={true}
 		          actions={actions}
 		          modal={false}
-
+				  autoScrollBodyContent={true}
 		          open={this.state.open}
 		          onRequestClose={this.handleClose}
 		        >
-				<Dropzone onDrop={this.onDrop}>
-		              <div>Try dropping some files here, or click to select files to upload.</div>
+				<Dropzone onDrop={this.onDrop} style={{width:'100%'}}>
+					  <div className={"filepicker dropzone dz-clickable dz-started"}>
+						  {!this.state.files.length &&
+
+							  <div className={"dz-default dz-message"} style={{display:'block'}}>Try dropping some files here, or click to select files to upload.</div>
+						  }
+						  {this.state.files.map((file) => {
+
+							  return (<div className={"dz-preview dz-processing dz-image-preview dz-success dz-complete"}>
+							  			<div className={"dz-image center-cropped"} style={{backgroundImage:'url('+file.imageSrc+')',borderRadius:'0px'}}>
+										</div>
+										<div className={"dz-details"}>
+										</div>
+									</div>)
+						  })
+					  }
+					  </div>
 		            </Dropzone>
 		        </Dialog>
                 {this.state.lightboxIsOpen &&
@@ -280,7 +303,7 @@ class MyMomentsView extends Component {
 				}
 
                 <div className={'full-width'}>
-					<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px'}} zDepth={2} onTouchTap={this.handleOpen} >
+					<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px',zIndex:'4'}} zDepth={2} onTouchTap={this.handleOpen} >
 						<ContentAdd tooltip={'add moments'} />
 					</FloatingActionButton>
 					<MediaQuery minWidth={800}>

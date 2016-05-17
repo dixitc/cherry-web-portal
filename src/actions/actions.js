@@ -23,6 +23,9 @@
 	const ADD_MOMENTS = 'ADD_MOMENTS';
 	const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
 	const PUBLISH_MOMENTS = 'PUBLISH_MOMENTS';
+	const UPLOADING_MOMENTS = 'UPLOADING_MOMENTS';
+	const MOMENTS_FINISHED_UPLOADING = 'MOMENTS_FINISHED_UPLOADING';
+	const IMAGE_FINISHED_UPLOADING = 'IMAGE_FINISHED_UPLOADING';
 
 
 	const FETCH_PUBLIC_MOMENTS = 'FETCH_PUBLIC_MOMENTS';
@@ -63,6 +66,28 @@ const uploadImage = (payload) => {
 const publishMoments = (payload) => {
 	return {
 		type : PUBLISH_MOMENTS,
+		data : payload
+	}
+}
+
+
+const uploadingMoments = (payload) => {
+	return {
+		type : UPLOADING_MOMENTS,
+		data : payload
+	}
+}
+
+const imageFinishedUploading = (payload) => {
+	return {
+		type : IMAGE_FINISHED_UPLOADING,
+		data : payload
+	}
+}
+
+const momentsFinishedUploading = (payload) => {
+	return {
+		type : MOMENTS_FINISHED_UPLOADING,
 		data : payload
 	}
 }
@@ -415,6 +440,9 @@ const publishMoments = (payload) => {
 		likeMoment,
 		addMoments,
 		publishMoments,
+		uploadingMoments,
+		imageFinishedUploading,
+		momentsFinishedUploading,
 		uploadImage,
 		likeMomentSuccess,
 		receiveMemories,

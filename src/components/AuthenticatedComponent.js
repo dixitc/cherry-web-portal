@@ -16,6 +16,9 @@ import FontIcon from 'material-ui/FontIcon';
 import { browserHistory , hashHistory } from 'react-router';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import { Link } from 'react-router';
+import LinearProgress from 'material-ui/LinearProgress';
+import {List, ListItem} from 'material-ui/List';
+import Paper from 'material-ui/Paper';
 
 const baseStyle = {
 	refresh: {
@@ -43,7 +46,7 @@ class AuthenticatedComponent extends React.Component {
 		this.props.handleFetchMemories(this.props.auth.authToken);
 	}
 	render(){
-		const { handleLogout , handleFetchMemories , memories , auth , title} = this.props;
+		const { handleLogout , handleFetchMemories , memories , auth , title , uploaderStatus} = this.props;
 		//const { currentMemory } = memories;
 		let myIconElement;
 		let myChildren;
@@ -52,9 +55,11 @@ class AuthenticatedComponent extends React.Component {
 		}else{
 			myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}
+		console.log('MEMEMEMEMEMEMEMEM');
+		console.log('NONONONONONONONO');
+		console.log(uploaderStatus);
 		if(this.props.memories.length > 0){
 			myChildren = this.props.children
-			console.log('MEMEMEMEMEMEMEMEM');
 		}else{
 			myChildren =                     <RefreshIndicator
 			  size={40}
@@ -64,7 +69,6 @@ class AuthenticatedComponent extends React.Component {
 			  status="loading"
 			  style={baseStyle.refresh}
 			/>
-			console.log('NONONONONONONONO');
 		}
 		console.log(myChildren);
 		return(
@@ -107,7 +111,14 @@ class AuthenticatedComponent extends React.Component {
 		<div style={{height:'100px'}}></div>
 		{myChildren}
 
+{uploaderStatus.isUploading &&
 
+	<Paper style={{position:'fixed',top:'60px',width:'95%',left:'2.5%',zIndex:'3',background:'white'}}>
+		<ListItem style={{height:'50px'}} innerDivStyle={{paddingTop:'20px'}}  rightIcon={<span style={{paddingTop:'6px',fontSize:'10px'}}>{uploaderStatus.finishedUploadCount} / {uploaderStatus.toUploadCount}</span>}>
+			<LinearProgress  mode="determinate" value={uploaderStatus.finishedUploadCount*100/uploaderStatus.toUploadCount} style={{width:'100%',margin:'auto'}}/>
+		</ListItem>
+	</Paper>
+}
 
 			</div>
 		)
@@ -127,10 +138,12 @@ const mapStateToProps = (state) => {
 	const { auth} = state;
 	const memories = state.memories.memories;
 	const title = state.title;
+	const uploaderStatus = state.moments.uploaderStatus;
 	return {
 		memories,
 		auth,
-		title
+		title,
+		uploaderStatus
 	}
 }
 

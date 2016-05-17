@@ -2,15 +2,32 @@ import moment from './moment';
 
 const initState = {
     moments: [],
-	memoryId:'',
-    isFetching : false,
-	lastUpdated : ''
+    memoryId: '',
+    isFetching: false,
+    lastUpdated: '',
+    uploaderStatus: {
+
+        isUploading: false,
+        toUploadCount: null,
+        finishedUploadCount: null,
+        uploadText: 'test text'
+    }
 }
 
 //Separate out singleMomentReducer
 
 const momentsReducer = (state = initState, action) => {
     switch (action.type) {
+		case 'UPLOADING_MOMENTS':
+			//console.log('reducer: momentsReducer FETCH_MOMENTS');
+			return Object.assign({}, state, {uploaderStatus : {...state.uploaderStatus,isUploading : true,toUploadCount:action.data.toUploadCount,finishedUploadCount:0}});
+			return state;
+		case 'IMAGE_FINISHED_UPLOADING':
+			//return state;
+			return Object.assign({}, state, {uploaderStatus : {...state.uploaderStatus,finishedUploadCount:state.uploaderStatus.finishedUploadCount+1}});
+		case 'MOMENTS_FINISHED_UPLOADING':
+			//return state;
+			return Object.assign({}, state, {uploaderStatus : {...state.uploaderStatus,isUploading : false,toUploadCount:null,finishedUploadCount:null,uploadText:null}});
 
 		case 'REFINE_MOMENTS':
 			//console.log('reducer: momentsReducer REFINE_MOMENTS');

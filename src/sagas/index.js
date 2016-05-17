@@ -137,6 +137,8 @@ function uploadImageApi(params){
 	let data = new FormData()
 	data.append('imageFile', params.file)
 	data.append('version', 'COMPRESSED')
+	data.append('returnImage', 'true')
+
 
 	let config = {
 		method : 'POST',
@@ -307,9 +309,14 @@ function* likeMoment(action){
 //as well as updating state for according ui changes
 function* addMoments(action){
 
-
+	yield put(actions.uploadingMoments({toUploadCount:action.data.files.length}));
 	let addMomentsResponse = yield call(addMomentsApi , action.data);
 	console.log(addMomentsResponse);
+	/*for (var i = 0; i < addMomentsResponse.moments.length; i++) {
+		let imageId = yield call(uploadImage , {data:{momentId:addMomentsResponse.moments[i].id,file:action.data.files[i]}})
+		console.log(imageId);
+		addMomentsResponse.moments[i].image.id = imageId.imageId
+	}*/
 	yield addMomentsResponse.moments.map((moment,i) => call(uploadImage , {data:{momentId:moment.id,file:action.data.files[i]}}))
 	let momentIds = '';
 	addMomentsResponse.moments.map((moment,i) => {
@@ -319,10 +326,14 @@ function* addMoments(action){
 			momentIds = momentIds + (moment.id).toString() + ','
 		}
 	})
-	console.log((momentIds).toString());
 	console.log(' IMAGES UPLOADED');
 	yield call(publishMomentsApi , {momentIds:momentIds,memoryId:action.data.memoryId})
+	addMomentsResponse.moments.map((moment,i) => {
+		moment.isPublished = true;
+	})
+	console.log(addMomentsResponse.moments);
 	console.log(' MOMENTS PUBLISHED ');
+	yield put(actions.momentsFinishedUploading())
 }
 
 //a function that handles cleanup after LOGOUT_USER is called
@@ -331,7 +342,9 @@ function* uploadImage(action){
 	console.log('in HERE');
 	const  payload  = action.data;
 	//const files = action.data.files
-	 yield call(uploadImageApi , action.data);
+	 let imageId =	yield call(uploadImageApi , action.data);
+	 yield put(actions.imageFinishedUploading())
+	 return imageId;
 
 
 }
