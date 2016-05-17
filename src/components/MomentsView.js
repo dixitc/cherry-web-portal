@@ -20,6 +20,9 @@ import ImageLoader from 'react-imageloader';
 import MediaQuery from 'react-responsive';
 import dummyImg from '../images/selfie-placeholder.jpg';
 import Dialog from 'material-ui/Dialog';
+import Paper from 'material-ui/Paper';
+import Badge from 'material-ui/Badge';
+import Done from 'material-ui/svg-icons/action/done';
 //import DropzoneComponent from 'react-dropzone-component/lib/react-dropzone';
 var Dropzone = require('react-dropzone');
 
@@ -281,12 +284,19 @@ class MyMomentsView extends Component {
 						  }
 						  {this.state.files.map((file) => {
 
-							  return (<div className={"dz-preview dz-processing dz-image-preview dz-success dz-complete"}>
-							  			<div className={"dz-image center-cropped"} style={{backgroundImage:'url('+file.imageSrc+')',borderRadius:'0px'}}>
-										</div>
+							  return (							  <Badge
+							    badgeContent={<Done color={'white'}/>}
+							    secondary={true}
+							    badgeStyle={{top: 20, right: 20,zIndex:10}}
+							  ><div className={"dz-preview dz-processing dz-image-preview dz-success dz-complete"}>
+
+
+							  			<Paper zIndex={3} className={"dz-image center-cropped"} style={{backgroundImage:'url('+file.imageSrc+')',borderRadius:'0px'}}>
+										</Paper>
+
 										<div className={"dz-details"}>
 										</div>
-									</div>)
+									</div></Badge>)
 						  })
 					  }
 					  </div>
