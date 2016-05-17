@@ -89,6 +89,7 @@ class MyMomentsView extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.createAndUploadMoments = this.createAndUploadMoments.bind(this);
         this.onDrop = this.onDrop.bind(this);
+        this.fileSelect = this.fileSelect.bind(this);
 
 		//parsing coverUrl to ewnder optimal image
         this.parseCoverUrl = this.parseCoverUrl.bind(this);
@@ -165,8 +166,10 @@ class MyMomentsView extends Component {
 		this.setState({open: false,files:[]});
 	}
 	createAndUploadMoments = () => {
-		let files = this.state.files;
-		let newMoments = files.map((file) => {
+		let sortedFiles = this.state.files.filter((file) => {return file.isSelected});
+
+		let newMoments = sortedFiles.map((file) => {
+
 			return {
 				id : this.generateUUID(),
 				memoryId : this.props.currentMemory.id,
@@ -176,17 +179,28 @@ class MyMomentsView extends Component {
 		})
 		console.log('CHECK THIS SHIT OUT');
 		console.log(newMoments);
-		this.props.handleAddMoments({newMoments:newMoments,files:files,memoryId:this.props.currentMemory.id});
+		this.props.handleAddMoments({newMoments:newMoments,files:sortedFiles,memoryId:this.props.currentMemory.id});
 		this.handleClose();
 	}
 	onDrop = (files) => {
 		files.map((file) => {
-			file.imageSrc =  URL.createObjectURL(file)
+			file.imageSrc =  URL.createObjectURL(file);
+			file.isSelected = true;
 		})
 		console.log('Received files: ', files);
 
 		this.setState({files : files})
 		//this.createAndUploadMoments(files)
+	}
+	fileSelect = (index , e) => {
+		console.log('LOGGIN IIIIIII');
+		console.log(e.target);
+		console.log(index);
+		let newFiles = this.state.files;
+		newFiles[index].isSelected = !newFiles[index].isSelected;
+		this.setState({files:newFiles})
+		e.stopPropagation();
+    	e.nativeEvent.stopImmediatePropagation();
 	}
     render() {
         const {moments, auth, handleLike , currentMemory , handleAddMoments , handleUploadImage , handlePublishMoments } = this.props;
@@ -282,23 +296,34 @@ class MyMomentsView extends Component {
 
 							  <div className={"dz-default dz-message"} style={{display:'block'}}>Try dropping some files here, or click to select files to upload.</div>
 						  }
-						  {this.state.files.map((file) => {
+				{this.state.files.map((file, i) => {
 
-							  return (							  <Badge
-							    badgeContent={<Done color={'white'}/>}
-							    secondary={true}
-							    badgeStyle={{top: 20, right: 20,zIndex:10}}
-							  ><div className={"dz-preview dz-processing dz-image-preview dz-success dz-complete"}>
+			        return (
+				            <div className={"dz-preview dz-processing dz-image-preview dz-success dz-complete"} onClick={(event) => {this.fileSelect(i, event)}} style={{background: 'transparent'}}>
+				                <Badge badgeContent={file.isSelected
+				                    ? <Done color={'white'}/>
+								: <span></span>} secondary={true} badgeStyle={file.isSelected ? {
+				                    top: 12,
+				                    right: 12,
+				                    zIndex: 10
+				                } : {
+				                    top: 12,
+				                    right: 12,
+				                    zIndex: 10,
+									backgroundColor:'rgba(255, 87, 34, 0.34)'
+				                }}>
 
+				                    <Paper zIndex={3} className={"dz-image center-cropped"}  style={{
+				                        backgroundImage: 'url(' + file.imageSrc + ')',
+				                        borderRadius: '0px'
+				                    }}></Paper>
 
-							  			<Paper zIndex={3} className={"dz-image center-cropped"} style={{backgroundImage:'url('+file.imageSrc+')',borderRadius:'0px'}}>
-										</Paper>
-
-										<div className={"dz-details"}>
-										</div>
-									</div></Badge>)
-						  })
-					  }
+				                    <div className={"dz-details"}></div>
+				                </Badge>
+				            </div>
+			        	)
+			    	})
+				}
 					  </div>
 		            </Dropzone>
 		        </Dialog>
