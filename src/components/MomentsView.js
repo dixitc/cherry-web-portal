@@ -282,7 +282,9 @@ class MyMomentsView extends Component {
 				<Dialog
 		          title="Add your moments"
 				  titleStyle={{border:'none'}}
-				  bodyStyle={{border:'none'}}
+				  bodyStyle={{padding:'0px 2px'}}
+				  contentStyle={{border:'none',width:'90%',margin:'0px auto'}}
+				  actionsContainerStyle={{border:'none'}}
 				  repositionOnUpdate={true}
 		          actions={actions}
 		          modal={false}
@@ -301,17 +303,19 @@ class MyMomentsView extends Component {
 			        return (
 				            <div className={"dz-preview dz-processing dz-image-preview dz-success dz-complete"} onClick={(event) => {this.fileSelect(i, event)}} style={{background: 'transparent'}}>
 				                <Badge badgeContent={file.isSelected
-				                    ? <Done color={'white'}/>
+				                    ? <Done style={{height:'20px',width:'20px',fill:'#1B4CEC'}} color={'white'}/>
 								: <span></span>} secondary={true} badgeStyle={file.isSelected ? {
 				                    top: 12,
 				                    right: 12,
-				                    zIndex: 10
+				                    zIndex: 10,
+									backgroundColor:'rgba(34, 255, 89, 0.49)'
 				                } : {
 				                    top: 12,
 				                    right: 12,
 				                    zIndex: 10,
 									backgroundColor:'rgba(255, 87, 34, 0.34)'
-				                }}>
+				                }}
+								>
 
 				                    <Paper zIndex={3} className={"dz-image center-cropped"}  style={{
 				                        backgroundImage: 'url(' + file.imageSrc + ')',
