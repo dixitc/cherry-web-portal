@@ -308,7 +308,7 @@ function* likeMoment(action){
 //a function that comprehensively handles adding new moments flow
 //as well as updating state for according ui changes
 function* addMoments(action){
-
+	const user = getUser();
 	yield put(actions.uploadingMoments({toUploadCount:action.data.files.length}));
 	let addMomentsResponse = yield call(addMomentsApi , action.data);
 	console.log(addMomentsResponse);
@@ -317,7 +317,7 @@ function* addMoments(action){
 		console.log(imageId);
 		addMomentsResponse.moments[i].image.id = imageId.imageId
 	}*/
-	yield addMomentsResponse.moments.map((moment,i) => call(uploadImage , {data:{momentId:moment.id,file:action.data.files[i]}}))
+	yield addMomentsResponse.moments.map((moment,i) => call(uploadImage , {data:{moment:moment,momentId:moment.id,file:action.data.files[i]}}))
 	let momentIds = '';
 	addMomentsResponse.moments.map((moment,i) => {
 		if(i == addMomentsResponse.moments.length - 1){
@@ -327,26 +327,27 @@ function* addMoments(action){
 		}
 	})
 	console.log(' IMAGES UPLOADED');
+	console.log(addMomentsResponse.moments);
 	yield call(publishMomentsApi , {momentIds:momentIds,memoryId:action.data.memoryId})
 	addMomentsResponse.moments.map((moment,i) => {
 		moment.isPublished = true;
 	})
 	console.log(addMomentsResponse.moments);
 	console.log(' MOMENTS PUBLISHED ');
+	yield put(actions.refineMoments({moments : {moments:addMomentsResponse.moments} , userId:user.profile.id}))
 	yield put(actions.momentsFinishedUploading())
 }
 
 //a function that handles cleanup after LOGOUT_USER is called
 function* uploadImage(action){
-
 	console.log('in HERE');
 	const  payload  = action.data;
 	//const files = action.data.files
-	 let imageId =	yield call(uploadImageApi , action.data);
-	 yield put(actions.imageFinishedUploading())
-	 return imageId;
-
-
+	let imageId =	yield call(uploadImageApi , action.data);
+	action.data.moment.image={id:imageId.image.imageId,CURRENT_IMAGE:'https://docs.google.com/uc?id='+imageId.image.fileStoreId,COMPRESSED:'https://docs.google.com/uc?id='+imageId.image.fileStoreId};
+	action.data.moment.imageUrl=imageId.image.thumbURL;
+	yield put(actions.imageFinishedUploading())
+	return action.data.moment;
 }
 
 

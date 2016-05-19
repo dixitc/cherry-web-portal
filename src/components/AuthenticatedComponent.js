@@ -85,7 +85,7 @@ class AuthenticatedComponent extends React.Component {
 				iconElementRight={<IconMenu
 
         iconButtonElement={<div>
-			<span style={{fontSize:'10px',color:'white',position:'relative',top:'-14px',padding:'10px'}}>{auth.profile.name}</span>
+			<span style={{fontSize:'10px',color:'white',position:'relative',top:'-12px',padding:'10px'}}>{auth.profile.name}</span>
           <IconButton style={style.avatarButton} tooltip='settings'
       tooltipPosition="bottom-right">
 

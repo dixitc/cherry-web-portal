@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { fetchMoments , setIsLoaded } from '../actions/actions';
+import CoverMomentCard from './CoverMomentCard';
 import {connect} from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
 import MemoryView from './MemoryView';
@@ -12,9 +13,9 @@ import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import {ListItem} from 'material-ui/List';
 //import Lightbox from 'react-images';
 import Lightbox from 'react-image-lightbox';
+import {ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import ImageLoader from 'react-imageloader';
 import MediaQuery from 'react-responsive';
@@ -75,6 +76,8 @@ class MyMomentsView extends Component {
             currentImage: 0,
 			noMoreMoments : false,
 			files: [],
+			memberViewOpen: false,
+			anchorEl : '',
 			open: false
 		}
 		//handle pagination
@@ -90,6 +93,8 @@ class MyMomentsView extends Component {
         this.createAndUploadMoments = this.createAndUploadMoments.bind(this);
         this.onDrop = this.onDrop.bind(this);
         this.fileSelect = this.fileSelect.bind(this);
+        this.openMemberView = this.openMemberView.bind(this);
+        this.closeMemberView = this.closeMemberView.bind(this);
 
 		//parsing coverUrl to ewnder optimal image
         this.parseCoverUrl = this.parseCoverUrl.bind(this);
@@ -114,6 +119,20 @@ class MyMomentsView extends Component {
         event.preventDefault();
         this.setState({currentImage: index, lightboxIsOpen: true});
     }
+	openMemberView = (event) => {
+  // This prevents ghost click.
+  event.preventDefault();
+
+  this.setState({
+	memberViewOpen: true,
+	anchorEl: event.currentTarget,
+  });
+};
+closeMemberView = () => {
+  this.setState({
+	memberViewOpen: false,
+  });
+};
     closeLightbox() {
         this.setState({currentImage: 0, lightboxIsOpen: false});
     }
@@ -177,8 +196,8 @@ class MyMomentsView extends Component {
 				time : Date.now()
 			}
 		})
-		console.log('CHECK THIS SHIT OUT');
-		console.log(newMoments);
+
+
 		this.props.handleAddMoments({newMoments:newMoments,files:sortedFiles,memoryId:this.props.currentMemory.id});
 		this.handleClose();
 	}
@@ -187,15 +206,13 @@ class MyMomentsView extends Component {
 			file.imageSrc =  URL.createObjectURL(file);
 			file.isSelected = true;
 		})
-		console.log('Received files: ', files);
+		//console.log('Received files: ', files);
 
 		this.setState({files : files})
 		//this.createAndUploadMoments(files)
 	}
 	fileSelect = (index , e) => {
-		console.log('LOGGIN IIIIIII');
-		console.log(e.target);
-		console.log(index);
+
 		let newFiles = this.state.files;
 		newFiles[index].isSelected = !newFiles[index].isSelected;
 		this.setState({files:newFiles})
@@ -209,14 +226,17 @@ class MyMomentsView extends Component {
 		//Populating Lightbox
         let images = moments.moments.map((moment) => {
             let rObj = {};
-            rObj['src'] = moment.image.CURRENT_IMAGE;
-            rObj['owner'] = moment.owner.name;
+			if(moment.image){
+				rObj['src'] = moment.image.CURRENT_IMAGE;
+			}
+			if(moment.owner){
+				rObj['owner'] = moment.owner.name;
+			}
 
             return rObj;
         });
 
-		console.log('CHECKING ISFETCHING');
-		console.log(isFetching);
+
 
 		if(currentMemory.isFullyLoaded){
 			bottomElement = <FlatButton label="No more moments" disabled={true} /> ;
@@ -226,23 +246,7 @@ class MyMomentsView extends Component {
 			bottomElement = <RaisedButton labelColor="white" disabled={false} primary={true} label={'LOAD MORE MOMENTS'} onClick={this.paginate}/>
 		}
 
-		let membersList;
-		if(currentMemory.members.length > 0){
-			membersList = currentMemory.members.map((member) => {
-
-			   return <div style={{display:'inline-block',width:'40px',paddingRight:'5px'}}><ListItem
-				   innerDivStyle={{display:'inline-block',width:'40px'}}
-
-					leftAvatar={<Avatar style={{left:0}} src={member.profile ? member.profile.photo : ''} />}
-				   ></ListItem></div>
-		   })
-		}else {
-			 membersList = ''
-		}
-
-
 		const  memory = this.props.currentMemory;
-
 
 		//populating moments
 	    const momentChildren =   moments.moments.map((moment, i) => {
@@ -349,36 +353,16 @@ class MyMomentsView extends Component {
 	                    <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 
 	                        <GridTile
-								style={{background:'grey'}}
-								title={
-									<ListItem
-										style={mystyle.listItem}
-										key={memory.id}
-										innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
-										primaryText={<span className={'white-text'}>{memory.owner.name}</span>}
-										secondaryText={	< ListItem
-											innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
-											style={{color:'#FFF',fontSize:'13px'}}
-											>
-												<span style={{color:'#FF5722',marginRight:5}}>{memory.members.length} {memory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {memory.momentsCount} {memory.momentsCount == 1 ? 'moment' :  'moments'}</span>
-											</ListItem>}
-										leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={memory.owner.photo} />}
-									>
-
-									</ListItem>
-
-								}
+								style={{background:'transparent'}}
 
 								titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.68) 100%)'}
 
 								cols={5}
-								rows={2}>
-		                        {memory.coverUrl &&
-									<img style={{width:'100%'}} src={this.parseCoverUrl(memory.coverUrl)} />
-								}
-								{!memory.coverUrl &&
-									<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-228px'}} />
-								}
+								rows={2.7}>
+
+									<CoverMomentCard memory={memory} />
+
+
 
 	                        </GridTile>
 
@@ -413,7 +397,7 @@ class MyMomentsView extends Component {
 							cols={3}
 							rows={2}>
 							{memory.coverUrl &&
-							<img src={this.parseCoverUrl(memory.coverUrl)} />
+								<img src={this.parseCoverUrl(memory.coverUrl)} />
 							}
 							{!memory.coverUrl &&
 								<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-68px'}} />

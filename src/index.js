@@ -26,6 +26,18 @@ import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/index'
 import createLogger from 'redux-logger';
 import { doSomething , fetchMemories } from './actions/actions';
+let ga = require('react-ga');
+ga.initialize('UA-77899465-1');
+
+function logPageView() {
+	console.log('GOOGLE ANALYTICS:TRACKING HASH PAGEVIEW');
+	console.log(window.location.pathname);
+	console.log(window.location);
+	let parsedHashLocation = (window.location.hash.split('?')[0]).split('#')[1];
+	console.log(parsedHashLocation);
+  ga.pageview(parsedHashLocation);
+}
+
 
 injectTapEventPlugin();
 let initState = {
@@ -139,7 +151,7 @@ console.log(rootPath);
 
 render( < Provider store = {store}>
 	{ /* Tell the Router to use our enhanced history */ }
-      <Router history={history}>
+      <Router history={history} onUpdate={logPageView}>
         <Route path={rootPath+'/'} component={App}>
 			<IndexRedirect to={rootPath+'/memories'} />
           <Route path={rootPath+'/login'} component={Login}/>
