@@ -88,8 +88,10 @@ render(){
 									return <IconButton tooltip={member.profile ? member.profile.name : 'unknown'} tooltipPosition={'top-right'} style={{padding:'0px',height:'35px',width:'35px'}}> <Avatar style={{margin:'0px 2px'}} size={30} src={member.profile ? member.profile.photo : ''} /></IconButton>
 								}else if(i == 7){
 
-									return (<IconButton onClick={this.openMemberView} onMouseEnter={()=>{console.log("MOUSE ENTERING");}} tooltip={member.profile ? member.profile.name : 'unknown'} tooltipPosition={'top-right'} style={{padding:'0px',height:'35px',width:'35px'}}>
-									<Avatar style={{margin:'0px 2px'}} size={30} src={member.profile ? member.profile.photo : '' } />
+									return (<IconButton  onClick={this.openMemberView} onMouseEnter={()=>{console.log("MOUSE ENTERING");}} tooltip={member.profile ? memory.members.length-7+' more' : 'unknown'} tooltipPosition={'top-right'} style={{padding:'0px',height:'35px',width:'35px',top:'-10px	'}}>
+									<Avatar style={{margin:'0px 2px'}} size={30} src={member.profile ? member.profile.photo : '' } >
+										{memory.members.length - 7}
+									</Avatar>
 									<Popover
 										open={this.state.memberViewOpen}
 										anchorEl={this.state.anchorEl}
@@ -101,8 +103,9 @@ render(){
 										<List>
 											{memory.members.map((member,i) => {
 												return <ListItem
+													style={{padding:'0px 5px'}}
 													primaryText={member.profile ? member.profile.name : 'unknown'}
-													leftAvatar={<Avatar size={30} src={member.profile ? member.profile.photo : ''} />}/>
+													leftAvatar={<Avatar size={25} src={member.profile ? member.profile.photo : ''} />}/>
 											})}
 										</List>
 									</Popover>
