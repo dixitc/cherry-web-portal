@@ -24,7 +24,7 @@ import simpleMomentsView from './components/simpleMomentsView';
 import Login from './components/Login';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/index'
-import createLogger from 'redux-logger';
+//import createLogger from 'redux-logger';
 import { doSomething , fetchMemories } from './actions/actions';
 let ga = require('react-ga');
 ga.initialize('UA-77899465-1');
@@ -50,7 +50,7 @@ let initState = {
 
 const middleware = routerMiddleware(hashHistory);
 
-const loggerMiddleware = createLogger();
+//const loggerMiddleware = createLogger();
 
 const rootReducer = combineReducers({
 	memories : memoriesReducer,
@@ -64,8 +64,7 @@ const sagaMiddleware = createSagaMiddleware()
 let store = createStore(rootReducer,
 	{},
 	compose(
-		applyMiddleware(thunkMiddleware , loggerMiddleware, sagaMiddleware , middleware),
-		window.devToolsExtension ? window.devToolsExtension() : f => f
+		applyMiddleware(thunkMiddleware ,  sagaMiddleware , middleware)
 
   )
 );
