@@ -193,7 +193,8 @@ closeMemberView = () => {
 				id : this.generateUUID(),
 				memoryId : this.props.currentMemory.id,
 				caption:'',
-				time : Date.now()
+				time : Date.now(),
+				imageUrl:''
 			}
 		})
 
@@ -349,7 +350,7 @@ closeMemberView = () => {
 					<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px',zIndex:'4'}} zDepth={2} onTouchTap={this.handleOpen} >
 						<ContentAdd tooltip={'add moments'} />
 					</FloatingActionButton>
-					<MediaQuery minWidth={800}>
+					<MediaQuery minWidth={300}>
 	                    <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 
 	                        <GridTile

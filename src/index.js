@@ -24,18 +24,21 @@ import simpleMomentsView from './components/simpleMomentsView';
 import Login from './components/Login';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/index'
+import * as customGa from './analytics/ga'
 //import createLogger from 'redux-logger';
 import { doSomething , fetchMemories } from './actions/actions';
 let ga = require('react-ga');
-ga.initialize('UA-77899465-1');
+customGa.initializeGoogleAnalytics()
+//ga.initialize('UA-77899465-1');
 
 function logPageView() {
 	console.log('GOOGLE ANALYTICS:TRACKING HASH PAGEVIEW');
-	console.log(window.location.pathname);
+	
 	console.log(window.location);
-	let parsedHashLocation = (window.location.hash.split('?')[0]).split('#')[1];
-	console.log(parsedHashLocation);
-  ga.pageview(parsedHashLocation);
+
+	//let parsedHashLocation = (window.location.hash.split('?')[0]).split('#')[1];
+
+  customGa.pageview(window.location.hash);
 }
 
 
