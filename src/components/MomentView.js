@@ -67,9 +67,19 @@ const MomentView = ({ moment , handleLikeCLick , onClick , showDetail}) => {
 		>
 
 		</ListItem>}
-			titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.9) 100%)'}
+			titleBackground={'radial-gradient(transparent 0%, rgba(0,0,0,0) 100%)'}
 			className='grid-moment'
-			actionIcon={<IconButton className={'inner-grid'} iconStyle={{height:'20px',width:'20px'}} style={showDetail ? {display:'block'} : {display:'none'}}  onClick={(e) => {e.stopPropagation();handleLikeCLick()}}>{moment.hasLiked ?  <Favourite  color="white"/> : <FavouriteBorder hoverColor={'orange'} style={{height:'12px',width:'12px'}}  color="white"/> }</IconButton>}>
+			actionIcon={
+				<IconButton
+					className={moment.hasLiked ? '' : 'inner-grid'}
+					iconStyle={{height:'20px',width:'20px'}}
+					style={showDetail ? {display:'block',background:'radial-gradient(rgba(0, 0, 0, 0.67) 0%, rgba(0, 0, 0, 0.26) 48%,transparent 0%)'} : {display:'none'}}
+					onClick={(e) => {e.stopPropagation();handleLikeCLick()}}
+				>
+						{moment.hasLiked ?  <Favourite  hoverColor={'rgb(255, 161, 0)'} color ={'#FF5722'}/> : <FavouriteBorder hoverColor={'#FF5722'} style={{height:'12px',width:'12px'}}  color="white"/> }
+				</IconButton>
+			}
+			>
 
 			{customImageLoader}
 
