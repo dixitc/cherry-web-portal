@@ -14,7 +14,7 @@ import FavouriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Favourite from 'material-ui/svg-icons/action/favorite';
 import ImageIcon from 'material-ui/svg-icons/image/image';
 import MemberIcon from 'material-ui/svg-icons/action/face';
-
+import * as customGa from '../analytics/ga';
 //this.props.dispatch(push('/some/path'));
 
 
@@ -63,6 +63,12 @@ class MemoryGridView extends Component {
 	}
 	memoryClick(){
 		//let ep =  this.props.memory.title.replace(/[^A-Z0-9]/ig, '_');
+		let gaPayload = {
+			category : 'MEMORY',
+			action:'MEMORY_CARD_CLICK',
+			label:this.props.memory.id
+		}
+		customGa.event(gaPayload);
 		let ep =  this.props.memory.id;
 		this.props.dispatch(push({pathname :'/memory/'+ep,state: { memory : this.props.memory}}));
 	}

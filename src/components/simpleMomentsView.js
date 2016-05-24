@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
 import MemoryView from './MemoryView';
 import {GridList, GridTile} from 'material-ui/GridList';
-
+import CoverMomentCard from './CoverMomentCard';
 import FavouriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import IconButton from 'material-ui/IconButton';
 import MomentView from './MomentView';
@@ -243,35 +243,16 @@ class MySimpleMomentsView extends Component {
 							<GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 
 								<GridTile
-									style={{background:'grey'}}
-									title={
-										<ListItem
-											style={mystyle.listItem}
-											key={currentMemory.id}
-											innerDivStyle={{paddingLeft:50,paddingBottom:10,paddingTop:17}}
-											primaryText={<span className={'white-text'}>{currentMemory.owner.name}</span>}
-											secondaryText={	< ListItem
-												innerDivStyle={{paddingLeft:0,paddingBottom:15,paddingTop:5}}
-												style={{color:'#FFF',fontSize:'13px'}}
-												>
-												<span style={{color:'#FF5722',marginRight:5}}>{currentMemory.members.length} {currentMemory.members.length == 1 ? 'member' :  'members'}  </span> | <span style={{marginLeft:5}}>  {currentMemory.momentsCount} {currentMemory.momentsCount == 1 ? 'moment' :  'moments'}</span>
-											</ListItem>}
-											leftAvatar={<Avatar style={{backgroundColor:'transparent',width:35,height:35,left:0}} src={currentMemory.owner.photo} />}
-											>
-
-										</ListItem>
-									}
+									style={{background:'transparent'}}
 
 									titleBackground={'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.68) 100%)'}
 
 									cols={5}
-									rows={2}>
-									{currentMemory.coverUrl &&
-										<img style={{width:'100%'}} src={this.parseCoverUrl(currentMemory.coverUrl)} />
-									}
-									{!currentMemory.coverUrl &&
-										<img src={dummyImg} style={{height:'auto',width:'100%',position:'absolute',top:'-228px'}} />
-									}
+									rows={2.7}>
+
+										<CoverMomentCard memory={currentMemory} />
+
+
 
 								</GridTile>
 								{momentChildren}

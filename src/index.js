@@ -25,15 +25,16 @@ import Login from './components/Login';
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/index'
 import * as customGa from './analytics/ga'
-//import createLogger from 'redux-logger';
+import createLogger from 'redux-logger';
 import { doSomething , fetchMemories } from './actions/actions';
+
 let ga = require('react-ga');
 customGa.initializeGoogleAnalytics()
 //ga.initialize('UA-77899465-1');
 
 function logPageView() {
 	console.log('GOOGLE ANALYTICS:TRACKING HASH PAGEVIEW');
-	
+
 	console.log(window.location);
 
 	//let parsedHashLocation = (window.location.hash.split('?')[0]).split('#')[1];
@@ -53,7 +54,7 @@ let initState = {
 
 const middleware = routerMiddleware(hashHistory);
 
-//const loggerMiddleware = createLogger();
+const loggerMiddleware = createLogger();
 
 const rootReducer = combineReducers({
 	memories : memoriesReducer,
@@ -67,7 +68,8 @@ const sagaMiddleware = createSagaMiddleware()
 let store = createStore(rootReducer,
 	{},
 	compose(
-		applyMiddleware(thunkMiddleware ,  sagaMiddleware , middleware)
+		applyMiddleware(thunkMiddleware ,  loggerMiddleware,sagaMiddleware , middleware),
+		window.devToolsExtension ? window.devToolsExtension() : f => f
 
   )
 );

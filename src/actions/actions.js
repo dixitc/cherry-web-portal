@@ -1,6 +1,7 @@
     import fetch from 'isomorphic-fetch';
     import apiUrl from '../config/config';
 	import { browserHistory , hashHistory } from 'react-router';
+	import * as customGa from '../analytics/ga';
 
 
     //todo get user , memories only if needed , need to make a separate thunk for this
@@ -50,6 +51,12 @@
 
     //action creators
 const addMoments = (payload) => {
+	let gaPayload = {
+		category : 'MOMENTS_ACTIONS',
+		action:'ADD_MOMENTS'
+	};
+
+	customGa.event(gaPayload);
 	return {
 		type : ADD_MOMENTS,
 		data : payload
@@ -127,7 +134,11 @@ const momentsFinishedUploading = (payload) => {
 
     const registerUser = (creds) => {
         /*	return async action */
-
+		let gaPayload = {
+			category : 'LOGIN',
+			action:'REGISTER_USER'
+		}
+		customGa.event(gaPayload)
         const { identifier , identifierType , verificationMode , dial_code} = creds;
         let validation='';
 
@@ -239,7 +250,11 @@ const momentsFinishedUploading = (payload) => {
 
 
     const verifyUser = (id,otp,redirectRoute) => {
-
+		let gaPayload = {
+			category : 'LOGIN',
+			action:'VERIFY_USER'
+		}
+		customGa.event(gaPayload)
         let url = apiUrl + '/verify/' + id + '.json';
         let config = {
             method: 'POST',
@@ -257,6 +272,11 @@ const momentsFinishedUploading = (payload) => {
                     if (json.authToken) {
 						//if success ideally should redirect to original link
 						dispatch(verifySuccess(json));
+						let gaPayload = {
+							category : 'LOGIN',
+							action:'VERIFY_SUCCESS'
+						}
+						customGa.event(gaPayload);
 						if(redirectRoute == ''){
 							hashHistory.replace('/memories');
 						}else{
@@ -267,8 +287,13 @@ const momentsFinishedUploading = (payload) => {
                     } else {
 						console.log('CHECK ERROR MESSAGE');
 						console.log(json.err.errorMessage);
-						if(json.err.errorMessage){
+						let gaPayload = {
+							category : 'LOGIN',
+							action:'VERIFY_FAIL'
 
+						}
+						customGa.event(gaPayload);
+						if(json.err.errorMessage){
 							dispatch(verifyFailed(json.err.errorMessage));
 						}else{
 							dispatch(verifyFailed('Incorrect otp'));
@@ -281,6 +306,11 @@ const momentsFinishedUploading = (payload) => {
 
 	const logOutUser = () => {
 		//Need to remove token from localStorage
+		let gaPayload = {
+			category : 'LOGIN',
+			action:'LOGOUT_USER'
+		}
+		customGa.event(gaPayload);
 		return {
 			type: LOGOUT_USER
 		}

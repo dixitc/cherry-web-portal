@@ -14,6 +14,6 @@ export const pageview = (url) => {
 export const event = (payload) => {
 	ga.event({
 		category: payload.category,
-		label: payload.label
+		action: payload.action
 	});
 }
