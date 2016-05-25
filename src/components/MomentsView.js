@@ -285,9 +285,9 @@ closeMemberView = () => {
         return (
             <div className={'momentsContainer'}>
 				<Dialog
-		          title={'Add your moments '+(this.state.files.filter((file)=>{return file.isSelected})).length+' moments'}
-				  titleStyle={{border:'none'}}
-				  bodyStyle={{padding:'0px 2px'}}
+		          title={<ListItem primaryText={'Add your moments '} secondaryText={this.state.files.length > 0 ? (this.state.files.filter((file)=>{return file.isSelected})).length +' moments' : ''} />}
+				  titleStyle={{border:'none',padding:'0px'}}
+				  bodyStyle={{padding:'0px 2px',border:'none'}}
 				  contentStyle={{border:'none',width:'90%',margin:'0px auto'}}
 				  actionsContainerStyle={{border:'none'}}
 				  repositionOnUpdate={true}
@@ -298,7 +298,7 @@ closeMemberView = () => {
 		          onRequestClose={this.handleClose}
 		        >
 				<Dropzone onDrop={this.onDrop} style={{width:'100%'}}>
-					  <div className={"filepicker dropzone dz-clickable dz-started"}>
+					  <div className={"filepicker dropzone dz-clickable dz-started"} style={{border:'none',background:'transparent'}}>
 						  {!this.state.files.length &&
 
 							  <div className={"dz-default dz-message"} style={{display:'block'}}>Try dropping some files here, or click to select files to upload.</div>
@@ -347,10 +347,10 @@ closeMemberView = () => {
 				}
 
                 <div className={'full-width'}>
-					<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px',zIndex:'4'}} zDepth={2} onTouchTap={this.handleOpen} >
+					<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px',zIndex:'9'}} zDepth={2} onTouchTap={this.handleOpen} >
 						<ContentAdd tooltip={'add moments'} />
 					</FloatingActionButton>
-					<MediaQuery minWidth={300}>
+					<MediaQuery minWidth={800}>
 	                    <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 
 	                        <GridTile

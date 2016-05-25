@@ -74,7 +74,7 @@ class AuthenticatedComponent extends React.Component {
 		return(
 			<div style={{height:'100%'}}>
 			<AppBar
-				style={{zIndex:'10',height:'60px',position:'fixed',top:'0'}}
+				style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#383737'}}
 				titleStyle={{height:'60px'}}
 				className={'smooth-transit'}
 				title={<span className='brand'>{title}</span>}
