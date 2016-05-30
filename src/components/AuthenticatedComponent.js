@@ -113,7 +113,7 @@ class AuthenticatedComponent extends React.Component {
 
 {uploaderStatus.isUploading &&
 
-	<Paper style={{position:'fixed',top:'60px',width:'95%',left:'2.5%',zIndex:'3',background:'white'}}>
+	<Paper style={{position:'fixed',bottom:'60px',width:'200px',right:'20px',zIndex:'3',background:'white'}}>
 		<ListItem style={{height:'50px'}} innerDivStyle={{paddingTop:'20px'}}  rightIcon={<span style={{paddingTop:'6px',fontSize:'10px'}}>{uploaderStatus.finishedUploadCount} / {uploaderStatus.toUploadCount}</span>}>
 			<LinearProgress  mode="determinate" value={uploaderStatus.finishedUploadCount*100/uploaderStatus.toUploadCount} style={{width:'100%',margin:'auto'}}/>
 		</ListItem>

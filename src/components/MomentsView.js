@@ -203,8 +203,10 @@ closeMemberView = () => {
 		this.handleClose();
 	}
 	onDrop = (files) => {
+		console.log('FILES');
+		console.log(files);
 		files.map((file) => {
-			file.imageSrc =  URL.createObjectURL(file);
+			file.imageSrc =  file.preview;
 			file.isSelected = true;
 		})
 		//console.log('Received files: ', files);
@@ -221,7 +223,7 @@ closeMemberView = () => {
     	e.nativeEvent.stopImmediatePropagation();
 	}
     render() {
-        const {moments, auth, handleLike , currentMemory , handleAddMoments , handleUploadImage , handlePublishMoments } = this.props;
+        const {moments, auth, handleLike , currentMemory , handleAddMoments , handleUploadImage , handlePublishMoments , uploaderStatus} = this.props;
         let {isFetching} = moments;
 		let bottomElement;
 		//Populating Lightbox
@@ -272,6 +274,7 @@ closeMemberView = () => {
 	   onTouchTap={this.handleClose}
 	 />,
 	 <FlatButton
+		disabled={this.state.files.length > 0 ? false : true}
 	   label="Upload"
 	   primary={true}
 	   onClick={this.createAndUploadMoments}/>
@@ -347,9 +350,12 @@ closeMemberView = () => {
 				}
 
                 <div className={'full-width'}>
-					<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px',zIndex:'9'}} zDepth={2} onTouchTap={this.handleOpen} >
-						<ContentAdd tooltip={'add moments'} />
-					</FloatingActionButton>
+					{!uploaderStatus.isUploading &&
+
+						<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px',zIndex:'9'}} zDepth={2} onTouchTap={this.handleOpen} >
+							<ContentAdd tooltip={'add moments'} />
+						</FloatingActionButton>
+					}
 					<MediaQuery minWidth={800}>
 	                    <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 
@@ -440,7 +446,7 @@ const mapStateToProps = (state) => {
 
     const {auth , title} = state;
     const moments = state.moments;
-
+	const uploaderStatus = moments.uploaderStatus;
 
 	let currentMemoryId = (state.routing.locationBeforeTransitions.pathname).replace('/memory/','')
 	//console.log(state.routing.locationBeforeTransitions.pathname);
@@ -454,7 +460,7 @@ const mapStateToProps = (state) => {
 			isPresent : false
 		}
 	}
-    return {moments, auth ,title , currentMemory}
+    return {moments, auth ,title , currentMemory , uploaderStatus}
 }
 
 const getCurrentMemory = (memories , memoryId) => {
