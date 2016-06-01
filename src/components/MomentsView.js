@@ -186,7 +186,7 @@ closeMemberView = () => {
 	}
 	createAndUploadMoments = () => {
 		let sortedFiles = this.state.files.filter((file) => {return file.isSelected});
-
+		
 		let newMoments = sortedFiles.map((file) => {
 
 			return {
@@ -194,6 +194,10 @@ closeMemberView = () => {
 				memoryId : this.props.currentMemory.id,
 				caption:'',
 				time : Date.now(),
+				owner:{
+					name:'',
+					photo : ''
+				},
 				imageUrl:''
 			}
 		})

@@ -308,7 +308,10 @@ function* likeMoment(action){
 //a function that comprehensively handles adding new moments flow
 //as well as updating state for according ui changes
 function* addMoments(action){
+	console.log(action);
 	const user = getUser();
+	console.log('USERUSERUSERUSER');
+	console.log(user);
 	yield put(actions.uploadingMoments({toUploadCount:action.data.files.length}));
 	let addMomentsResponse = yield call(addMomentsApi , action.data);
 	console.log(addMomentsResponse);
@@ -331,6 +334,10 @@ function* addMoments(action){
 	yield call(publishMomentsApi , {momentIds:momentIds,memoryId:action.data.memoryId})
 	addMomentsResponse.moments.map((moment,i) => {
 		moment.isPublished = true;
+		if(user.profile){
+			moment.owner.name = user.profile.name;
+			moment.owner.photo = user.profile.photo;
+		}
 	})
 	console.log(addMomentsResponse.moments);
 	console.log(' MOMENTS PUBLISHED ');

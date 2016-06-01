@@ -221,23 +221,23 @@ let formatter = new AsYouTypeFormatter('IN');
 						bottom: '100px',
 						textAlign: 'center',
 						width: '100%'}}>
-						<p className={'loginInfoText'}>Cherry . Your memories here . Forever . </p>
+						<p className={'loginInfoText'}>Cherry . Your memories are here . Forever . </p>
 						<div style={{width:'200px',margin:'auto'}}>
 							<FlatButton
 								label="Android"
 								target='_blank'
-								style={{display:'inline-block',float:'left'}}
+								style={{display:'inline-block',float:'left',color:'rgb(121, 121, 121)'}}
 								linkButton={true}
 								href='https://play.google.com/store/apps/details?id=com.triconlabs.cherry&hl=en'
-								primary={true}/>
+								/>
 
 							<FlatButton
 								label="ios"
 								target='_blank'
-								style={{display:'inline-block'}}
+								style={{display:'inline-block',color:'rgb(121, 121, 121)'}}
 								linkButton={true}
 								href='https://itunes.apple.com/us/app/cherry-cherish-your-memories/id924848929?mt=8'
-								primary={true}/>
+								/>
 
 						</div>
 					</div>

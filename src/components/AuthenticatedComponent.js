@@ -113,10 +113,17 @@ class AuthenticatedComponent extends React.Component {
 
 {uploaderStatus.isUploading &&
 
-	<Paper style={{position:'fixed',bottom:'60px',width:'200px',right:'20px',zIndex:'3',background:'white'}}>
-		<ListItem style={{height:'50px'}} innerDivStyle={{paddingTop:'20px'}}  rightIcon={<span style={{paddingTop:'6px',fontSize:'10px'}}>{uploaderStatus.finishedUploadCount} / {uploaderStatus.toUploadCount}</span>}>
-			<LinearProgress  mode="determinate" value={uploaderStatus.finishedUploadCount*100/uploaderStatus.toUploadCount} style={{width:'100%',margin:'auto'}}/>
-		</ListItem>
+	<Paper style={{position:'fixed',bottom:'60px',width:'300px',right:'20px',zIndex:'3',background:'white'}}>
+
+			<ListItem style={{height:'50px'}} className={'fader'} innerDivStyle={{fontSize:'14px',paddingTop:'16px'}} primaryText={<span style={{fontSize:'14px'}}>{uploaderStatus.finishedUploadCount == 0 ? 'Moments being added' : 'Images uploading'}</span>} innerDivStyle={{paddingTop:'20px'}}>
+			</ListItem>
+
+		{uploaderStatus.finishedUploadCount != 0 &&
+
+			<ListItem style={{height:'50px'}} className={'fader'} innerDivStyle={{paddingTop:'20px'}}  rightIcon={<span style={{paddingTop:'3px',fontSize:'10px',width:'20%'}}>{uploaderStatus.finishedUploadCount} / {uploaderStatus.toUploadCount}</span>}>
+				<LinearProgress  mode="determinate" value={uploaderStatus.finishedUploadCount*100/uploaderStatus.toUploadCount} style={{width:'80%',margin:'auto',float:'left'}}/>
+			</ListItem>
+		}
 	</Paper>
 }
 

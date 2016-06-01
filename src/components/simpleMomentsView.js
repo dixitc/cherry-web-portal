@@ -216,6 +216,7 @@ class MySimpleMomentsView extends Component {
 								<AppBar
 									style={{zIndex:2}}
 									className={'smooth-transit'}
+									style={{backgroundColor:'#383737'}}
 									title={<span className='brand'>{currentMemory.title}</span>}
 									primary={true}
 									iconElementLeft={''}/>
