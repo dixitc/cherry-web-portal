@@ -51,7 +51,7 @@ class AuthenticatedComponent extends React.Component {
 		let myIconElement;
 		let myChildren;
 		if(title === 'Cherry'){
-			myIconElement = <IconButton className='smooth-transit' style={{opacity:0}} onClick={this.backToMemories}><ArrowBack /></IconButton>
+			myIconElement = <IconButton className='smooth-transit' style={{opacity:0,cursor:'default'}} ><ArrowBack /></IconButton>
 		}else{
 			myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}
@@ -102,7 +102,7 @@ class AuthenticatedComponent extends React.Component {
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       >
-        <MenuItem primaryText='Refresh' onClick={() => handleFetchMemories(auth.authToken)}/>
+        <MenuItem primaryText='Refresh'/>
         <MenuItem primaryText='Help' />
         <MenuItem primaryText='Log Out' onClick={() => handleLogout()} />
 

@@ -1,0 +1,15 @@
+{
+  "short_name": "cherry",
+  "name": "cherry",
+  "icons": [
+    {
+      "src":"",
+      "sizes": "",
+      "type": ""
+    }
+  ],
+  "start_url": "",
+  "background_color": "#FF5722",
+  "Theme_color": "#FF5722",
+  "display": "standalone"
+}

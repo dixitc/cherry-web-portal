@@ -24,6 +24,7 @@ import Dialog from 'material-ui/Dialog';
 import Paper from 'material-ui/Paper';
 import Badge from 'material-ui/Badge';
 import Done from 'material-ui/svg-icons/action/done';
+import Clear from 'material-ui/svg-icons/content/clear';
 //import DropzoneComponent from 'react-dropzone-component/lib/react-dropzone';
 var Dropzone = require('react-dropzone');
 
@@ -145,9 +146,11 @@ closeMemberView = () => {
 		}
     }
     gotoNext() {
-        this.setState({
-            currentImage: this.state.currentImage + 1
-        });
+		if(this.state.currentImage + 1 !== this.props.moments.moments.length){
+			this.setState({
+				currentImage: this.state.currentImage + 1
+			});
+		}
     }
 	generateUUID = () => {
 	    var d = new Date().getTime();
@@ -186,7 +189,7 @@ closeMemberView = () => {
 	}
 	createAndUploadMoments = () => {
 		let sortedFiles = this.state.files.filter((file) => {return file.isSelected});
-		
+
 		let newMoments = sortedFiles.map((file) => {
 
 			return {
@@ -213,10 +216,19 @@ closeMemberView = () => {
 			file.imageSrc =  file.preview;
 			file.isSelected = true;
 		})
-		//console.log('Received files: ', files);
+		//manually checking and restricting file type , more efficient implementation ?
+		let curatedFiles = files.filter((file) => {
+			if(file.type.split('/')[1] == 'jpeg' || file.type.split('/')[1] == 'png' || file.type.split('/')[1] == 'gif' || file.type.split('/')[1] == 'webm'){
+				file.imageSrc =  file.preview;
+				file.isSelected = true;
+				return file;
+			}
+		})
+		console.log(curatedFiles);
 
-		this.setState({files : files})
-		//this.createAndUploadMoments(files)
+
+		this.setState({files : curatedFiles})
+
 	}
 	fileSelect = (index , e) => {
 
@@ -292,19 +304,19 @@ closeMemberView = () => {
         return (
             <div className={'momentsContainer'}>
 				<Dialog
-		          title={<ListItem primaryText={'Add your moments '} secondaryText={this.state.files.length > 0 ? (this.state.files.filter((file)=>{return file.isSelected})).length +' moments' : ''} />}
+		          title={<ListItem primaryText={'Add your moments '}  rightIconButton={<IconButton  onClick={ this.handleClose} style={{top:'8px'}} tooltip="Close"><Clear /></IconButton>} secondaryText={this.state.files.length > 0 ? (this.state.files.filter((file)=>{return file.isSelected})).length + ((this.state.files.filter((file)=>{return file.isSelected})).length == 1 ? ' moment':' moments') : ''} />}
 				  titleStyle={{border:'none',padding:'0px'}}
 				  bodyStyle={{padding:'0px 2px',border:'none'}}
 				  contentStyle={{border:'none',width:'90%',margin:'0px auto'}}
 				  actionsContainerStyle={{border:'none'}}
 				  repositionOnUpdate={true}
-		          actions={actions}
+				  actions={actions}
 		          modal={false}
 				  autoScrollBodyContent={true}
 		          open={this.state.open}
 		          onRequestClose={this.handleClose}
 		        >
-				<Dropzone onDrop={this.onDrop} style={{width:'100%'}}>
+				<Dropzone onDrop={this.onDrop} style={{width:'100%'}} accept={'image/*'}>
 					  <div className={"filepicker dropzone dz-clickable dz-started"} style={{border:'none',background:'transparent'}}>
 						  {!this.state.files.length &&
 
@@ -356,7 +368,7 @@ closeMemberView = () => {
                 <div className={'full-width'}>
 					{!uploaderStatus.isUploading &&
 
-						<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px',zIndex:'9'}} zDepth={2} onTouchTap={this.handleOpen} >
+						<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px',zIndex:'9'}} zDepth={2} onTouchTap={this.handleOpen}>
 							<ContentAdd tooltip={'add moments'} />
 						</FloatingActionButton>
 					}
