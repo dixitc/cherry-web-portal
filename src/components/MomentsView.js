@@ -122,6 +122,7 @@ class MyMomentsView extends Component {
     }
 	openMemberView = (event) => {
   // This prevents ghost click.
+
   event.preventDefault();
 
   this.setState({
@@ -224,7 +225,7 @@ closeMemberView = () => {
 				return file;
 			}
 		})
-		console.log(curatedFiles);
+		//console.log(curatedFiles);
 
 
 		this.setState({files : curatedFiles})

@@ -108,7 +108,7 @@ class AuthenticatedComponent extends React.Component {
 
       </IconMenu>}
 			/>
-		<div style={{height:'100px'}}></div>
+		<div className={'navBufferDiv'}></div>
 		{myChildren}
 
 {uploaderStatus.isUploading &&

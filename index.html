@@ -23,6 +23,8 @@
 	    font-family: sans-serif;
 	}
 
+
+
 	div.filepicker {
 	    text-align: center;
 	    padding: 5px;
@@ -388,7 +390,13 @@
 			transform: scale(1.2);
 			z-index: 10;
 		}
+		.navBufferDiv {
+			height:100px
+		}
 		@media only screen and (max-width: 400px) {
+			.navBufferDiv {
+				height:55px
+			}
 			.loginInfoText {
 				font-size:13px;
 			}
@@ -488,6 +496,13 @@
 <body>
 	<div id='root'>
 	</div>
+	<script type="text/javascript">
+		if(navigator.serviceWorker){
+			navigator.serviceWorker.register('sw.js');
+		}else{
+			console.log('NO SERVICE WORKER PRESENT');
+		}
+	</script>
 	<script src="bundle.js"></script>
 </body>
 

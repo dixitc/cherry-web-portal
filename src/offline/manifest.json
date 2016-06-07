@@ -1,0 +1,36 @@
+{
+  "name": "The Cherry App",
+  "short_name": "Cherry App",
+  "icons": [{
+        "src": "static/launcher.png",
+        "type": "image/png",
+        "sizes": "128x128"
+      }, {
+        "src": "images/launcher.png",
+        "type": "image/png",
+        "sizes": "152x152"
+      }, {
+        "src": "images/launcher.png",
+        "type": "image/png",
+        "sizes": "144x144"
+      }, {
+        "src": "images/launcher.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "images/launcher.png",
+        "type": "image/png",
+        "sizes": "256x256"
+      },
+      {
+        "src": "images/launcher.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FF5722",
+  "theme_color": "#FF5722"
+}
