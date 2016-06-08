@@ -69,6 +69,7 @@ let store = createStore(rootReducer,
 	{},
 	compose(
 		applyMiddleware(thunkMiddleware ,  sagaMiddleware , middleware)
+		//,window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
 sagaMiddleware.run(rootSaga)

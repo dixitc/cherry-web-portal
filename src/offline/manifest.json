@@ -28,7 +28,7 @@
         "type": "image/png",
         "sizes": "512x512"
       }],
-  "start_url": "/",
+
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FF5722",
