@@ -470,7 +470,7 @@ const mapStateToProps = (state) => {
 	//console.log(currentMemoryId);
 	//console.log(location);
 	let currentMemory = getCurrentMemory(state.memories.memories , currentMemoryId);
-	if(currentMemory.title){
+	if(currentMemory){
 		currentMemory.isPresent = true ;
 	}else{
 		currentMemory = {

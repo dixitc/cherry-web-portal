@@ -19,6 +19,8 @@ import { Link } from 'react-router';
 import LinearProgress from 'material-ui/LinearProgress';
 import {List, ListItem} from 'material-ui/List';
 import Paper from 'material-ui/Paper';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 
 const baseStyle = {
 	refresh: {
@@ -109,7 +111,11 @@ class AuthenticatedComponent extends React.Component {
       </IconMenu>}
 			/>
 		<div className={'navBufferDiv'}></div>
-		{myChildren}
+			<ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+				<div key={this.props.location.pathname}>
+				{myChildren}
+			</div>
+         </ReactCSSTransitionGroup>
 
 {uploaderStatus.isUploading &&
 
