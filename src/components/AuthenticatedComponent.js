@@ -111,11 +111,9 @@ class AuthenticatedComponent extends React.Component {
       </IconMenu>}
 			/>
 		<div className={'navBufferDiv'}></div>
-			<ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
-				<div key={this.props.location.pathname}>
-				{myChildren}
-			</div>
-         </ReactCSSTransitionGroup>
+
+
+		{myChildren}
 
 {uploaderStatus.isUploading &&
 

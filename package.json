@@ -64,6 +64,7 @@
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
+    "autoresponsive-react": "^1.1.10",
     "fetch-jsonp": "^1.0.0",
     "google-libphonenumber": "^1.0.16",
     "imports-loader": "^0.6.5",
@@ -73,6 +74,7 @@
     "react-dom": "^0.14.8",
     "react-dropzone": "^3.4.0",
     "react-dropzone-component": "^1.0.2",
+    "react-easy-transition": "0.0.5",
     "react-ga": "^1.4.1",
     "react-grid-layout": "^0.12.1",
     "react-image-component": "^1.0.0",

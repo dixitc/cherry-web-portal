@@ -1,4 +1,5 @@
-const apiUrl = 'http://172.16.1.174:8080/memrousel';
+//const apiUrl = 'https://172.16.1.174:8080/memrousel';
+const apiUrl = 'https://172.16.1.174:8443/memrousel';
 //const apiUrl = 'https://172.16.1.174:8443/memrousel';
 //const apiUrl = 'https://cherry.triconlabs.com'; //(without oauth . PROD VERSION)
 //const apiUrl = ''; //(without oauth . PROD VERSION )

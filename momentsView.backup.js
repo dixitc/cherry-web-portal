@@ -175,7 +175,6 @@ class MyMomentsView extends Component {
 		return [25,25];
 	}
 	generateDimensions = (index , breakPoint) => {
-		console.log(index);
 		let x ;
 		let y ;
 		let w ;
@@ -183,7 +182,6 @@ class MyMomentsView extends Component {
 		const numOfCols = 16;
 		const numOfElements = 8;
 		const rowHeight = 2;
-
 
 		switch (index%8) {
 			case 0:
@@ -491,8 +489,8 @@ closeMemberView = () => {
 						</FloatingActionButton>
 					}
 					<MediaQuery minWidth={400}>
+	                    <GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 
-						<GridList cols={5} padding={4} cellHeight={150} style={styles.gridList}>
 	                        <GridTile
 								style={{background:'transparent'}}
 
@@ -506,22 +504,22 @@ closeMemberView = () => {
 
 
 	                        </GridTile>
-						</GridList>
 
 
+	                    </GridList>
 						<ResponsiveReactGridLayout
 							className={'layout'}
 							rowHeight={this.state.currentRowHeight}
 							margin = {[this.state.Xmargin , this.state.Ymargin]}
 							breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-							cols={{lg: 16, md: 12, sm: 12, xs: 1, xxs: 1}}
+							cols={{lg: 16, md: 16, sm: 16, xs: 1, xxs: 1}}
 							onBreakpointChange={this.breakPointChanged}
 							isDraggable={false}>
-			
+
 
 							{moments.moments.map((moment , i) => {
 								return (
-									<div onClick={(event) => {this.openLightbox(i, event)}} key={moment.id}  _grid={this.generateDimensions(i+1 , this.state.currentBreakpoint)} style={{backgroundImage:'url('+moment.imageUrl+')',cursor:'pointer'}} className='center-cropped'>
+									<div onClick={(event) => {this.openLightbox(i, event)}} key={moment.id}  _grid={this.generateDimensions(i , this.state.currentBreakpoint)} style={{backgroundImage:'url('+moment.imageUrl+')',cursor:'pointer'}} className='center-cropped'>
 
 									</div>
 								)

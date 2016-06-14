@@ -161,7 +161,7 @@ let formatter = new AsYouTypeFormatter('IN');
                             <div>
 
                                 {isFetching &&
-									<CircularProgress size={0.8}/>
+									<CircularProgress size={0.6}/>
                                 }
                                 {!isFetching &&
 									<RaisedButton style={style.button} labelColor="white" disabled={false} primary={true} label={isRegistered ? 'VERIFY' : 'GET OTP'} onClick={() => handleRegisterUser(this.state.formattedNumber,this.state.dial_code)}/>
@@ -276,7 +276,7 @@ let formatter = new AsYouTypeFormatter('IN');
 					<div>
 
 						{isFetching &&
-							<CircularProgress size={0.8}/>
+							<CircularProgress size={0.6}/>
 						}
 						{!isFetching &&
 							<RaisedButton
@@ -319,7 +319,7 @@ let formatter = new AsYouTypeFormatter('IN');
 
 						{isFetching &&
 
-							<CircularProgress size={0.8}/>
+							<CircularProgress size={0.6}/>
 						}
 						{!isFetching &&
 
