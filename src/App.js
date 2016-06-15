@@ -25,7 +25,7 @@ getChildContext () {
 
 			{this.props.children}
 
-<Footer >
+<Footer>
 </Footer>
 
 	  </div>

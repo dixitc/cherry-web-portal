@@ -361,10 +361,22 @@ closeMemberView = () => {
         let {isFetching} = moments;
 		let bottomElement;
 		//Populating Lightbox
+		console.log('LOGGING MOMENTS ON RENDER');
+		console.log(moments.moments);
         let images = moments.moments.map((moment) => {
             let rObj = {};
 			if(moment.image){
-				rObj['src'] = moment.image.CURRENT_IMAGE;
+				if(moment.imageUrl && window.innerWidth < 400){
+					var a = moment.imageUrl
+					var b = a.split('sz=w');
+					var c = b[1].split('&');
+					c[0] = window.innerWidth;
+					b[1] = c.join('&');
+					rObj['src'] = b.join('sz=w')
+				}else{
+
+					rObj['src'] = moment.image.CURRENT_IMAGE;
+				}
 			}
 			if(moment.owner){
 				rObj['owner'] = moment.owner.name;
@@ -486,7 +498,7 @@ closeMemberView = () => {
                 <div className={'full-width'}>
 					{!uploaderStatus.isUploading &&
 
-						<FloatingActionButton style={{position:'fixed',bottom:'60px',right:'40px',zIndex:'9'}} zDepth={2} onTouchTap={this.handleOpen}>
+						<FloatingActionButton style={window.innerWidth < 400 ? {position:'fixed',bottom:'10px',right:'20px',zIndex:'9'}:{position:'fixed',bottom:'60px',right:'40px',zIndex:'9'}} zDepth={2} onTouchTap={this.handleOpen}>
 							<ContentAdd tooltip={'add moments'} />
 						</FloatingActionButton>
 					}
@@ -517,11 +529,11 @@ closeMemberView = () => {
 							cols={{lg: 16, md: 12, sm: 12, xs: 1, xxs: 1}}
 							onBreakpointChange={this.breakPointChanged}
 							isDraggable={false}>
-			
+
 
 							{moments.moments.map((moment , i) => {
 								return (
-									<div onClick={(event) => {this.openLightbox(i, event)}} key={moment.id}  _grid={this.generateDimensions(i+1 , this.state.currentBreakpoint)} style={{backgroundImage:'url('+moment.imageUrl+')',cursor:'pointer'}} className='center-cropped'>
+									<div onClick={(event) => {this.openLightbox(i, event)}} key={moment.id}  _grid={this.generateDimensions(i , this.state.currentBreakpoint)} style={{backgroundImage:'url('+moment.imageUrl+')',cursor:'pointer'}} className='center-cropped'>
 
 									</div>
 								)

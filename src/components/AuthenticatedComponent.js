@@ -52,7 +52,7 @@ class AuthenticatedComponent extends React.Component {
 		//const { currentMemory } = memories;
 		let myIconElement;
 		let myChildren;
-		if(title === 'Cherry'){
+		if(title === 'Memories'){
 			myIconElement = <IconButton className='smooth-transit' style={{opacity:0,cursor:'default'}} ><ArrowBack /></IconButton>
 		}else{
 			myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
@@ -76,7 +76,7 @@ class AuthenticatedComponent extends React.Component {
 		return(
 			<div style={{height:'100%'}}>
 			<AppBar
-				style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#383737'}}
+				style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35'}}
 				titleStyle={{height:'60px'}}
 				className={'smooth-transit'}
 				title={<span className='brand'>{title}</span>}

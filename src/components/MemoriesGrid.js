@@ -46,7 +46,7 @@ class MyMemoriesGrid extends Component {
 	    this.setState({
 	        mounted: true
 	    });
-		this.props.handleSetTitle('Cherry');
+		this.props.handleSetTitle('Memories');
 	}
 	onBreakpointChange = (breakpoint) => {
 	    this.setState({
