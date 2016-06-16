@@ -8,6 +8,7 @@ import { browserHistory ,  hashHistory } from 'react-router';
 
 /************************APIS*******************/
 // NEED TO HANDLE ERROR STATES
+
 function fetchMemoriesApi (token) {
 	const url = apiUrl+'/v2/memory/allmemories.json';
 
@@ -25,7 +26,39 @@ function fetchMemoriesApi (token) {
 	})
 }
 
+
+
 function* fetchMemories(action){
+	/*serve from cache and perform network request
+	var networkDataReceived = false;
+
+	startSpinner();
+
+	// fetch fresh data
+	var networkUpdate = fetch('/data.json').then(function(response) {
+	  return response.json();
+	}).then(function(data) {
+	  networkDataReceived = true;
+	  updatePage();
+	});
+
+	// fetch cached data
+	caches.match('/data.json').then(function(response) {
+	  if (!response) throw Error("No data");
+	  return response.json();
+	}).then(function(data) {
+	  // don't overwrite newer network data
+	  if (!networkDataReceived) {
+	  	yield put(actions.receiveMemories(memories));
+	    updatePage(data);
+	  }
+	}).catch(function() {
+	  // we didn't get cached data, the network is our last hope:
+	  const memories = yield call(fetchMemoriesApi , action.token);
+	  yield put(actions.receiveMemories(memories));
+	  return networkUpdate;
+	})
+	*/
 	const memories = yield call(fetchMemoriesApi , action.token);
 	if(memories.length > 0){
 		yield put(actions.purgeMemories());

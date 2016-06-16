@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var WebpackStripLoader = require('strip-loader');
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
   entry: [
     './src/index'
   ],
@@ -26,18 +26,22 @@ module.exports = {
     })
   ],
   module: {
-      noParse: ['/node_modules/google-libphonenumber/dist/*'],
-      loaders: [{
-          test: /\.js$/,
-          loaders: ['react-hot', 'babel',WebpackStripLoader.loader('console.log')],
-          include: path.join(__dirname, 'src')
-      }, {
-          test: /masonry|fizzy\-ui\-utils|desandro\-|outlayer|get\-size|doc\-ready|eventie|eventemitter/,
-          loader: 'imports?define=>false&this=>window'
-      },{ test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' ,include: path.join(__dirname, 'src/images')} ,{
-      test: /\.css$/,
-      loaders: ['style', 'css'],
-      include: path.join(__dirname, 'src')
-    }]
+	  	noParse: ['/node_modules/google-libphonenumber/dist/*'],
+		loaders: [
+				{
+					test: /\.js$/,
+					exclude: /node_modules/,
+					loaders: ['react-hot', 'babel', WebpackStripLoader.loader('console.log')],
+					include: path.join(__dirname, 'src')
+				},  {
+					test: /\.(png|jpg)$/,
+					loader: 'url-loader?limit=8192',
+					include: path.join(__dirname, 'src/images')
+				}, {
+					test: /\.css$/,
+					loaders: ['style', 'css'],
+					include: path.join(__dirname, 'src')
+			}
+		]
   }
 };

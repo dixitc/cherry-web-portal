@@ -144,6 +144,10 @@ class MyMemoriesGrid extends Component {
 				)
 			}
 		})
+		if(memories.memories.length == 0){
+			memoryChildren = <p>No memories</p>
+			console.log('REQUEST COMPLETED : NO MEMORIES PRESENT');
+		}
 		return (
 			<div>
 

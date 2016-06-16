@@ -62,8 +62,9 @@ class AuthenticatedComponent extends React.Component {
 		console.log(uploaderStatus);
 		if(this.props.memories.length > 0){
 			myChildren = this.props.children
-		}else{
-			myChildren =                     <RefreshIndicator
+		}else if(this.props.memories.isFetching){
+			myChildren =
+			<RefreshIndicator
 			  size={40}
 			  left={70}
 			  top={0}
@@ -71,7 +72,9 @@ class AuthenticatedComponent extends React.Component {
 			  status="loading"
 			  style={baseStyle.refresh}
 			/>
-		}
+	}else{
+		myChildren = <p style={{textAlign:'center'}}>No memories yet.</p>
+	}
 		console.log(myChildren);
 		return(
 			<div style={{height:'100%'}}>

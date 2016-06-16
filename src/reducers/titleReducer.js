@@ -1,4 +1,4 @@
-const initTitle = 'Cherry';
+const initTitle = 'Memories';
 const titleReducer = (state=initTitle,action) => {
     switch (action.type) {
         case 'SET_TITLE':
