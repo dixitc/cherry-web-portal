@@ -18,7 +18,7 @@ getChildContext () {
   return { muiTheme:  getMuiTheme(MyRawTheme),};
 }
   render() {
-	console.log(this.props);
+	//console.log(this.props);
     return (
 		<div style={{height:'100%',width:'100%'}}>
 

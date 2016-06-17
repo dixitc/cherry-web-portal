@@ -31,7 +31,7 @@ module.exports = {
 				{
 					test: /\.js$/,
 					exclude: /node_modules/,
-					loaders: ['react-hot', 'babel', WebpackStripLoader.loader('console.log')],
+					loaders: ['react-hot', 'babel'],
 					include: path.join(__dirname, 'src')
 				},  {
 					test: /\.(png|jpg)$/,

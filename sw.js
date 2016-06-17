@@ -1,13 +1,13 @@
 console.log('SERVICE WORKER IS RUNNING');
-importScripts('dexie.min.js');
+//importScripts('dexie.min.js');
 
-var db = new Dexie('mytest_database');
+/*var db = new Dexie('mytest_database');
 db.version(1).stores({
 	memories: "id,owner,title,members,image,isPublished,visibility,coverUrl"
 
 });
 db.open();
-console.log(db);
+console.log(db);*/
 
 
 
@@ -22,10 +22,10 @@ self.addEventListener('install' , event => {
 		caches.open('cherry-dynamic')
 		.then(cache => cache.addAll(
 			[
-				'./offline.html',
+
 				'./',
-				'./bundle.js',
-				'./dexie.min.js'
+				'./bundle.js'
+
 			]
 		))
 	)
@@ -76,9 +76,9 @@ const networkAndCache = (event) => {
 self.addEventListener('fetch' , event => {
 	var requestURL = new URL(event.request.url);
 //	console.log(event.request);
-	//console.log(requestURL);
+	console.log(requestURL);
+
 		if(requestURL.pathname == '/memrousel/v2/memory/allmemories.json'){
-			console.log(event.request);
 			event.respondWith(
 				caches.open('cherry-dynamic').then(function(cache) {
 					return fetch(event.request).then(function(response) {
@@ -92,28 +92,6 @@ self.addEventListener('fetch' , event => {
 					return {};
 				})
 			);
-		}
-		if(event.request.mode == 'navigate'){
-			console.log('SW : NAVIGATING TREACHEROUS WATERS');
-			console.log(requestURL);
-			event.respondWith(
-				caches.open('cherry-dynamic').then(function(cache) {
-					return fetch(event.request).then(function(response) {
-						console.log(response.clone());
-						cache.put(event.request, response.clone());
-						return response;
-					});
-				})
-				.catch(function(err) {
-					console.log('SW : ERROR FETCHING MEMORIES');
-					caches.match(event.request).then(res => {
-						return res;
-					}).catch(err => {
-						return {};
-					})
-				})
-			);
-
 		}
 
 	/*

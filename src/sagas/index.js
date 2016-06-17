@@ -43,23 +43,36 @@ function* fetchMemories(action){
 	});
 
 	// fetch cached data
-	caches.match('/data.json').then(function(response) {
-	  if (!response) throw Error("No data");
-	  return response.json();
-	}).then(function(data) {
-	  // don't overwrite newer network data
-	  if (!networkDataReceived) {
-	  	yield put(actions.receiveMemories(memories));
-	    updatePage(data);
-	  }
-	}).catch(function() {
-	  // we didn't get cached data, the network is our last hope:
-	  const memories = yield call(fetchMemoriesApi , action.token);
-	  yield put(actions.receiveMemories(memories));
-	  return networkUpdate;
-	})
 	*/
 	const memories = yield call(fetchMemoriesApi , action.token);
+
+	let cacheUrl = apiUrl+'/v2/memory/allmemories.json'
+	console.log(cacheUrl);
+	const cacheMemories = caches.match(cacheUrl).then((response) => {
+		console.log('LOGGING CACHE MEMORIES');
+		console.log(response);
+	  if (!response) throw Error("No data");
+	  return response.json();
+  }).then((data) => {
+		if(data.memories){
+
+			console.log('LOGGING CACHE MEMORIES DATA 2');
+			console.log(data);
+			 put(actions.receiveMemories(cacheMemories));
+			return data;
+		}
+
+
+  }).catch(function(err) {
+	  console.log(err);
+
+
+	})
+
+	if(cacheMemories && !memories){
+		//yield put(actions.receiveMemories(cacheMemories));
+	}
+
 	if(memories.length > 0){
 		yield put(actions.purgeMemories());
 	}

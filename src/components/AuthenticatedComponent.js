@@ -49,6 +49,7 @@ class AuthenticatedComponent extends React.Component {
 	}
 	render(){
 		const { handleLogout , handleFetchMemories , memories , auth , title , uploaderStatus} = this.props;
+
 		//const { currentMemory } = memories;
 		let myIconElement;
 		let myChildren;
@@ -57,12 +58,12 @@ class AuthenticatedComponent extends React.Component {
 		}else{
 			myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
 		}
-		console.log('MEMEMEMEMEMEMEMEM');
+
 		console.log('NONONONONONONONO');
-		console.log(uploaderStatus);
-		if(this.props.memories.length > 0){
+		console.log(memories);
+		if(this.props.memories.memories.length > 0){
 			myChildren = this.props.children
-		}else if(this.props.memories.isFetching){
+		}else if(memories.isFetching){
 			myChildren =
 			<RefreshIndicator
 			  size={40}
@@ -75,7 +76,7 @@ class AuthenticatedComponent extends React.Component {
 	}else{
 		myChildren = <p style={{textAlign:'center'}}>No memories yet.</p>
 	}
-		console.log(myChildren);
+	//	console.log(myChildren);
 		return(
 			<div style={{height:'100%'}}>
 			<AppBar
@@ -150,7 +151,7 @@ AuthenticatedComponent.propTypes = {
 
 const mapStateToProps = (state) => {
 	const { auth} = state;
-	const memories = state.memories.memories;
+	const memories = state.memories;
 	const title = state.title;
 	const uploaderStatus = state.moments.uploaderStatus;
 	return {

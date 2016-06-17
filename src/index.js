@@ -33,9 +33,9 @@ customGa.initializeGoogleAnalytics()
 //ga.initialize('UA-77899465-1');
 
 function logPageView() {
-	console.log('GOOGLE ANALYTICS:TRACKING HASH PAGEVIEW');
+	//console.log('GOOGLE ANALYTICS:TRACKING HASH PAGEVIEW');
 
-	console.log(window.location);
+	//console.log(window.location);
 
 	//let parsedHashLocation = (window.location.hash.split('?')[0]).split('#')[1];
 
@@ -69,7 +69,7 @@ let store = createStore(rootReducer,
 	{},
 	compose(
 		applyMiddleware(thunkMiddleware ,  sagaMiddleware , middleware)
-		,window.devToolsExtension ? window.devToolsExtension() : f => f
+	//		,window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
 sagaMiddleware.run(rootSaga)
@@ -81,11 +81,11 @@ const rootEl = document.getElementById('root');
 const history = syncHistoryWithStore(hashHistory, store)
 
 const requireAuth = (nextState , replace) => {
-	console.log('STATE');
-	console.log(nextState.location.pathname);
-	console.log(store.getState().auth.isAuthenticated);
+	//console.log('STATE');
+	//console.log(nextState.location.pathname);
+	//console.log(store.getState().auth.isAuthenticated);
 	if (!store.getState().auth.isAuthenticated) {
-		console.log('requireAuth FAILED');
+		//console.log('requireAuth FAILED');
 		replace({
 	      pathname: '/login',
 	      state: { nextPathname: nextState.location.pathname }
@@ -95,12 +95,12 @@ const requireAuth = (nextState , replace) => {
 	}else{
 
 		//check if user is present else dispatch action to fetch user , also verify that token hasn't expired
-		console.log('requireAuth SUCCESS');
+		//console.log('requireAuth SUCCESS');
 	}
 }
 
 const verifyAuth = (nextState,replace) => {
-	console.log(nextState);
+	//console.log(nextState);
 	if(!store.getState().auth.isAuthenticated){
 
 	}else{
@@ -149,8 +149,8 @@ const handleProfileRoute = (nextState , replace) => {
 
 //const rootPath = window.location.pathname;
 const rootPath = '';
-console.log('rootPathrootPathrootPathrootPathrootPath');
-console.log(rootPath);
+
+//console.log(rootPath);
 
 render( < Provider store = {store}>
 	{ /* Tell the Router to use our enhanced history */ }
