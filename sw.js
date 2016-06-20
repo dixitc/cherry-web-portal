@@ -25,7 +25,11 @@ self.addEventListener('install' , event => {
 				'./offline.html',
 				'./',
 				'./bundle.js',
-				'./dexie.min.js'
+				'./dexie.min.js',
+				'./cherry-web-portal/offline.html',
+				'./cherry-web-portal/',
+				'./cherry-web-portal/bundle.js',
+				'./cherry-web-portal/dexie.min.js'
 			]
 		))
 	)
