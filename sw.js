@@ -1,13 +1,13 @@
 console.log('SERVICE WORKER IS RUNNING');
-//importScripts('dexie.min.js');
+importScripts('dexie.min.js');
 
-/*var db = new Dexie('mytest_database');
+var db = new Dexie('mytest_database');
 db.version(1).stores({
 	memories: "id,owner,title,members,image,isPublished,visibility,coverUrl"
 
 });
 db.open();
-console.log(db);*/
+console.log(db);
 
 
 
@@ -22,10 +22,10 @@ self.addEventListener('install' , event => {
 		caches.open('cherry-dynamic')
 		.then(cache => cache.addAll(
 			[
-
+				'./offline.html',
 				'./',
-				'./bundle.js'
-
+				'./bundle.js',
+				'./dexie.min.js'
 			]
 		))
 	)
