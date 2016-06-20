@@ -118,7 +118,7 @@ self.addEventListener('fetch' , event => {
 					})
 				})
 			);
-		}else if(event.request.mode == 'navigate' || requestURL.pathname == '/bundle.js'){
+		}else if(event.request.mode == 'navigate' || requestURL.pathname == '/bundle.js' || requestURL =  '/cherry-web-portal/'){
 			console.log('SW : NAVIGATING TREACHEROUS WATERS (get basic assets)');
 			event.respondWith(
 
