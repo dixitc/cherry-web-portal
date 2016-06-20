@@ -29,31 +29,18 @@ function fetchMemoriesApi (token) {
 
 
 function* fetchMemories(action){
-	/*serve from cache and perform network request
-	var networkDataReceived = false;
 
-	startSpinner();
-
-	// fetch fresh data
-	var networkUpdate = fetch('/data.json').then(function(response) {
-	  return response.json();
-	}).then(function(data) {
-	  networkDataReceived = true;
-	  updatePage();
-	});
-
-	// fetch cached data
-	*/
-	const memories = yield call(fetchMemoriesApi , action.token);
-
+	//check and serve from cache if they exist
 	let cacheUrl = apiUrl+'/v2/memory/allmemories.json'
 	console.log(cacheUrl);
-	const cacheMemories = caches.match(cacheUrl).then((response) => {
+	caches.match(cacheUrl).then((response) => {
 		console.log('LOGGING CACHE MEMORIES');
-		console.log(response);
-	  if (!response) throw Error("No data");
-	  return response.json();
-  }).then((data) => {
+		//console.log(response);
+		if (!response) {
+			throw Error("No data");
+		}
+		return response;
+  	}).then((data) => {
 		if(data.memories){
 
 			console.log('LOGGING CACHE MEMORIES DATA 2');
@@ -69,9 +56,8 @@ function* fetchMemories(action){
 
 	})
 
-	if(cacheMemories && !memories){
-		//yield put(actions.receiveMemories(cacheMemories));
-	}
+
+	const memories = yield call(fetchMemoriesApi , action.token);
 
 	if(memories.length > 0){
 		yield put(actions.purgeMemories());
