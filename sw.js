@@ -1,13 +1,13 @@
 console.log('SERVICE WORKER IS RUNNING');
-importScripts('dexie.min.js');
+//importScripts('dexie.min.js');
 
-var db = new Dexie('mytest_database');
+/*var db = new Dexie('mytest_database');
 db.version(1).stores({
 	memories: "id,owner,title,members,image,isPublished,visibility,coverUrl"
 
 });
 db.open();
-console.log(db);
+console.log(db);*/
 
 
 
@@ -22,11 +22,11 @@ self.addEventListener('install' , event => {
 		caches.open('cherry-dynamic')
 		.then(cache => cache.addAll(
 			[
-				'./offline.html',
+
 				'./',
-				'./bundle.js',
-				'./dexie.min.js'
-				
+
+				'./bundle.js'
+
 			]
 		))
 	)
@@ -66,13 +66,35 @@ const networkAndCache = (event) => {
  - listen for fetch
  - intercept allmemories.json request
  - check in cache
- 	- if present serve and start network request
-		- if network success return new data and update cache
+ 	- if present serve , update state and start network request
+		- if network success return new data and update cache and state
 		- if false show something to the user saying network not present
 	- if absent start network request
-		- if network success return new data and update cache
-		- if false show something to the user saying network not present
+		- if network success return new data and update cache and state
+		- if false show something to the user saying network and offline data not present
 */
+
+
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.filter(function(cacheName) {
+          // Return true if you want to remove this cache,
+          // but remember that caches are shared across
+          // the whole origin
+		  if(cacheName == 'cherry-dynamic'){
+			//  return true;
+		  }
+        }).map(function(cacheName) {
+          return caches.delete(cacheName);
+        })
+      );
+    })
+  );
+});
+
+
 
 self.addEventListener('fetch' , event => {
 	var requestURL = new URL(event.request.url);
@@ -82,16 +104,36 @@ self.addEventListener('fetch' , event => {
 		if(requestURL.pathname == '/memrousel/v2/memory/allmemories.json'){
 			event.respondWith(
 				caches.open('cherry-dynamic').then(function(cache) {
-					event.request.mode = 'no-cors';
 					return fetch(event.request).then(function(response) {
 						console.log(response.clone());
 						cache.put(event.request, response.clone());
-						return response;
-					});
+						if(response){
+
+							return response;
+						}
+					})
+					.catch(function(err) {
+						console.log('SW : ERROR FETCHING MEMORIES');
+						return caches.match(event.request)
+					})
+				})
+			);
+		}else if(event.request.mode == 'navigate' || requestURL.pathname == '/bundle.js'){
+			console.log('SW : NAVIGATING TREACHEROUS WATERS (get basic assets)');
+			event.respondWith(
+
+				 fetch(event.request).then(function(response) {
+					console.log(response.clone());
+				//	cache.put(event.request, response.clone());
+					return response;
 				})
 				.catch(function(err) {
-					console.log('SW : ERROR FETCHING MEMORIES');
-					return {};
+					console.log('SW : ERROR FETCHING BUNDLE.JS');
+					caches.match(event.request).then(res => {
+						return res;
+					}).catch(err => {
+						return {};
+					})
 				})
 			);
 		}
