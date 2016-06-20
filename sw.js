@@ -81,6 +81,7 @@ self.addEventListener('fetch' , event => {
 		if(requestURL.pathname == '/memrousel/v2/memory/allmemories.json'){
 			event.respondWith(
 				caches.open('cherry-dynamic').then(function(cache) {
+					event.request.mode = 'no-cors';
 					return fetch(event.request).then(function(response) {
 						console.log(response.clone());
 						cache.put(event.request, response.clone());
