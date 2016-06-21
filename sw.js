@@ -136,6 +136,45 @@ self.addEventListener('fetch' , event => {
 					})
 				})
 			);
+		}else if(requestURL.pathname.split('/')[requestURL.pathname.split('/').length - 1] == 'allmoments.json'){
+
+			console.log('***************************');
+			console.log("INTERCEPTING MOMENTS REQUEST");
+			event.respondWith(
+				caches.open('cherry-dynamic').then(function(cache) {
+					return fetch(event.request).then(function(response) {
+						console.log(response.clone());
+						cache.put(event.request, response.clone());
+						if(response){
+
+							return response;
+						}
+					})
+					.catch(function(err) {
+						console.log('SW : ERROR FETCHING MOMENTS');
+						return caches.match(event.request)
+					})
+				})
+			);
+		}else if(requestURL.pathname == '/thumbnail' && requestURL.href.substring(requestURL.href.length-9,requestURL.href.length) == "&mem=true"){
+			console.log('***************************');
+			console.log("INTERCEPTING ONLY MEMORY THUMBNAIL IMAGE REQUEST");
+			event.respondWith(
+				caches.open('cherry-dynamic').then(function(cache) {
+					return fetch(event.request).then(function(response) {
+						console.log(response.clone());
+						cache.put(event.request, response.clone());
+						if(response){
+
+							return response;
+						}
+					})
+					.catch(function(err) {
+						console.log('SW : ERROR FETCHING MEMORY THUMBNAIL');
+						return caches.match(event.request)
+					})
+				})
+			);
 		}
 
 	/*
