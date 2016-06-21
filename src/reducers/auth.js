@@ -34,6 +34,7 @@ const authReducer = (state = initAuth, action) => {
 			return Object.assign({},state,
                 {isFetching: false,
 				isRegistered : true,
+				errorMessage : '',
                 verificationId : action.id})
             ;
 			return state;

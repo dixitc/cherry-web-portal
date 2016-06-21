@@ -132,13 +132,13 @@ class MyMemoriesGrid extends Component {
 			if(memory.coverUrl){
 
 				return (
-					<div key={memory.id}  _grid={this.generateDimensions(i , this.state.currentBreakpoint)} style={{backgroundImage:'url('+memory.coverUrl+')'}} className='center-cropped'>
+					<div key={memory.id}  _grid={this.generateDimensions(i , this.state.currentBreakpoint)} style={{backgroundImage:'url('+memory.coverUrl+'&mem=true'+')'}} className='center-cropped'>
 						<MemoryGridView memory={memory} key={memory.title}/>
 					</div>
 				)
 			}else{
 				return (
-					<div key={memory.id}  _grid={this.generateDimensions(i)} style={{backgroundImage:'url('+dummyImg+')'}} className='center-cropped'>
+					<div key={memory.id}  _grid={this.generateDimensions(i)} style={{backgroundImage:'url('+location.origin+'/'+location.pathname.split('/')[1]+dummyImg+')'}} className='center-cropped'>
 						<MemoryGridView memory={memory} key={memory.title}/>
 					</div>
 				)
