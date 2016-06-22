@@ -118,7 +118,7 @@ self.addEventListener('fetch' , event => {
 					})
 				})
 			);
-		}else if(event.request.mode == 'navigate' || requestURL.pathname == '/bundle.js' || requestURL ==  '/cherry-web-portal/' || requestURL ==  '/cherry-web-portal/bundle.js'){
+		}else if(event.request.mode == 'navigate' || requestURL.pathname == '/bundle.js' || requestURL.pathname ==  '/cherry-web-portal/' || requestURL.pathname ==  '/cherry-web-portal/bundle.js'){
 			console.log('SW : NAVIGATING TREACHEROUS WATERS (get basic assets)');
 			event.respondWith(
 				caches.match(event.request.clone()).then((res) => {
