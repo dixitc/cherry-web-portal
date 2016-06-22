@@ -98,7 +98,7 @@ class AuthenticatedComponent extends React.Component {
 
 			  {auth.profile.photo &&
 
-				  <Avatar style={style.noBorder} backgroundColor={'transparent'} src={auth.profile.photo} size={32}/>
+				  <Avatar style={style.noBorder} backgroundColor={'transparent'} src={auth.profile.photo+'&mem=true'} size={32}/>
 			  }
 			  {!auth.profile.photo &&
 				  <Avatar icon={<FontIcon className="muidocs-icon-communication-voicemail" />} />
