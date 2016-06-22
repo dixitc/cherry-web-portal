@@ -24,7 +24,7 @@ self.addEventListener('install' , event => {
 			[
 
 				'./',
-				'/cherry-web-portal/',
+
 				'./bundle.js'
 
 			]
@@ -83,9 +83,7 @@ self.addEventListener('activate', function(event) {
           // Return true if you want to remove this cache,
           // but remember that caches are shared across
           // the whole origin
-		  if(cacheName == 'cherry-dynamic'){
-			//  return true;
-		  }
+
         }).map(function(cacheName) {
           return caches.delete(cacheName);
         })
@@ -104,55 +102,76 @@ self.addEventListener('fetch' , event => {
 		if(requestURL.pathname == '/memrousel/v2/memory/allmemories.json'){
 			event.respondWith(
 				caches.open('cherry-dynamic').then(function(cache) {
-					return fetch(event.request).then(function(response) {
+					var fetchRequest = event.request.clone();
+					return fetch(fetchRequest).then(function(response) {
 						console.log(response.clone());
-						cache.put(event.request, response.clone());
 						if(response){
+							cache.put(fetchRequest, response.clone());
 
 							return response;
 						}
 					})
 					.catch(function(err) {
 						console.log('SW : ERROR FETCHING MEMORIES');
-						return caches.match(event.request)
+						return caches.match(event.request.clone())
 					})
 				})
 			);
-		}else if(event.request.mode == 'navigate' || requestURL.pathname == '/bundle.js' || requestURL.pathname ==  '/cherry-web-portal/' || requestURL.pathname ==  '/cherry-web-portal/bundle.js'){
+		}else if(event.request.mode == 'navigate' || requestURL.pathname == '/bundle.js' || requestURL ==  '/cherry-web-portal/' || requestURL ==  '/cherry-web-portal/bundle.js'){
 			console.log('SW : NAVIGATING TREACHEROUS WATERS (get basic assets)');
 			event.respondWith(
-
-				 fetch(event.request).then(function(response) {
-					console.log(response.clone());
-				//	cache.put(event.request, response.clone());
-					return response;
-				})
-				.catch(function(err) {
-					console.log('SW : ERROR FETCHING BUNDLE.JS');
-					caches.match(event.request).then(res => {
+				caches.match(event.request.clone()).then((res) => {
+					console.log('SW : NAVIGATING TREACHEROUS WATERS (get basic assets.cache MATCH!)');
+					if(res){
 						return res;
-					}).catch(err => {
-						return {};
+					}
+
+				}).catch((err) => {
+					console.log('SW : NAVIGATING TREACHEROUS WATERS (get basic assets.cache MISS!)');
+					return fetch(event.request.clone()).then(function(response) {
+						console.log('SW : BASIC ASSETS FETCH RESPONSE');
+						console.log(response.clone());
+						if(response){
+							cache.put(event.request.clone(), response.clone());
+							return response;
+						}
+
+					})
+					.catch(function(err) {
+						console.log('SW : BASIC ASSETS ERROR FETCH');
 					})
 				})
+
+
 			);
 		}else if(requestURL.pathname.split('/')[requestURL.pathname.split('/').length - 1] == 'allmoments.json'){
 
-			console.log('***************************');
-			console.log("INTERCEPTING MOMENTS REQUEST");
+			console.log('SW : ***************************');
+			console.log("SW : INTERCEPTING MOMENTS REQUEST");
 			event.respondWith(
 				caches.open('cherry-dynamic').then(function(cache) {
-					return fetch(event.request).then(function(response) {
-						console.log(response.clone());
-						cache.put(event.request, response.clone());
-						if(response){
 
+					var fetchMomentsRequest = event.request.clone();
+					return fetch(fetchMomentsRequest).then((response) => {
+						console.log(response.clone());
+						if(response){
+							cache.put(fetchMomentsRequest, response.clone());
 							return response;
 						}
+
 					})
 					.catch(function(err) {
 						console.log('SW : ERROR FETCHING MOMENTS');
-						return caches.match(event.request)
+						return caches.match(event.request.clone()).then((res) => {
+							 console.log('SW : ERROR FETCHING MOMENTS CACHE FALLBACK MATCH');
+							 console.log(res.clone());
+							 if(res){
+								 return res.clone();
+							 }
+						 }).catch((err) => {
+							 console.log('SW : ERROR FETCHING MOMENTS CACHE FALLBACK MISS');
+							return {moments:[]};
+						})
 					})
 				})
 			);
@@ -160,22 +179,34 @@ self.addEventListener('fetch' , event => {
 			console.log('***************************');
 			console.log("INTERCEPTING ONLY MEMORY THUMBNAIL IMAGE REQUEST");
 			event.respondWith(
-				caches.open('cherry-dynamic').then(function(cache) {
-					return fetch(event.request).then(function(response) {
-						console.log(response.clone());
-						cache.put(event.request, response.clone());
-						if(response){
+				caches.match(event.request.clone()).then((response) => {
+					console.log('CACHE MATCH');
+					console.log(response.clone());
+					if(response){
+						return response.clone();
+					}
+				}).catch((err) => {
 
-							return response;
-						}
-					})
-					.catch(function(err) {
-						console.log('SW : ERROR FETCHING MEMORY THUMBNAIL');
-						return caches.match(event.request)
+					console.log('CACHE MISS');
+					return caches.open('cherry-dynamic').then(function(cache) {
+						console.log('CACHE OPEN');
+						return fetch(event.request.clone()).then(function(response) {
+							console.log('CACHE OPEN FETCH RESPONSE');
+							console.log(response.clone());
+							if(response){
+								cache.put(event.request.clone(), response.clone());
+
+								return response;
+							}
+						})
+						.catch(function(err) {
+							console.log('SW : ERROR FETCHING MEMORY THUMBNAIL');
+						})
 					})
 				})
 			);
 		}
+
 
 	/*
 	event.respondWith(
