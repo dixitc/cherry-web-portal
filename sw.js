@@ -25,6 +25,7 @@ self.addEventListener('install' , event => {
 
 				'./',
 				'/cherry-web-portal/',
+				'/cherry-web-portal/',
 				'./bundle.js'
 
 			]
