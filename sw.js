@@ -155,7 +155,7 @@ self.addEventListener('fetch' , event => {
 				caches.open('cherry-dynamic').then(function(cache) {
 
 					var fetchMomentsRequest = event.request.clone();
-					return fetch(fetchMomentsRequest).then((response) => {
+					return fetch(fetchMomentsRequest).then(function(response){
 						console.log(response.clone());
 						if(response){
 							cache.put(fetchMomentsRequest, response.clone());
