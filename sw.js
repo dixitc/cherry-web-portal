@@ -97,7 +97,8 @@ self.addEventListener('activate', function(event) {
 
 
 self.addEventListener('fetch' , event => {
-	var requestURL = new URL(event.request.url);
+	var newEvent = event.request.clone()
+	var requestURL = new URL(newEvent.url);
 //	console.log(event.request);
 	console.log(requestURL);
 
