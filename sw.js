@@ -165,16 +165,7 @@ self.addEventListener('fetch' , event => {
 					})
 					.catch(function(err) {
 						console.log('SW : ERROR FETCHING MOMENTS');
-						return caches.match(event.request.clone()).then((res) => {
-							 console.log('SW : ERROR FETCHING MOMENTS CACHE FALLBACK MATCH');
-							 console.log(res.clone());
-							 if(res){
-								 return res.clone();
-							 }
-						 }).catch((err) => {
-							 console.log('SW : ERROR FETCHING MOMENTS CACHE FALLBACK MISS');
-							return {moments:[]};
-						})
+						return caches.match(event.request.clone())
 					})
 				})
 			);
