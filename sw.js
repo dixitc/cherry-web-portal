@@ -104,19 +104,23 @@ self.addEventListener('fetch' , event => {
 
 		if(requestURL.pathname == '/memrousel/v2/memory/allmemories.json'){
 			event.respondWith(
-				caches.open('cherry-dynamic').then(function(cache) {
-					var fetchRequest = event.request.clone();
-					return fetch(fetchRequest).then(function(response) {
+	caches.match(event.request.clone()).then(function(res){
+					if(res){
+						return res;
+					}
+					return fetch(event.request.clone()).then(function(response) {
 						console.log(response.clone());
 						if(response){
-							cache.put(fetchRequest, response.clone());
+							caches.open('cherry-dynamic').then(function(cache) {
+								cache.put(event.request.clone(), response.clone());
+							})
 
 							return response;
 						}
 					})
 					.catch(function(err) {
 						console.log('SW : ERROR FETCHING MEMORIES');
-						return caches.match(event.request.clone())
+						//return caches.match(newEvent)
 					})
 				})
 			);
