@@ -2,28 +2,28 @@
   "name": "cherry lite",
   "short_name": "Cherry Lite",
   "icons": [{
-        "src": "launcher.png",
+        "src": "./launcher.png",
         "type": "image/png",
         "sizes": "128x128"
       }, {
-        "src": "launcher.png",
+        "src": "./launcher.png",
         "type": "image/png",
         "sizes": "152x152"
       }, {
-        "src": "launcher.png",
+        "src": "./launcher.png",
         "type": "image/png",
         "sizes": "144x144"
       }, {
-        "src": "launcher.png",
+        "src": "./launcher.png",
         "type": "image/png",
         "sizes": "192x192"
       },{
-        "src": "launcher.png",
+        "src": "./launcher.png",
         "type": "image/png",
         "sizes": "256x256"
       },
       {
-        "src": "launcher.png",
+        "src": "./launcher.png",
         "type": "image/png",
         "sizes": "512x512"
       }],
