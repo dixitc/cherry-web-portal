@@ -173,31 +173,16 @@ self.addEventListener('fetch' , event => {
 			console.log('***************************');
 			console.log("INTERCEPTING ONLY MEMORY THUMBNAIL IMAGE REQUEST");
 			event.respondWith(
-				caches.match(event.request.clone()).then((response) => {
-					console.log('CACHE MATCH');
-					console.log(response.clone());
-					if(response){
-						return response.clone();
-					}
-				}).catch((err) => {
-
-					console.log('CACHE MISS');
-					return caches.open('cherry-dynamic').then(function(cache) {
-						console.log('CACHE OPEN');
-						return fetch(event.request.clone()).then(function(response) {
-							console.log('CACHE OPEN FETCH RESPONSE');
-							console.log(response.clone());
-							if(response){
-								cache.put(event.request.clone(), response.clone());
-
-								return response;
-							}
-						})
-						.catch(function(err) {
-							console.log('SW : ERROR FETCHING MEMORY THUMBNAIL');
-						})
-					})
-				})
+				caches.match(event.request).then(function(response) {
+			         return response || fetch(event.request).then(function(res){
+						 if(res){
+							 caches.open('cherry-dynamic').then(function(cache){
+								 cache.put(event.request.clone() , res.clone());
+							 });
+							 return res;
+						 }
+					 });
+			       })
 			);
 		}
 
