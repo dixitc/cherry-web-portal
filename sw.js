@@ -159,22 +159,39 @@ self.addEventListener('fetch' , event => {
 			console.log('SW : ***************************');
 			console.log("SW : INTERCEPTING MOMENTS REQUEST");
 			event.respondWith(
-				caches.open('cherry-dynamic').then(function(cache) {
+	 caches.match(event.request.clone()).then(function(cached){
+						 console.log('CACHE OPEN');
 
-					var fetchMomentsRequest = event.request.clone();
-					return fetch(fetchMomentsRequest).then(function(response){
-						console.log(response.clone());
-						if(response){
-							cache.put(fetchMomentsRequest, response.clone());
-							return response;
-						}
+							console.log('CACHE MATCH');
 
+
+
+							var networked =  fetch(event.request.clone())
+							.then(function(response) {
+								console.log('CACHE MISS NOW FETCH');
+								//	console.log(response.clone());
+								if(response){
+									console.log('CACHE MISS NOW FETCH SUCCESS');
+									caches.open('cherry-dynamic').then(function(cache) {
+										cache.put(event.request.clone(), response.clone());
+									})
+									return response;
+								}
+							})
+							.catch(function(err) {
+								console.log('CACHE MISS NOW FETCH FAIL RETURN EMPTY');
+								console.log('SW : ERROR FETCHING MOMENTS (returning empty moments for now)');
+								var fallbackResponse = {
+									moments: []
+								};
+								return new Response(JSON.stringify(fallbackResponse), {
+									headers: {'Content-Type': 'application/json'}
+								});
+
+							})
+
+						return cached || networked;
 					})
-					.catch(function(err) {
-						console.log('SW : ERROR FETCHING MOMENTS');
-						return caches.match(event.request.clone())
-					})
-				})
 			);
 		}else if(requestURL.pathname == '/thumbnail' && requestURL.href.substring(requestURL.href.length-9,requestURL.href.length) == "&mem=true"){
 			console.log('***************************');
@@ -194,44 +211,5 @@ self.addEventListener('fetch' , event => {
 		}
 
 
-	/*
-	event.respondWith(
-		fetch(event.request).then(response => {
-			return response
-		})
-	)
-	event.respondWith(
-		caches.match(event.request)
-			.then(response => response || fetch(event.request).then(reseponse => {
-				//var newresponse = reseponse.clone();
-				if(event.request.url == "https://172.16.1.174:8443/memrousel/v2/memory/allmemories.json"){
 
-					var responseToCache = reseponse.clone();
-					console.log(responseToCache);
-
-			            caches.open('static-v2')
-			              .then(function(cache) {
-			                cache.put(event.request, responseToCache);
-			              });
-					// /console.log(JSON.parse(reseponse));
-				}
-				return reseponse;
-			})
-
-		)
-
-		.catch(() => {
-			if(event.request.url == "https://172.16.1.174:8443/memrousel/v2/memory/allmemories.json"){
-				console.log('INTERCEPTING ALL MEMORIES REQUEST : inspect request below');
-				console.log(event.request);
-				return caches.match(event.request)
-
-			}
-			if(event.request.mode == 'navigate'){
-
-				return caches.match(event.request)
-			}
-		})
-	)
-	*/
 } )
