@@ -2,29 +2,29 @@
   "name": "cherry web",
   "short_name": "Cherry Web",
   "icons": [{
-        "src": "static/launcher.png",
+        "src": "static/ic_cherry_notification_logo_hdpi.png",
         "type": "image/png",
         "sizes": "128x128"
       }, {
-        "src": "images/launcher.png",
+        "src": "static/ic_cherry_notification_logo_hdpi.png",
         "type": "image/png",
         "sizes": "152x152"
       }, {
-        "src": "images/launcher.png",
+        "src": "static/ic_cherry_notification_logo_hdpi.png",
         "type": "image/png",
         "sizes": "144x144"
       }, {
-        "src": "images/launcher.png",
+        "src": "static/ic_cherry_notification_logo_hdpi.png",
         "type": "image/png",
         "sizes": "192x192"
       },
       {
-        "src": "images/launcher.png",
+        "src": "staticic_cherry_notification_logo_hdpi.png",
         "type": "image/png",
         "sizes": "256x256"
       },
       {
-        "src": "images/launcher.png",
+        "src": "static/ic_cherry_notification_logo_hdpi.png",
         "type": "image/png",
         "sizes": "512x512"
       }],
