@@ -124,7 +124,9 @@ self.addEventListener('fetch' , event => {
 					})
 				})
 			);
-		}else if(event.request.mode == 'navigate' || requestURL.pathname == '/bundle.js' || requestURL.pathname ==  '/cherry-web-portal/' || requestURL.pathname ==  '/cherry-web-portal/bundle.js'  || requestURL.pathname ==  '/cherry-web-portal/index.html'){
+//		}else if(event.request.mode == 'navigate' || requestURL.pathname == '/bundle.js' || requestURL.pathname ==  '/cherry-web-portal/' || requestURL.pathname ==  '/cherry-web-portal/bundle.js'  || requestURL.pathname ==  '/cherry-web-portal/index.html'){
+		}else if(requestURL.origin == 'https://dixitc.github.io'){
+
 			console.log('SW : NAVIGATING TREACHEROUS WATERS (get basic assets)');
 			event.respondWith(
 				caches.match(event.request.clone()).then((res) => {
