@@ -1,6 +1,6 @@
 {
-  "name": "cherry web",
-  "short_name": "Cherry Web",
+  "name": "cherry lite",
+  "short_name": "Cherry Lite",
   "icons": [{
         "src": "ic_cherry_notification_logo_hdpi.png",
         "type": "image/png",
