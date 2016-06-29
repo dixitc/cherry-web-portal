@@ -3,8 +3,7 @@
   "short_name": "cherry lite",
   "icons": [{
         "src": "static/launcher.png",
-        "type": "image/png",
-        "sizes": "72x72 96x96 128x128 256x256"
+        "type": "image/png"
        
       }],
   "start_url": "index.html",
