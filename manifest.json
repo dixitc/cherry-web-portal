@@ -2,7 +2,7 @@
   "name": "cherry lite",
   "short_name": "cherry lite",
   "icons": [{
-        "src": "launcher.png",
+        "src": "/static/launcher.png",
         "type": "image/png"
        
       }],
