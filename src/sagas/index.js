@@ -33,13 +33,13 @@ function* fetchMemories(action){
 	//check and serve from cache if they exist
 	let cacheUrl = apiUrl+'/v2/memory/allmemories.json'
 	console.log(cacheUrl);
-	caches.match(cacheUrl).then((response) => {
+	caches.match(cacheUrl).then(function(response){
 		console.log('LOGGING CACHE MEMORIES');
 		//console.log(response);
 		if (!response) {
 			throw Error("No data");
 		}
-		return response;
+		return response.json();
   	}).then((data) => {
 		if(data.memories){
 
