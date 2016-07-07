@@ -27,6 +27,19 @@ const mystyle = {
 }
 const MomentView = ({ moment , handleLikeCLick , onClick , showDetail}) => {
 
+	var onTouchStart = (e) => {
+		console.log(e);
+		console.log(e.target);
+		console.log(e.target.src);
+		console.log('touch start');
+	}
+	var onTouchMove = () => {
+		console.log('touch move');
+	}
+	var onTouchEnd = () => {
+		console.log('touch end');
+	}
+
 	function preloader() {
 	  return <div style={{height:'100%',width:'100%',textAlign:'center',backgroundColor:'rgb(103, 103, 103)',zIndex:'1000'}}></div>;
 	}
@@ -48,13 +61,16 @@ const MomentView = ({ moment , handleLikeCLick , onClick , showDetail}) => {
 		</ImageLoader>
 	}
 		return (
-
+			
 
 		<GridTile
 			cols={1}
 			rows={1}
 			key={moment.id}
-			onClick={onClick}
+
+			onTouchStart={onTouchStart}
+			onTouchMove={onTouchMove}
+			onTouchEnd={onTouchEnd}
 			title={
 
 		<ListItem

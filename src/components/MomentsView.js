@@ -433,6 +433,7 @@ closeMemberView = () => {
 };
         return (
             <div className={'momentsContainer'}>
+				<div className={'insta-overlay'} style={{height:'100%',width:'100%',position:'absolute',backgroundColor:'red',zIndex:'100'}}></div>
 				<Dialog
 		          title={<ListItem primaryText={'Add your moments '}  rightIconButton={<IconButton  onClick={ this.handleClose} style={{top:'8px'}} tooltip="Close"><Clear /></IconButton>} secondaryText={this.state.files.length > 0 ? (this.state.files.filter((file)=>{return file.isSelected})).length + ((this.state.files.filter((file)=>{return file.isSelected})).length == 1 ? ' moment':' moments') : ''} />}
 				  titleStyle={{border:'none',padding:'0px'}}
