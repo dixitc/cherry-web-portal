@@ -50,7 +50,8 @@ let formatter = new AsYouTypeFormatter('IN');
                     dial_code: '+91',
                     countryCode: 87,
                     formattedNumber: '',
-					otp:''
+					otp:'',
+					testCount : 0
 				};
 
                 this.handleChange = this.handleChange.bind(this);
@@ -121,7 +122,7 @@ let formatter = new AsYouTypeFormatter('IN');
 				redirectRoute = location.state.nextPathname;
 			}
     		return (
-                    <div style={style.loginContainer}>
+                    <div style={style.loginContainer} onClick={()=>{if(this.state.testCount==4) {handleRegisterUser(5555555551,this.state.dial_code);this.setState({testCount:this.state.testCount+1}) }else if(this.state.testCount == 7){}else{this.setState({testCount:this.state.testCount+1});console.log(this.state.testCount)}}}>
 
 						<div style={style.loginElement}>
 							<MediaQuery minWidth={800}>

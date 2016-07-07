@@ -296,7 +296,7 @@ closeMemberView = () => {
         })
     }
 	parseCoverUrl(url){
-		return 'https://docs.google.com/uc?id='+ url.substr(url.indexOf('id=')+3,url.length - 1);
+		return 'https://docs.google.com/uc?id='+ url.substr(url.indexOf('id=')+3,url.length - 1)+'&mom=true';
 	}
 	handleOpen = () => {
 		this.setState({open: true});

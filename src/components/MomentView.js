@@ -34,16 +34,16 @@ const MomentView = ({ moment , handleLikeCLick , onClick , showDetail}) => {
 	if(moment.orientation){
 
 		if(moment.orientation.COMPRESSED == 'LANDSCAPE'){
-			customImageLoader = 	<ImageLoader src={moment.imageUrl} className='momentImgDivLandscape' wrapper={React.DOM.div} preloader={preloader}>
+			customImageLoader = 	<ImageLoader src={moment.imageUrl+'&mom=true'} className='momentImgDivLandscape' wrapper={React.DOM.div} preloader={preloader}>
 				Image load failed
 			</ImageLoader>
 		}else if(moment.orientation.COMPRESSED == 'PORTRAIT'){
-			customImageLoader = 	<ImageLoader src={moment.imageUrl} className='momentImgDivPortrait' wrapper={React.DOM.div} preloader={preloader}>
+			customImageLoader = 	<ImageLoader src={moment.imageUrl+'&mom=true'} className='momentImgDivPortrait' wrapper={React.DOM.div} preloader={preloader}>
 				Image load failed
 			</ImageLoader>
 		}
 	}else{
-		customImageLoader = 	<ImageLoader src={moment.imageUrl} className='momentImgDivPortrait' wrapper={React.DOM.div} preloader={preloader}>
+		customImageLoader = 	<ImageLoader src={moment.imageUrl+'&mom=true'} className='momentImgDivPortrait' wrapper={React.DOM.div} preloader={preloader}>
 			Image load failed
 		</ImageLoader>
 	}
