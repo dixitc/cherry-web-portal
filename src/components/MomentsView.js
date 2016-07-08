@@ -428,7 +428,7 @@ closeMemberView = () => {
 		//populating moments
 	    const momentChildren =   moments.moments.map((moment, i) => {
 
-	            return (<MomentView moment={moment} showDetail={true} key={moment.id} onTouchStart={(event) => {this.onTouchStart(moment.imageUrl, event)}}
+	            return (<MomentView moment={moment} showDetail={true} key={moment.id} onTouchStart={(event) => {this.onTouchStart(moment.imageUrl+'&mom=true', event)}}
 				onTouchEnd={(event) => {this.onTouchEnd(moment.src, event)}}
 				 handleLikeCLick={() => handleLike({
 	                memoryId: moment.memoryId,
@@ -464,7 +464,7 @@ closeMemberView = () => {
             <div className={'momentsContainer'}>
 				<ReactCSSTransitionGroup transitionName="instaOverlay" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 
-  <div className={'insta-overlay'} style={this.state.instaOpen ?{height:'100%',width:'100%',position:'fixed',backgroundColor:'red',zIndex:'100',transform:'scale(1)',opacity:'1',transition:'all ease-in 0.2s'} :{height:'100%',width:'100%',position:'absolute',backgroundColor:'red',zIndex:'100',transform:'scale(0.6)',opacity:'0',transition:'all ease-in 0.2s'}}>
+  <div className={'insta-overlay'} style={this.state.instaOpen ?{height:'100%',width:'100%',position:'fixed',backgroundColor:'transparent',zIndex:'100',transform:'scale(1)',opacity:'1',transition:'all ease-in 0.2s'} :{height:'100%',width:'100%',position:'absolute',backgroundColor:'transparent',zIndex:'100',transform:'scale(0.6)',opacity:'0',transition:'all ease-in 0.2s'}}>
 	  <img src={this.state.instaSrc} style={{height:'70%',width:'80%',left:'10%',top:'15%',position:'absolute'}} />
   </div>
 </ReactCSSTransitionGroup>
