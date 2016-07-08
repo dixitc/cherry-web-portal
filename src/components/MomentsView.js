@@ -29,6 +29,8 @@ import Clear from 'material-ui/svg-icons/content/clear';
 let Dropzone = require('react-dropzone');
 import ReactGridLayout from 'react-grid-layout';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+let ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -87,6 +89,8 @@ class MyMomentsView extends Component {
 			currentBreakpoint: 'lg',
 			mounted: false,
 			currentRowHeight : 80,
+			instaSrc:'',
+			instaOpen:false,
 			Xmargin : 8,
 			Ymargin : 8
 		}
@@ -105,6 +109,9 @@ class MyMomentsView extends Component {
         this.fileSelect = this.fileSelect.bind(this);
         this.openMemberView = this.openMemberView.bind(this);
         this.closeMemberView = this.closeMemberView.bind(this);
+        this.onTouchStart = this.onTouchStart.bind(this);
+        this.onTouchEnd = this.onTouchEnd.bind(this);
+
 
 		this.onLayoutChange = this.onLayoutChange.bind(this);
 		this.generateDimensions = this.generateDimensions.bind(this);
@@ -134,6 +141,26 @@ class MyMomentsView extends Component {
 		this.setState({
 			currentBreakpoint: breakpoint
 		});
+	}
+	onTouchStart = (src , e) => {
+		console.log('touch start');
+		console.log(src);
+		e.stopPropagation();
+		this.setState({
+			instaSrc: src
+		});
+		this.setState({
+			instaOpen : true
+		})
+	}
+	onTouchEnd = (src , e) => {
+		e.stopPropagation();
+		this.setState({
+			instaSrc: ''
+		});
+		this.setState({
+			instaOpen : false
+		})
 	}
 	onLayoutChange = (layout, layouts) => {
 		this.props.onLayoutChange(layout, layouts);
@@ -400,7 +427,8 @@ closeMemberView = () => {
 		//populating moments
 	    const momentChildren =   moments.moments.map((moment, i) => {
 
-	            return (<MomentView moment={moment} showDetail={true} key={moment.id} onClick={(event) => {this.openLightbox(i, event)}}
+	            return (<MomentView moment={moment} showDetail={true} key={moment.id} onTouchStart={(event) => {this.onTouchStart(moment.imageUrl, event)}}
+				onTouchEnd={(event) => {this.onTouchEnd(moment.src, event)}}
 				 handleLikeCLick={() => handleLike({
 	                memoryId: moment.memoryId,
 	                momentId: moment.id,
@@ -433,7 +461,12 @@ closeMemberView = () => {
 };
         return (
             <div className={'momentsContainer'}>
-				<div className={'insta-overlay'} style={{height:'100%',width:'100%',position:'absolute',backgroundColor:'red',zIndex:'100'}}></div>
+				<ReactCSSTransitionGroup transitionName="instaOverlay" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+
+  <div className={'insta-overlay'} style={this.state.instaOpen ?{height:'100%',width:'100%',position:'fixed',backgroundColor:'red',zIndex:'100',transform:'scale(1)',transition:'all ease-in 0.2s'} :{height:'100%',width:'100%',position:'absolute',backgroundColor:'red',zIndex:'100',transform:'scale(0)',transition:'all ease-in 0.2s'}}>
+	  <img src={this.state.instaSrc} style={{height:'70%',width:'80%',left:'10%',top:'15%',position:'absolute'}} />
+  </div>
+</ReactCSSTransitionGroup>
 				<Dialog
 		          title={<ListItem primaryText={'Add your moments '}  rightIconButton={<IconButton  onClick={ this.handleClose} style={{top:'8px'}} tooltip="Close"><Clear /></IconButton>} secondaryText={this.state.files.length > 0 ? (this.state.files.filter((file)=>{return file.isSelected})).length + ((this.state.files.filter((file)=>{return file.isSelected})).length == 1 ? ' moment':' moments') : ''} />}
 				  titleStyle={{border:'none',padding:'0px'}}

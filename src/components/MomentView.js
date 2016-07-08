@@ -25,20 +25,13 @@ const mystyle = {
 		display:'none'
 	}
 }
-const MomentView = ({ moment , handleLikeCLick , onClick , showDetail}) => {
+const MomentView = ({ moment , handleLikeCLick ,onTouchStart,onTouchEnd, onClick , showDetail}) => {
 
-	var onTouchStart = (e) => {
-		console.log(e);
-		console.log(e.target);
-		console.log(e.target.src);
-		console.log('touch start');
-	}
+
 	var onTouchMove = () => {
 		console.log('touch move');
 	}
-	var onTouchEnd = () => {
-		console.log('touch end');
-	}
+
 
 	function preloader() {
 	  return <div style={{height:'100%',width:'100%',textAlign:'center',backgroundColor:'rgb(103, 103, 103)',zIndex:'1000'}}></div>;
@@ -61,7 +54,7 @@ const MomentView = ({ moment , handleLikeCLick , onClick , showDetail}) => {
 		</ImageLoader>
 	}
 		return (
-			
+
 
 		<GridTile
 			cols={1}
@@ -89,7 +82,7 @@ const MomentView = ({ moment , handleLikeCLick , onClick , showDetail}) => {
 				<IconButton
 					className={moment.hasLiked ? '' : 'inner-grid'}
 					iconStyle={{height:'20px',width:'20px'}}
-					style={showDetail ? {display:'block',background:'radial-gradient(rgba(0, 0, 0, 0.67) 0%, rgba(0, 0, 0, 0.26) 48%,transparent 0%)'} : {display:'none'}}
+					style={showDetail ? {display:'none',background:'radial-gradient(rgba(0, 0, 0, 0.67) 0%, rgba(0, 0, 0, 0.26) 48%,transparent 0%)'} : {display:'none'}}
 					onClick={(e) => {e.stopPropagation();handleLikeCLick()}}
 				>
 						{moment.hasLiked ?  <Favourite  hoverColor={'rgb(255, 161, 0)'} color ={'#FF5722'}/> : <FavouriteBorder hoverColor={'#FF5722'} style={{height:'12px',width:'12px'}}  color="white"/> }
