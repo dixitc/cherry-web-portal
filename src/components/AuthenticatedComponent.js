@@ -21,6 +21,7 @@ import {List, ListItem} from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import MediaQuery from 'react-responsive';
+import Headroom from 'react-headroom';
 
 const baseStyle = {
 	refresh: {
@@ -80,8 +81,9 @@ class AuthenticatedComponent extends React.Component {
 		return(
 			<div style={{height:'100%'}}>
 <MediaQuery maxWidth={400}>
+	<Headroom style={{height:'60px'}}>
 			<AppBar
-				style={title == 'Memories' ? {zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35'} : {zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'transparent',boxShadow:'none'}}
+				style={title == 'Memories' ? {zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35'} : {zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35',boxShadow:'none'}}
 				titleStyle={{height:'60px'}}
 				className={'smooth-transit'}
 				title={<span className='brand'>{title}</span>}
@@ -119,7 +121,7 @@ class AuthenticatedComponent extends React.Component {
 		{title == 'Memories' &&
 			<div className={'navBufferDiv'}></div>
 		}
-
+</Headroom>
 	</MediaQuery>
 	<MediaQuery minWidth={400}>
 				<AppBar

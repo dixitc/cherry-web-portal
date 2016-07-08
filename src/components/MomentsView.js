@@ -145,6 +145,7 @@ class MyMomentsView extends Component {
 	onTouchStart = (src , e) => {
 		console.log('touch start');
 		console.log(src);
+		e.preventDefault();
 		e.stopPropagation();
 		this.setState({
 			instaSrc: src
@@ -202,7 +203,7 @@ class MyMomentsView extends Component {
 		return [25,25];
 	}
 	generateDimensions = (index , breakPoint) => {
-		console.log(index);
+		//console.log(index);
 		let x ;
 		let y ;
 		let w ;
@@ -463,7 +464,7 @@ closeMemberView = () => {
             <div className={'momentsContainer'}>
 				<ReactCSSTransitionGroup transitionName="instaOverlay" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 
-  <div className={'insta-overlay'} style={this.state.instaOpen ?{height:'100%',width:'100%',position:'fixed',backgroundColor:'red',zIndex:'100',transform:'scale(1)',transition:'all ease-in 0.2s'} :{height:'100%',width:'100%',position:'absolute',backgroundColor:'red',zIndex:'100',transform:'scale(0)',transition:'all ease-in 0.2s'}}>
+  <div className={'insta-overlay'} style={this.state.instaOpen ?{height:'100%',width:'100%',position:'fixed',backgroundColor:'red',zIndex:'100',transform:'scale(1)',opacity:'1',transition:'all ease-in 0.2s'} :{height:'100%',width:'100%',position:'absolute',backgroundColor:'red',zIndex:'100',transform:'scale(0.6)',opacity:'0',transition:'all ease-in 0.2s'}}>
 	  <img src={this.state.instaSrc} style={{height:'70%',width:'80%',left:'10%',top:'15%',position:'absolute'}} />
   </div>
 </ReactCSSTransitionGroup>
