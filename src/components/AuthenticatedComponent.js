@@ -15,7 +15,8 @@ import style from '../styles/Login';
 import FontIcon from 'material-ui/FontIcon';
 import { browserHistory , hashHistory } from 'react-router';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
-import { Link } from 'react-router';
+import Link from 'material-ui/svg-icons/content/link';
+//import { Link } from 'react-router';
 import LinearProgress from 'material-ui/LinearProgress';
 import {List, ListItem} from 'material-ui/List';
 import Paper from 'material-ui/Paper';
@@ -51,7 +52,7 @@ class AuthenticatedComponent extends React.Component {
 	render(){
 		const { handleLogout , handleFetchMemories , memories , auth , title , uploaderStatus} = this.props;
 
-		//const { currentMemory } = memories;
+		const { currentMemory } = memories;
 		let myIconElement;
 		let myChildren;
 		if(title === 'Memories'){
@@ -80,91 +81,7 @@ class AuthenticatedComponent extends React.Component {
 	//	console.log(myChildren);
 		return(
 			<div style={{height:'100%'}}>
-<MediaQuery maxWidth={400}>
-	<Headroom style={{height:'60px'}}>
-			<AppBar
-				style={title == 'Memories' ? {zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35'} : {zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35',boxShadow:'none'}}
-				titleStyle={{height:'60px'}}
-				className={'smooth-transit'}
-				title={<span className='brand'>{title}</span>}
-				primary={true}
 
-				iconElementLeft={myIconElement}
-
-				iconElementRight={<IconMenu
-
-        iconButtonElement={<div>
-			<span style={{fontSize:'10px',color:'white',position:'relative',top:'-12px',padding:'10px'}}>{auth.profile.name}</span>
-          <IconButton style={style.avatarButton} tooltip='settings'
-      tooltipPosition="bottom-right">
-
-			  {auth.profile.photo &&
-
-				  <Avatar style={style.noBorder} backgroundColor={'transparent'} src={auth.profile.photo+'&mem=true'} size={32}/>
-			  }
-			  {!auth.profile.photo &&
-				  <Avatar icon={<FontIcon className="muidocs-icon-communication-voicemail" />} />
-			  }
-      </IconButton>
-  </div>
-        }
-        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-      >
-        <MenuItem primaryText='Refresh'/>
-        <MenuItem primaryText='Help' />
-        <MenuItem primaryText='Log Out' onClick={() => handleLogout()} />
-
-      </IconMenu>}
-			/>
-
-		{title == 'Memories' &&
-			<div className={'navBufferDiv'}></div>
-		}
-</Headroom>
-	</MediaQuery>
-	<MediaQuery minWidth={400}>
-				<AppBar
-					style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35'}}
-					titleStyle={{height:'60px'}}
-					className={'smooth-transit'}
-					title={<span className='brand'>{title}</span>}
-					primary={true}
-
-					iconElementLeft={myIconElement}
-
-					iconElementRight={<IconMenu
-
-	        iconButtonElement={<div>
-				<span style={{fontSize:'10px',color:'white',position:'relative',top:'-12px',padding:'10px'}}>{auth.profile.name}</span>
-	          <IconButton style={style.avatarButton} tooltip='settings'
-	      tooltipPosition="bottom-right">
-
-				  {auth.profile.photo &&
-
-					  <Avatar style={style.noBorder} backgroundColor={'transparent'} src={auth.profile.photo} size={32}/>
-				  }
-				  {!auth.profile.photo &&
-					  <Avatar icon={<FontIcon className="muidocs-icon-communication-voicemail" />} />
-				  }
-	      </IconButton>
-	  </div>
-	        }
-	        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-	        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-	      >
-	        <MenuItem primaryText='Refresh'/>
-	        <MenuItem primaryText='Help' />
-	        <MenuItem primaryText='Log Out' onClick={() => handleLogout()} />
-
-	      </IconMenu>}
-				/>
-
-			{title == 'Memories' &&
-				<div className={'navBufferDiv'}></div>
-			}
-
-		</MediaQuery>
 
 		{myChildren}
 

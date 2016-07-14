@@ -183,7 +183,7 @@ let formatter = new AsYouTypeFormatter('IN');
                                         style={style.otpField}
 										onChange={this.handleOtp}
 										errorText={errorMessage}
-										onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}}
+										onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp,'+'+dial_code.slice(1,dial_code.length)+ this.state.formattedNumber , redirectRoute)}}
 										value={this.state.otp}
 										errorStyle={style.errorStyle}
 										underlineFocusStyle={style.cherry}
@@ -207,7 +207,7 @@ let formatter = new AsYouTypeFormatter('IN');
 										disabled={false}
 										primary={true}
 										label={isRegistered ? 'CONTINUE' : 'GET OTP'}
-										onClick={() => handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}/>
+										onClick={() => handleVerifyUser(verificationId ,this.state.otp,'+'+dial_code.slice(1,dial_code.length)+this.state.formattedNumber , redirectRoute)}/>
                                 }
 
                             </div>
@@ -307,7 +307,7 @@ let formatter = new AsYouTypeFormatter('IN');
 								onFocus={() => {document.getElementsByClassName('foot')[0].style.display='none';this.refs.infoDiv.style.display = 'none';}}
 								onBlur={() => {this.refs.infoDiv.style.display = 'block';document.getElementsByClassName('foot')[0].style.display='block'}}
 								errorStyle={style.errorStyle}
-								onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}}
+								onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp,'+'+dial_code.slice(1,dial_code.length)+this.state.formattedNumber , redirectRoute)}}
 								value={this.state.otp}
 								underlineFocusStyle={style.cherry}
 								floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
@@ -330,7 +330,7 @@ let formatter = new AsYouTypeFormatter('IN');
 								disabled={false}
 								primary={true}
 								label={isRegistered ? 'CONTINUE' : 'GET OTP'}
-								onClick={() => handleVerifyUser(verificationId ,this.state.otp , redirectRoute)}/>
+								onClick={() => handleVerifyUser(verificationId ,this.state.otp,'+'+dial_code.slice(1,dial_code.length)+this.state.formattedNumber , redirectRoute)}/>
 						}
 					</div>
 				</div>
@@ -375,7 +375,7 @@ let formatter = new AsYouTypeFormatter('IN');
 				//console.log('dial_code');
 				//console.log(dial_code);
     			let creds = {
-					//need to add in countrycode here , maybe formateed dial_code remove the + or replace with %2b
+					//need to add in countrycode here , maybe formateed dial_code remove the + or replace with +
     				identifier :formattedNumber,
     				identifierType : 'PHONE',
     				verificationMode : 'OTP_MSG',
@@ -385,10 +385,11 @@ let formatter = new AsYouTypeFormatter('IN');
     			dispatch(registerUser(creds))
     			//dispatch(registerRequest(auth));
     		},
-    		handleVerifyUser : (id,otp,redirectRoute) => {
+    		handleVerifyUser : (id,otp,identifier,redirectRoute) => {
+				//here we're sending identifier as a temporary fix cuz its needed for creating memories
 				//console.log('CHECK REDIRECTROUTE');
 				//console.log(redirectRoute);
-    			dispatch(verifyUser(id,otp,redirectRoute))
+    			dispatch(verifyUser(id,otp,identifier,redirectRoute))
     		},
     		handleSetErrorMessage : (msg) => {
     			dispatch(setErrorMessage(msg))

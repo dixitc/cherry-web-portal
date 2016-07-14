@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import { fetchMoments , setIsLoaded } from '../actions/actions';
+import { fetchMoments , setIsLoaded , toggleWebLink } from '../actions/actions';
 import CoverMomentCard from './CoverMomentCard';
 import {connect} from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -15,7 +15,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 //import Lightbox from 'react-images';
 import Lightbox from 'react-image-lightbox';
-import {ListItem} from 'material-ui/List';
+import {ListItem , List} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import ImageLoader from 'react-imageloader';
 import MediaQuery from 'react-responsive';
@@ -25,12 +25,27 @@ import Paper from 'material-ui/Paper';
 import Badge from 'material-ui/Badge';
 import Done from 'material-ui/svg-icons/action/done';
 import Clear from 'material-ui/svg-icons/content/clear';
+import Link from 'material-ui/svg-icons/content/link';
 //import DropzoneComponent from 'react-dropzone-component/lib/react-dropzone';
 let Dropzone = require('react-dropzone');
 import ReactGridLayout from 'react-grid-layout';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import Toggle from 'material-ui/Toggle';
+
 let ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
+import AppBar from 'material-ui/AppBar';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import MenuItem from 'material-ui/MenuItem';
+import FontIcon from 'material-ui/FontIcon';
+import { browserHistory , hashHistory } from 'react-router';
+//import { Link } from 'react-router';
+import LinearProgress from 'material-ui/LinearProgress';
+import Headroom from 'react-headroom';
+import Subheader from 'material-ui/Subheader';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -86,6 +101,7 @@ class MyMomentsView extends Component {
 			memberViewOpen: false,
 			anchorEl : '',
 			open: false,
+			openLink :false,
 			currentBreakpoint: 'lg',
 			mounted: false,
 			currentRowHeight : 80,
@@ -112,6 +128,10 @@ class MyMomentsView extends Component {
         this.onTouchStart = this.onTouchStart.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
 
+		this.openWeblinkNew = this.openWeblinkNew.bind(this);
+		this.closeWeblinkNew = this.closeWeblinkNew.bind(this);
+
+
 
 		this.onLayoutChange = this.onLayoutChange.bind(this);
 		this.generateDimensions = this.generateDimensions.bind(this);
@@ -134,6 +154,18 @@ class MyMomentsView extends Component {
 		this.props.moments.isFetching = true;
         //this.props.handleFetchMoments({memoryId: this.props.location.state.memory.id, token: this.props.auth.authToken, page: this.state.page, rp: this.state.rp});
     }
+	openWeblinkNew = () => {
+		console.log('openng weblink dialog');
+		this.setState({openLink : true})
+	}
+	closeWeblinkNew = () => {
+		console.log('openng weblink dialog');
+		this.setState({openLink : false})
+	}
+	backToMemories(){
+		//browserHistory.replace('/memories');
+		hashHistory.replace('/memories');
+	}
 	componentWillUnmount() {
 		this.props.handleIsLoaded({memoryId : this.props.currentMemory.id , isLoaded : false})
 	}
@@ -155,6 +187,9 @@ class MyMomentsView extends Component {
 		})
 	}
 	onTouchEnd = (src , e) => {
+		console.log('touch end');
+		console.log(e);
+		console.log(e.target);
 		e.stopPropagation();
 		this.setState({
 			instaSrc: ''
@@ -385,12 +420,13 @@ closeMemberView = () => {
     	e.nativeEvent.stopImmediatePropagation();
 	}
     render() {
-        const {moments, auth, handleLike , currentMemory , handleAddMoments , handleUploadImage , handlePublishMoments , uploaderStatus} = this.props;
+        const {moments, auth, handleLike , currentMemory , handleAddMoments , handleUploadImage , handlePublishMoments , uploaderStatus , handleToggleWebLink} = this.props;
         let {isFetching} = moments;
 		let bottomElement;
 		//Populating Lightbox
 		console.log('LOGGING MOMENTS ON RENDER');
 		console.log(moments.moments);
+		console.log(currentMemory);
         let images = moments.moments.map((moment) => {
             let rObj = {};
 			if(moment.image){
@@ -460,14 +496,76 @@ closeMemberView = () => {
     showFiletypeIcon: true,
     postUrl: null
 };
+let myIconElement;
+let myLinkElement;
+
+	myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
+	myLinkElement =  <IconButton onClick={this.openWeblink}>
+<Link />
+</IconButton>
+
         return (
             <div className={'momentsContainer'}>
+				<MediaQuery maxWidth={400}>
+
+					<AppBar
+						style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35',boxShadow:'none'}}
+						titleStyle={{height:'60px'}}
+						className={'smooth-transit'}
+						title={<span className='brand'>{currentMemory.title}</span>}
+						primary={true}
+
+						iconElementLeft={myIconElement}
+
+						   iconElementRight={<IconButton onClick={this.openWeblinkNew}><Link color={'white'} /> </IconButton>}
+						/>
+
+
+
+				</MediaQuery>
+				<MediaQuery minWidth={400}>
+					<AppBar
+						style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35'}}
+						titleStyle={{height:'60px'}}
+						className={'smooth-transit'}
+						title={<span className='brand'>{currentMemory.title}</span>}
+						primary={true}
+
+						iconElementLeft={myIconElement}
+
+						iconElementRight={ <IconButton className='smooth-transit' onClick={this.openWeblinkNew} >
+						<Link />
+					</IconButton>}
+					/>
+
+
+
+			</MediaQuery>
 				<ReactCSSTransitionGroup transitionName="instaOverlay" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 
   <div className={'insta-overlay'} style={this.state.instaOpen ?{height:'100%',width:'100%',position:'fixed',backgroundColor:'transparent',zIndex:'100',transform:'scale(1)',opacity:'1',transition:'all ease-in 0.2s'} :{height:'100%',width:'100%',position:'absolute',backgroundColor:'transparent',zIndex:'100',transform:'scale(0.6)',opacity:'0',transition:'all ease-in 0.2s'}}>
 	  <img src={this.state.instaSrc} style={{height:'70%',width:'80%',left:'10%',top:'15%',position:'absolute'}} />
   </div>
 </ReactCSSTransitionGroup>
+<Dialog
+  title={<ListItem disabled={true} rightIconButton={<IconButton  onClick={ this.closeWeblinkNew} style={{top:'8px'}} tooltip="Close"><Clear /></IconButton>}  />}
+  titleStyle={{border:'none',padding:'0px'}}
+  bodyStyle={{padding:'0px 2px',border:'none'}}
+  contentStyle={{border:'none',maxWidth:'300px',width:'90%',margin:'0px auto'}}
+  actionsContainerStyle={{border:'none'}}
+  repositionOnUpdate={true}
+  actions={actions}
+  modal={false}
+  autoScrollBodyContent={true}
+  open={this.state.openLink}
+  onRequestClose={this.closeWeblinkNew}
+>
+<List>
+   <Subheader>Generate weblink</Subheader>
+   <ListItem primaryText="Weblink" rightToggle={<Toggle toggled={currentMemory.webLink && currentMemory.webLink.enabled ? true : false} onToggle={(e) => {console.log('toggling');console.log(e);this.props.handleToggleWebLink({ 'memoryId' : currentMemory.id , 'webLinkBool' : currentMemory.webLink && currentMemory.webLink.shortCode ? false : true})}}/>} />
+
+ </List>
+</Dialog>
 				<Dialog
 		          title={<ListItem primaryText={'Add your moments '}  rightIconButton={<IconButton  onClick={ this.handleClose} style={{top:'8px'}} tooltip="Close"><Clear /></IconButton>} secondaryText={this.state.files.length > 0 ? (this.state.files.filter((file)=>{return file.isSelected})).length + ((this.state.files.filter((file)=>{return file.isSelected})).length == 1 ? ' moment':' moments') : ''} />}
 				  titleStyle={{border:'none',padding:'0px'}}
@@ -655,9 +753,15 @@ const mapStateToProps = (state) => {
 	let currentMemory = getCurrentMemory(state.memories.memories , currentMemoryId);
 	if(currentMemory){
 		currentMemory.isPresent = true ;
+		console.log(currentMemory);
 	}else{
 		currentMemory = {
-			isPresent : false
+			isPresent : false,
+			owner:{
+				name:'',
+				photo:''
+			},
+			members:[]
 		}
 	}
     return {moments, auth ,title , currentMemory , uploaderStatus}
@@ -696,6 +800,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		handlePublishMoments: (payload) => {
 			dispatch(publishMoments(payload))
+		},
+		handleToggleWebLink: (payload) => {
+			dispatch(toggleWebLink(payload))
 		}
     }
 }

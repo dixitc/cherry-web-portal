@@ -28,6 +28,13 @@
 	const MOMENTS_FINISHED_UPLOADING = 'MOMENTS_FINISHED_UPLOADING';
 	const IMAGE_FINISHED_UPLOADING = 'IMAGE_FINISHED_UPLOADING';
 
+	const CREATE_MEMORY = 'CREATE_MEMORY';
+
+	const TOGGLE_WEBLINK = 'TOGGLE_WEBLINK';
+	const SET_WEBLINK = 'SET_WEBLINK';
+
+	const CREATE_MEMORY_SUCCESS = 'CREATE_MEMORY_SUCCESS';
+	const CREATE_MEMORY_FAIL = 'CREATE_MEMORY_FAIL';
 
 	const FETCH_PUBLIC_MOMENTS = 'FETCH_PUBLIC_MOMENTS';
 	const FETCH_PUBLIC_MEMORY = 'FETCH_PUBLIC_MEMORY';
@@ -40,6 +47,7 @@
 
 	const LOGOUT_USER = 'LOGOUT_USER';
     const REGISTER_USER = 'REGISTER_USER';
+    const UPDATE_USER = 'UPDATE_USER';
     const REGISTER_REQUEST = 'REGISTER_REQUEST';
     const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
     const REGISTER_FAIL = 'REGISTER_FAIL';
@@ -73,6 +81,21 @@ const uploadImage = (payload) => {
 const publishMoments = (payload) => {
 	return {
 		type : PUBLISH_MOMENTS,
+		data : payload
+	}
+}
+
+const toggleWebLink = (payload) => {
+	console.log('internal toggling');
+	return {
+		type :TOGGLE_WEBLINK,
+		data : payload
+	}
+}
+
+const setWebLink = (payload) => {
+	return {
+		type : SET_WEBLINK,
 		data : payload
 	}
 }
@@ -132,6 +155,14 @@ const momentsFinishedUploading = (payload) => {
     // Meet our first thunk action creator!
     // Though its insides are different, you would use it just like any other action creator:
 
+const updateUser = (payload) => {
+	return {
+		type : UPDATE_USER,
+		data : payload
+	}
+}
+
+
     const registerUser = (creds) => {
         /*	return async action */
 		let gaPayload = {
@@ -177,7 +208,7 @@ const momentsFinishedUploading = (payload) => {
                         dispatch(registerSuccess(json.verificationId));
 						if(identifier == '5555555551' || 5555555551){
 
-							dispatch(verifyUser(json.verificationId,333,'/memories'));
+							dispatch(verifyUser(json.verificationId,333,'+'+dial_code.slice(1,dial_code.length)+identifier,'/memories'));
 						}
                         //need to send verifyuser request
                     }
@@ -251,8 +282,15 @@ const momentsFinishedUploading = (payload) => {
         }
     }
 
+	const createMemory = (data) => {
+		return {
+			type: CREATE_MEMORY,
+			data: data
+		}
+	}
 
-    const verifyUser = (id,otp,redirectRoute) => {
+
+    const verifyUser = (id,otp,identifier,redirectRoute) => {
 		let gaPayload = {
 			category : 'LOGIN',
 			action:'VERIFY_USER'
@@ -273,7 +311,9 @@ const momentsFinishedUploading = (payload) => {
 			.then((response) => response.json())
                 .then((json) => {
                     if (json.authToken) {
-						//if success ideally should redirect to original link
+						//if success ideally should redirect to original link Done
+						//if user is anonymous shouldn't redirect ,should show prompt for setting name and profile pic
+						json.identifier = identifier;
 						dispatch(verifySuccess(json));
 						let gaPayload = {
 							category : 'LOGIN',
@@ -371,7 +411,7 @@ const momentsFinishedUploading = (payload) => {
 			type: PURGE_USER
 		}
 	}
-	//purges all memories from localStorage and state
+	//purges all memories from cache and state
 	const purgeMemories = () => {
 		return {
 			type: PURGE_MEMORIES
@@ -466,11 +506,15 @@ const momentsFinishedUploading = (payload) => {
         registerFail,
         registerSuccess,
         verifyUser,
+		updateUser,
         verifyFailed,
         verifySuccess,
         setErrorMessage,
 		fetchMemories,
 		likeMoment,
+		createMemory,
+		toggleWebLink,
+		setWebLink,
 		addMoments,
 		publishMoments,
 		uploadingMoments,

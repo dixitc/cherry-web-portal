@@ -37,6 +37,25 @@ const memoriesReducer = (state = initState, action) => {
                 isFetching:false
 			})
 			//return state;
+		case 'CREATE_MEMORY_SUCCESS':
+			return state;
+		case 'CREATE_MEMORY_FAIL':
+			return state;
+		case 'SET_WEBLINK':
+
+		console.log("reducer: memoriesReducer SET_WEBLINK");
+			console.log(action.data);
+			const freshMemories =  state.memories.map((memory) => {
+				if(memory.id == action.data.memoryId){
+					memory.weblink = {
+						shortCode : action.data.shortCode
+					};
+				}
+				return memory;
+			})
+			return Object.assign({} , state ,{
+				memories : freshMemories
+			});
 		case 'SET_ISLOADED':
 			const refinedMemories =  state.memories.map((memory) => {
 				if(memory.id == action.data.memoryId){

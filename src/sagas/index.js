@@ -149,6 +149,28 @@ function likeMomentApi(params){
 	})
 }
 
+function toggleWebLinkApi(params){
+	const user = getUser();
+	const token = user.authToken;
+	console.log(params);
+	const url = apiUrl+'/v2/weblink/'+params.memoryId+'.json';
+	const myHeaders = new Headers({
+	  'authToken' : token,
+	  'Content-Type': 'application/x-www-form-urlencoded'
+	});
+	let config = {
+		method : 'POST',
+		headers : myHeaders,
+		body: 'isEnabled='+JSON.stringify(params.webLinkBool)
+	}
+	return fetch(url,config)
+	.then((response) => response.json())
+	.then((json) => {
+		console.log(json)
+		return json;
+	})
+}
+
 
 function uploadImageApi(params){
 	/*setTimeout(() => {
@@ -239,6 +261,61 @@ function publishMomentsApi(params){
 	})
 }
 
+function updateUserInfoApi(params){
+	const user = getUser();
+	const token = user.authToken;
+
+	console.log(params);
+
+	const url = apiUrl+'/v1/profile/'+params.userId+'/updateUserInfo.json';
+	const myHeaders = new Headers({
+	    'authToken': token,
+	    'Content-Type': 'application/x-www-form-urlencoded'
+
+	});
+	let config = {
+		method : 'POST',
+		headers : myHeaders,
+		body: 'momentIds=' + params.momentIds
+	}
+	return fetch(url,config)
+	.then((response) => response.json())
+	.then((json) => {
+		console.log('COLLECTING JSON');
+		console.log(json);
+		return json
+	})
+}
+
+function createMemoryApi(params){
+	const user = getUser();
+	const token = user.authToken;
+
+	console.log(params);
+	let form = new FormData();
+	form.append('memory',params.memory);
+	//form.append('moments',params.moments);
+	const url = apiUrl+'/v1/memory.json';
+	const myHeaders = new Headers({
+		authtoken:token,
+		'Accept': 'application/json, application/xml, text/play, text/html, *.*',
+	             'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+
+	});
+	let config = {
+		method : 'POST',
+		headers : myHeaders,
+		body: 'memory='+JSON.stringify(params.memory)+'&moments='+JSON.stringify(params.moments)+'&returnMoments=true'
+	}
+	return fetch(url,config)
+	.then((response) => response.json())
+	.then((json) => {
+		console.log('COLLECTING JSON AFTER CREATING MEMORY');
+		console.log(json);
+		return json
+	})
+}
+
 /*******************HANDLERS*******************/
 
 function* fetchMoments(action){
@@ -300,6 +377,10 @@ function* fetchPublicMoments(action){
 
 function getUser(){
 	return JSON.parse(localStorage.getItem('cherryToken'))
+}
+
+function setUser(action){
+	localStorage.setItem('cherryToken',JSON.stringify(action.data));
 }
 
 
@@ -389,6 +470,59 @@ function* uploadImage(action){
 	return action.data.moment;
 }
 
+//a function that handles cleanup after LOGOUT_USER is called
+function* toggleWebLink(action){
+	console.log('sagas : getweblink');
+	let shortCode =	yield call(toggleWebLinkApi , action.data);
+	console.log(shortCode.weblink);
+	yield put(actions.setWebLink({data : {memoryId : action.data.memoryId , shortCode : shortCode}}))
+	//return action.data.moment;
+}
+
+//a function that handles cleanup after LOGOUT_USER is called
+function* createMemory(action){
+	const user = getUser();
+	console.log('sagas : createMemory');
+	console.log(action.data.moments);
+	const  payload = {};
+	payload.memory = action.data.memory;
+	//const files = action.data.files
+	payload.memory.members = [{
+		identifier : '%2b'+'915555555551',
+		addedBy:user.profile.id,
+		permission:'ADMIN',
+		profile : {
+			id: user.profile.id
+		},
+		localName : user.profile.name
+	}];
+	if(action.data.moments.length > 0){
+		console.log('lol');
+		//payload.returnMoments = true;
+		//payload.coverMoment = action.data.moments[0].id;
+		payload.moments = action.data.moments;
+	}
+	const createMemoryResponse = yield call(createMemoryApi , payload)
+	console.log(createMemoryResponse);
+	yield createMemoryResponse.moments.map((moment,i) => call(uploadImage , {data:{moment:moment,momentId:moment.id,file:action.data.files[i]}}))
+	let momentIds = '';
+	createMemoryResponse.moments.map((moment,i) => {
+		if(i == createMemoryResponse.moments.length - 1){
+			momentIds = momentIds + (moment.id).toString()
+		}else{
+			momentIds = momentIds + (moment.id).toString() + ','
+		}
+	})
+	console.log(' IMAGES UPLOADED');
+	console.log(createMemoryResponse.moments);
+	yield call(publishMomentsApi , {momentIds:momentIds,memoryId:action.data.memory.id})
+
+	//action.data.moment.image={id:imageId.image.imageId,CURRENT_IMAGE:'https://docs.google.com/uc?id='+imageId.image.fileStoreId,COMPRESSED:'https://docs.google.com/uc?id='+imageId.image.fileStoreId};
+	//action.data.moment.imageUrl=imageId.image.thumbURL;
+	//yield put(actions.imageFinishedUploading())
+	//return action.data.moment;
+}
+
 
 /*******************WATCHERS*****************/
 
@@ -443,6 +577,17 @@ function* watchAddMoments(){
 	yield* takeEvery('ADD_MOMENTS', addMoments);
 }
 
+//watcher function for creating new memory
+function* watchCreateMemory(){
+	yield* takeEvery('CREATE_MEMORY', createMemory);
+}
+
+//watcher function for creating new memory
+function* watchToggleWebLink(){
+	console.log('agagin toggling');
+	yield* takeEvery('TOGGLE_WEBLINK', toggleWebLink);
+}
+
 //watcher function for like some Moment
 /* function* watchUploadImage(){
 	yield* take('UPLOAD_IMAGE', uploadImage);
@@ -457,7 +602,9 @@ export default function* root() {
   , watchFetchPublicMoments()
   , watchVerifySuccess()
   , watchLogOut()
+  , watchToggleWebLink()
   , watchFetchMoments()
+  , watchCreateMemory()
   , watchLikeMoment()
   , watchAddMoments()
   , watchUploadImage()
