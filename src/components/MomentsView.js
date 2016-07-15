@@ -551,7 +551,7 @@ let myLinkElement;
   title={<ListItem disabled={true} rightIconButton={<IconButton  onClick={ this.closeWeblinkNew} style={{top:'8px'}} tooltip="Close"><Clear /></IconButton>}  />}
   titleStyle={{border:'none',padding:'0px'}}
   bodyStyle={{padding:'0px 2px',border:'none'}}
-  contentStyle={{border:'none',maxWidth:'300px',width:'90%',margin:'0px auto'}}
+  contentStyle={{border:'none',maxWidth:'500px',width:'90%',margin:'0px auto'}}
   actionsContainerStyle={{border:'none'}}
   repositionOnUpdate={true}
   actions={actions}
@@ -562,8 +562,10 @@ let myLinkElement;
 >
 <List>
    <Subheader>Generate weblink</Subheader>
-   <Toggle  toggled={currentMemory.webLink.enabled} onToggle={(e) => {console.log('toggling');console.log(e.target.value);this.props.handleToggleWebLink({ 'memoryId' : currentMemory.id , 'webLinkBool' : currentMemory.webLink ? !currentMemory.webLink.enabled : true})}}/>
-
+   <Toggle  toggled={currentMemory.webLink ? currentMemory.webLink.enabled : false} onToggle={(e) => {console.log('toggling');console.log(e.target.value);this.props.handleToggleWebLink({ 'memoryId' : currentMemory.id , 'webLinkBool' : currentMemory.webLink ? !currentMemory.webLink.enabled : true})}}/>
+	{currentMemory.webLink && currentMemory.webLink.enabled &&
+<ListItem disabled={true} primaryText={location.origin+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode} style={{fontSize:'12px'}} />
+	}
  </List>
 </Dialog>
 				<Dialog
