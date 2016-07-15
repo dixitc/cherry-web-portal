@@ -473,9 +473,17 @@ function* uploadImage(action){
 //a function that handles cleanup after LOGOUT_USER is called
 function* toggleWebLink(action){
 	console.log('sagas : getweblink');
-	let shortCode =	yield call(toggleWebLinkApi , action.data);
-	console.log(shortCode.weblink);
-	yield put(actions.setWebLink({data : {memoryId : action.data.memoryId , shortCode : shortCode}}))
+	let webLinkResponse =	yield call(toggleWebLinkApi , action.data);
+	let enabled = action.data.webLinkBool;
+	let shortCode ;
+	console.log(webLinkResponse.weblink);
+	if(!webLinkResponse.weblink){
+		shortCode = null;
+		enabled = false;
+	}else{
+		shortCode = webLinkResponse.weblink;
+	}
+	yield put(actions.setWebLink( {memoryId : action.data.memoryId , shortCode : shortCode , enabled : enabled}))
 	//return action.data.moment;
 }
 

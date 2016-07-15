@@ -43,13 +43,23 @@ const memoriesReducer = (state = initState, action) => {
 			return state;
 		case 'SET_WEBLINK':
 
-		console.log("reducer: memoriesReducer SET_WEBLINK");
-			console.log(action.data);
+		console.log('reducer: memoriesReducer SET_WEBLINK');
+			console.log(action);
 			const freshMemories =  state.memories.map((memory) => {
-				if(memory.id == action.data.memoryId){
-					memory.weblink = {
-						shortCode : action.data.shortCode
-					};
+                console.log(memory.id);
+                let payload = action.data
+                console.log(payload);
+                console.log((memory.id).toString() == payload.memoryId);
+				if(memory.id == payload.memoryId){
+                    console.log('wololo');
+                    console.log(memory);
+                    //console.log(memory.weblink);
+					//memory.weblink.enabled = payload.enabled
+
+                    return Object.assign({}, memory, {
+                        webLink: {enabled : payload.enabled , shortCode : payload.shortCode}
+                    })
+
 				}
 				return memory;
 			})

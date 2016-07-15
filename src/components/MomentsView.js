@@ -562,7 +562,7 @@ let myLinkElement;
 >
 <List>
    <Subheader>Generate weblink</Subheader>
-   <ListItem primaryText="Weblink" rightToggle={<Toggle toggled={currentMemory.webLink && currentMemory.webLink.enabled ? true : false} onToggle={(e) => {console.log('toggling');console.log(e);this.props.handleToggleWebLink({ 'memoryId' : currentMemory.id , 'webLinkBool' : currentMemory.webLink && currentMemory.webLink.shortCode ? false : true})}}/>} />
+   <Toggle  toggled={currentMemory.webLink.enabled} onToggle={(e) => {console.log('toggling');console.log(e.target.value);this.props.handleToggleWebLink({ 'memoryId' : currentMemory.id , 'webLinkBool' : currentMemory.webLink ? !currentMemory.webLink.enabled : true})}}/>
 
  </List>
 </Dialog>
@@ -757,6 +757,9 @@ const mapStateToProps = (state) => {
 	}else{
 		currentMemory = {
 			isPresent : false,
+			weblink : {
+				enabled : false
+			},
 			owner:{
 				name:'',
 				photo:''
