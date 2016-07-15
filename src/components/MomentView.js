@@ -67,7 +67,7 @@ const MomentView = ({ moment , handleLikeCLick ,onTouchStart,onTouchEnd, onClick
 			title={
 
 		<ListItem
-
+			disabled={true}
 			style={showDetail ? mystyle.listItem : mystyle.listItem}
 			className={'inner-grid'}
 			innerDivStyle={{paddingLeft:40,paddingBottom:14,paddingTop:17}}

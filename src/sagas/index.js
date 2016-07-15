@@ -506,29 +506,30 @@ function* createMemory(action){
 	}];
 	if(action.data.moments.length > 0){
 		console.log('lol');
-		//payload.returnMoments = true;
-		//payload.coverMoment = action.data.moments[0].id;
+		payload.returnMoments = true;
+		payload.coverMoment = action.data.moments[0].id;
 		payload.moments = action.data.moments;
+	}else{
+		payload.moments = []
 	}
 	const createMemoryResponse = yield call(createMemoryApi , payload)
 	console.log(createMemoryResponse);
-	yield createMemoryResponse.moments.map((moment,i) => call(uploadImage , {data:{moment:moment,momentId:moment.id,file:action.data.files[i]}}))
-	let momentIds = '';
-	createMemoryResponse.moments.map((moment,i) => {
-		if(i == createMemoryResponse.moments.length - 1){
-			momentIds = momentIds + (moment.id).toString()
-		}else{
-			momentIds = momentIds + (moment.id).toString() + ','
-		}
-	})
-	console.log(' IMAGES UPLOADED');
-	console.log(createMemoryResponse.moments);
-	yield call(publishMomentsApi , {momentIds:momentIds,memoryId:action.data.memory.id})
+	if(createMemoryResponse.moments.length > 0){
+		yield createMemoryResponse.moments.map((moment,i) => call(uploadImage , {data:{moment:moment,momentId:moment.id,file:action.data.files[i]}}))
+		let momentIds = '';
 
-	//action.data.moment.image={id:imageId.image.imageId,CURRENT_IMAGE:'https://docs.google.com/uc?id='+imageId.image.fileStoreId,COMPRESSED:'https://docs.google.com/uc?id='+imageId.image.fileStoreId};
-	//action.data.moment.imageUrl=imageId.image.thumbURL;
-	//yield put(actions.imageFinishedUploading())
-	//return action.data.moment;
+		createMemoryResponse.moments.map((moment,i) => {
+			if(i == createMemoryResponse.moments.length - 1){
+				momentIds = momentIds + (moment.id).toString()
+			}else{
+				momentIds = momentIds + (moment.id).toString() + ','
+			}
+		})
+		console.log(' IMAGES UPLOADED');
+		console.log(createMemoryResponse.moments);
+		yield call(publishMomentsApi , {momentIds:momentIds,memoryId:action.data.memory.id})
+	}
+
 }
 
 

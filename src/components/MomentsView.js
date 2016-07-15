@@ -465,6 +465,7 @@ closeMemberView = () => {
 	    const momentChildren =   moments.moments.map((moment, i) => {
 
 	            return (<MomentView moment={moment} showDetail={true} key={moment.id} onTouchStart={(event) => {this.onTouchStart(moment.imageUrl+'&mom=true', event)}}
+				 onClick={(e) => {console.log('open lightbox');this.openLightbox(i, e) }}
 				onTouchEnd={(event) => {this.onTouchEnd(moment.src, event)}}
 				 handleLikeCLick={() => handleLike({
 	                memoryId: moment.memoryId,
@@ -491,6 +492,29 @@ closeMemberView = () => {
 	   onClick={this.createAndUploadMoments}/>
 
    ];
+
+   const weblinkActions = [
+   <FlatButton
+   label="Share"
+	data-action="share/whatsapp/share"
+	    linkButton={true}
+	href={currentMemory.webLink ? "whatsapp://send?text="+location.origin+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode : ''}
+   primary={true}
+	disabled={currentMemory.webLink ? !currentMemory.webLink.enabled : true}
+   />,
+   <FlatButton
+   label="Copy"
+   primary={true}
+
+
+   disabled={currentMemory.webLink ? !currentMemory.webLink.enabled : true}
+   onClick={() => { if (window.clipboardData) { // Internet Explorer
+        window.clipboardData.setData('Text', 'text');
+    }}}
+   />
+
+   ];
+
    const componentConfig = {
     iconFiletypes: ['.jpg', '.png', '.gif'],
     showFiletypeIcon: true,
@@ -517,7 +541,7 @@ let myLinkElement;
 
 						iconElementLeft={myIconElement}
 
-						   iconElementRight={<IconButton onClick={this.openWeblinkNew}><Link color={'white'} /> </IconButton>}
+							   iconElementRight={<IconButton onClick={this.openWeblinkNew}><Link color={currentMemory.webLink && currentMemory.webLink.enabled ? '#FF5722':'white'} /> </IconButton>}
 						/>
 
 
@@ -534,7 +558,7 @@ let myLinkElement;
 						iconElementLeft={myIconElement}
 
 						iconElementRight={ <IconButton className='smooth-transit' onClick={this.openWeblinkNew} >
-						<Link />
+						<Link color={currentMemory.webLink && currentMemory.webLink.enabled ? '#FF5722':'white'}  />
 					</IconButton>}
 					/>
 
@@ -543,30 +567,46 @@ let myLinkElement;
 			</MediaQuery>
 				<ReactCSSTransitionGroup transitionName="instaOverlay" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 
-  <div className={'insta-overlay'} style={this.state.instaOpen ?{height:'100%',width:'100%',position:'fixed',backgroundColor:'transparent',zIndex:'100',transform:'scale(1)',opacity:'1',transition:'all ease-in 0.2s'} :{height:'100%',width:'100%',position:'absolute',backgroundColor:'transparent',zIndex:'100',transform:'scale(0.6)',opacity:'0',transition:'all ease-in 0.2s'}}>
-	  <img src={this.state.instaSrc} style={{height:'70%',width:'80%',left:'10%',top:'15%',position:'absolute'}} />
+  <div className={'insta-overlay'} style={this.state.instaOpen ?{height:'100%',width:'100%',position:'fixed',backgroundColor:'transparent',zIndex:'100',transform:'scale(1)',opacity:'1',transition:'all ease-in 0.2s'} :{height:'100%',width:'100%',position:'absolute',backgroundColor:'transparent',zIndex:'0',transform:'scale(0.6)',opacity:'0',transition:'all ease-in 0.2s'}}>
+	  <div style={{    position: 'absolute',
+    top: '0',
+    left: '0',
+    right: '0',
+    bottom: '0',backgroundColor:'white'}}>
+	  	<img src={this.state.instaSrc} style={{position: 'absolute',
+    top: '0',
+    bottom: '0',
+    margin: 'auto',
+    maxWidth: '100%',
+    maxHeight: '100%',
+    transform: 'scale3d(1,1,1)',
+    left: '0',
+    right: '0'}}  />
+	  </div>
   </div>
 </ReactCSSTransitionGroup>
 <Dialog
-  title={<ListItem disabled={true} rightIconButton={<IconButton  onClick={ this.closeWeblinkNew} style={{top:'8px'}} tooltip="Close"><Clear /></IconButton>}  />}
+  title={<ListItem disabled={true} />}
   titleStyle={{border:'none',padding:'0px'}}
   bodyStyle={{padding:'0px 2px',border:'none'}}
   contentStyle={{border:'none',maxWidth:'500px',width:'90%',margin:'0px auto'}}
   actionsContainerStyle={{border:'none'}}
   repositionOnUpdate={true}
-  actions={actions}
+  actions={weblinkActions}
   modal={false}
   autoScrollBodyContent={true}
   open={this.state.openLink}
   onRequestClose={this.closeWeblinkNew}
 >
-<List>
-   <Subheader>Generate weblink</Subheader>
-   <Toggle  toggled={currentMemory.webLink ? currentMemory.webLink.enabled : false} onToggle={(e) => {console.log('toggling');console.log(e.target.value);this.props.handleToggleWebLink({ 'memoryId' : currentMemory.id , 'webLinkBool' : currentMemory.webLink ? !currentMemory.webLink.enabled : true})}}/>
+
+
+<ListItem primaryText={'Weblink '}  rightToggle={<Toggle style={{display:'inline-block'}}  toggled={currentMemory.webLink ? currentMemory.webLink.enabled : false} onToggle={(e) => {console.log('toggling');console.log(e.target.value);this.props.handleToggleWebLink({ 'memoryId' : currentMemory.id , 'webLinkBool' : currentMemory.webLink ? !currentMemory.webLink.enabled : true})}}/>}  />
+
 	{currentMemory.webLink && currentMemory.webLink.enabled &&
-<ListItem disabled={true} primaryText={location.origin+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode} style={{fontSize:'12px'}} />
+
+		<Subheader style={{wordWrap:'break-word',padding:'10px',lineHeight:'20px'}}>{location.origin+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode}</Subheader>
 	}
- </List>
+
 </Dialog>
 				<Dialog
 		          title={<ListItem primaryText={'Add your moments '}  rightIconButton={<IconButton  onClick={ this.handleClose} style={{top:'8px'}} tooltip="Close"><Clear /></IconButton>} secondaryText={this.state.files.length > 0 ? (this.state.files.filter((file)=>{return file.isSelected})).length + ((this.state.files.filter((file)=>{return file.isSelected})).length == 1 ? ' moment':' moments') : ''} />}
@@ -759,8 +799,9 @@ const mapStateToProps = (state) => {
 	}else{
 		currentMemory = {
 			isPresent : false,
-			weblink : {
-				enabled : false
+			webLink : {
+				enabled : false,
+				shortCode : ''
 			},
 			owner:{
 				name:'',

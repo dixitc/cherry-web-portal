@@ -113,6 +113,7 @@ class MySimpleMomentsView extends Component {
 		//this.props.handleIsLoaded({memoryId : this.props.currentMemory.id , isLoaded : false})
 	}
     openLightbox(index, event) {
+		console.log('lightboxing');
         event.preventDefault();
         this.setState({currentImage: index, lightboxIsOpen: true});
     }
@@ -184,7 +185,7 @@ class MySimpleMomentsView extends Component {
 
 
 			return (
-				<MomentView moment={moment} showDetail={false} key={moment.id} onClick={(event) => {this.openLightbox(i, event)}}/>)
+				<MomentView moment={moment} showDetail={false} key={moment.id} onClick={(e) => {console.log('open lightbox');this.openLightbox(i, e) } }/>)
 
 			})
 		}else{
@@ -219,7 +220,7 @@ class MySimpleMomentsView extends Component {
 									style={{backgroundColor:'#383737'}}
 									title={<span className='brand'>{currentMemory.title}</span>}
 									primary={true}
-									iconElementLeft={''}/>
+									iconElementLeft={<span style={{width:'20px',height:'50px'}}></span>}/>
 
 				<div className={'momentsContainer'}>
 
