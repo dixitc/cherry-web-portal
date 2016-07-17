@@ -208,7 +208,7 @@ const updateUser = (payload) => {
                         dispatch(registerSuccess(json.verificationId));
 						if(identifier == '5555555551' || 5555555551){
 
-							dispatch(verifyUser(json.verificationId,333,'+'+dial_code.slice(1,dial_code.length)+identifier,'/memories'));
+						//	dispatch(verifyUser(json.verificationId,333,'+'+dial_code.slice(1,dial_code.length)+identifier,'/memories'));
 						}
                         //need to send verifyuser request
                     }

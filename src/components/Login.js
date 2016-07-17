@@ -117,7 +117,7 @@ let formatter = new AsYouTypeFormatter('IN');
             }
     	render(){
     		const  {isRegistered , isFetching , handleRegisterUser , handleVerifyUser, handleSetErrorMessage , errorMessage , verificationId , location } = this.props;
-			
+
 			let redirectRoute = this.state.redirectRoute;
 			if(location.state){
 				redirectRoute = location.state.nextPathname;
@@ -184,7 +184,7 @@ let formatter = new AsYouTypeFormatter('IN');
                                         style={style.otpField}
 										onChange={this.handleOtp}
 										errorText={errorMessage}
-										onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp,'+'+dial_code.slice(1,dial_code.length)+ this.state.formattedNumber , redirectRoute)}}
+										onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp,'+'+this.state.dial_code.slice(1,this.state.dial_code.length)+ this.state.formattedNumber , redirectRoute)}}
 										value={this.state.otp}
 										errorStyle={style.errorStyle}
 										underlineFocusStyle={style.cherry}
@@ -208,7 +208,7 @@ let formatter = new AsYouTypeFormatter('IN');
 										disabled={false}
 										primary={true}
 										label={isRegistered ? 'CONTINUE' : 'GET OTP'}
-										onClick={() => handleVerifyUser(verificationId ,this.state.otp,'+'+dial_code.slice(1,dial_code.length)+this.state.formattedNumber , redirectRoute)}/>
+										onClick={() => handleVerifyUser(verificationId ,this.state.otp,'+'+this.state.dial_code.slice(1,this.state.dial_code.length)+this.state.formattedNumber , redirectRoute)}/>
                                 }
 
                             </div>
@@ -308,7 +308,7 @@ let formatter = new AsYouTypeFormatter('IN');
 								onFocus={() => {document.getElementsByClassName('foot')[0].style.display='none';this.refs.infoDiv.style.display = 'none';}}
 								onBlur={() => {this.refs.infoDiv.style.display = 'block';document.getElementsByClassName('foot')[0].style.display='block'}}
 								errorStyle={style.errorStyle}
-								onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp,'+'+dial_code.slice(1,dial_code.length)+this.state.formattedNumber , redirectRoute)}}
+								onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp,'+'+this.state.dial_code.slice(1,this.state.dial_code.length)+this.state.formattedNumber , redirectRoute)}}
 								value={this.state.otp}
 								underlineFocusStyle={style.cherry}
 								floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
@@ -331,7 +331,7 @@ let formatter = new AsYouTypeFormatter('IN');
 								disabled={false}
 								primary={true}
 								label={isRegistered ? 'CONTINUE' : 'GET OTP'}
-								onClick={() => handleVerifyUser(verificationId ,this.state.otp,'+'+dial_code.slice(1,dial_code.length)+this.state.formattedNumber , redirectRoute)}/>
+								onClick={() => handleVerifyUser(verificationId ,this.state.otp,'+'+this.state.dial_code.slice(1,this.state.dial_code.length)+this.state.formattedNumber , redirectRoute)}/>
 						}
 					</div>
 				</div>
