@@ -28,11 +28,11 @@
 	const MOMENTS_FINISHED_UPLOADING = 'MOMENTS_FINISHED_UPLOADING';
 	const IMAGE_FINISHED_UPLOADING = 'IMAGE_FINISHED_UPLOADING';
 
-	const CREATE_MEMORY = 'CREATE_MEMORY';
 
 	const TOGGLE_WEBLINK = 'TOGGLE_WEBLINK';
 	const SET_WEBLINK = 'SET_WEBLINK';
 
+	const CREATE_MEMORY = 'CREATE_MEMORY';
 	const CREATE_MEMORY_SUCCESS = 'CREATE_MEMORY_SUCCESS';
 	const CREATE_MEMORY_FAIL = 'CREATE_MEMORY_FAIL';
 
@@ -289,6 +289,13 @@ const updateUser = (payload) => {
 		}
 	}
 
+	const createMemorySuccess = (data) => {
+		return {
+			type: CREATE_MEMORY_SUCCESS,
+			data: data
+		}
+	}
+
 
     const verifyUser = (id,otp,identifier,redirectRoute) => {
 		let gaPayload = {
@@ -513,6 +520,7 @@ const updateUser = (payload) => {
 		fetchMemories,
 		likeMoment,
 		createMemory,
+		createMemorySuccess,
 		toggleWebLink,
 		setWebLink,
 		addMoments,

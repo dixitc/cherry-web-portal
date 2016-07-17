@@ -117,6 +117,7 @@ let formatter = new AsYouTypeFormatter('IN');
             }
     	render(){
     		const  {isRegistered , isFetching , handleRegisterUser , handleVerifyUser, handleSetErrorMessage , errorMessage , verificationId , location } = this.props;
+			
 			let redirectRoute = this.state.redirectRoute;
 			if(location.state){
 				redirectRoute = location.state.nextPathname;

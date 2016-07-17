@@ -9,6 +9,7 @@ const initAuth = {
     isFetching: false,
     didInvalidate: false,
     isRegistered: false,
+	isAnonymous : false,
     lastUpdated: null,
 	errorMessage : '',
     verificationId:'',
@@ -69,8 +70,9 @@ const authReducer = (state = initAuth, action) => {
             //console.log("reducer: authReducer VERIFY_USER");
             return state;
         case 'VERIFY_SUCCESS':
-            //console.log("reducer: authReducer VERIFY_SUCCESS");
+            console.log("reducer: authReducer VERIFY_SUCCESS");
             //set user and authToken on success
+			console.log(action.data.profile.name ? "asdf" : "fdsa");
             return Object.assign({} , state , {
             	isFetching : false,
             	isAuthenticated : true,

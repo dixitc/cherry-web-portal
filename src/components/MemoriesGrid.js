@@ -5,7 +5,7 @@ import ReactGridLayout from 'react-grid-layout';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import {connect} from 'react-redux';
 import IconButton from 'material-ui/IconButton';
-import { fetchMemories , createMemory , setTitle} from '../actions/actions';
+import { fetchMemories , createMemory , setTitle , logOutUser} from '../actions/actions';
 import MemoryView from './MemoryView';
 import MemoryGridView from './MemoryGridView';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
@@ -228,7 +228,7 @@ class MyMemoriesGrid extends Component {
 		}
 	}
 	render(){
-		const{ memories , title , auth } = this.props;
+		const{ memories , title , auth , handleLogout} = this.props;
 		const layout = {
 			lg : []
 		};
@@ -482,7 +482,10 @@ const mapDispatchToProps = (dispatch) => {
 		},
         handleSetTitle: (title) => {
             dispatch(setTitle(title))
-        }
+        },
+		handleLogout : () => {
+			dispatch(logOutUser());
+		}
 	}
 }
 

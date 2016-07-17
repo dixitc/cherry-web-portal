@@ -38,7 +38,17 @@ const memoriesReducer = (state = initState, action) => {
 			})
 			//return state;
 		case 'CREATE_MEMORY_SUCCESS':
-			return state;
+
+			console.log('reducer: memoriesReducer CREATE_MEMORY_SUCCESS');
+			console.log(action);
+			console.log(state.memories);
+			return Object.assign({}, state, {
+		           memories: [
+		             ...state.memories,
+		            action.data.data
+		           ]
+			   })
+			   //return state;
 		case 'CREATE_MEMORY_FAIL':
 			return state;
 		case 'SET_WEBLINK':

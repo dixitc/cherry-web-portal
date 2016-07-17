@@ -529,6 +529,7 @@ function* createMemory(action){
 		console.log(createMemoryResponse.moments);
 		yield call(publishMomentsApi , {momentIds:momentIds,memoryId:action.data.memory.id})
 	}
+	yield put(actions.createMemorySuccess(createMemoryResponse))
 
 }
 
