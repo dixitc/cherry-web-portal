@@ -328,11 +328,11 @@ const updateUser = (payload) => {
 						}
 						customGa.event(gaPayload);
 						if(redirectRoute == ''){
-							hashHistory.replace('/memories');
+						//	hashHistory.replace('/memories');
 						}else{
 							console.log('redirectRoute');
 							console.log(redirectRoute);
-							hashHistory.replace(redirectRoute);
+					//		hashHistory.replace(redirectRoute);
 						}
                     } else {
 						console.log('CHECK ERROR MESSAGE');

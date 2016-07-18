@@ -13,7 +13,9 @@ import Paper from 'material-ui/Paper';
 import style from '../styles/Login';
 import MediaQuery from 'react-responsive';
 import FlatButton from 'material-ui/FlatButton';
-
+import Avatar from 'material-ui/Avatar';
+import FileFolder from 'material-ui/svg-icons/file/folder';
+import FontIcon from 'material-ui/FontIcon';
 
 let AsYouTypeFormatter = require('google-libphonenumber').AsYouTypeFormatter;
 let formatter = new AsYouTypeFormatter('IN');
@@ -49,6 +51,7 @@ let formatter = new AsYouTypeFormatter('IN');
 					redirectRoute : '/memories',
                     dial_code: '+91',
                     countryCode: 87,
+					avatarFile : '',
                     formattedNumber: '',
 					otp:'',
 					testCount : 0
@@ -131,7 +134,48 @@ let formatter = new AsYouTypeFormatter('IN');
 
                     <Paper style={style.paper} zDepth={1}>
                     <div >
+						{this.props.isAnonymous &&
+							<div>
+							<div style={style.wrapperDiv}>
 
+								  <Avatar size={40} style={{display:'block',margin:'auto'}} icon={<FontIcon className="muidocs-icon-communication-voicemail" />} >
+									  <input style={style.avatarInput} type='file' accept='image/*' />
+									  </Avatar>
+								<div  style={style.inlineDiv}>
+									<TextField hintText={this.state.formattedNumber.length ? 'Enter your name' : ''}
+										style={style.otpField}
+										onChange={this.handleOtp}
+										errorText={errorMessage}
+										onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp,'+'+this.state.dial_code.slice(1,this.state.dial_code.length)+ this.state.formattedNumber , redirectRoute)}}
+										value={this.state.otp}
+										errorStyle={style.errorStyle}
+										underlineFocusStyle={style.cherry}
+										floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
+										floatingLabelText="Username"
+										id="otpText"
+									/>
+								</div>
+							</div>
+							<div>
+
+								{isFetching &&
+
+									<CircularProgress size={0.8}/>
+								}
+								{!isFetching &&
+
+									<RaisedButton
+										style={style.button}
+										labelColor='white'
+										disabled={false}
+										primary={true}
+										label={isRegistered ? 'CONTINUE' : 'GET OTP'}
+										onClick={() => handleVerifyUser(verificationId ,this.state.otp,'+'+this.state.dial_code.slice(1,this.state.dial_code.length)+this.state.formattedNumber , redirectRoute)}/>
+								}
+
+							</div>
+						</div>
+						}
 
                         {!isRegistered &&
 
@@ -359,10 +403,11 @@ let formatter = new AsYouTypeFormatter('IN');
 
     const mapStateToProps = (state) => {
     	const { auth } = state;
-    	const{ isRegistered , errorMessage , isFetching , verificationId } = auth;
+    	const{ isRegistered , errorMessage , isFetching , isAnonymous , verificationId } = auth;
 
     	return {
     		isRegistered,
+			isAnonymous,
     		errorMessage,
     		isFetching,
             verificationId

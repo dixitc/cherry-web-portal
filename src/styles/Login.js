@@ -18,6 +18,17 @@ const style = {
 	container: {
 		position: 'relative',
 	},
+	avatarInput : {
+		position: 'relative',
+	    
+	    width: '100%',
+	    height: '100%',
+	    cursor: 'pointer',
+
+	    filter:'alpha(opacity: 0)',
+	    opacity: '0',
+	    zIndex: '9'
+	},
 	refresh: {
 		display: 'block',
 		position: 'relative',

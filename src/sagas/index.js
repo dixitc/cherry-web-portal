@@ -37,7 +37,7 @@ function* fetchMemories(action){
 		console.log('LOGGING CACHE MEMORIES');
 		//console.log(response);
 		if (!response) {
-			throw Error("No data");
+			throw Error('No data');
 		}
 		return response.json();
   	}).then((data) => {

@@ -49,7 +49,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 class MyMemoriesGrid extends Component {
 	constructor(props) {
 		props = {
-		    className: "layout",
+		    className: 'layout',
 		    rowHeight: 300,
 		    cols: {
 		        lg: 12,

@@ -25,6 +25,7 @@ import Paper from 'material-ui/Paper';
 import Badge from 'material-ui/Badge';
 import Done from 'material-ui/svg-icons/action/done';
 import Clear from 'material-ui/svg-icons/content/clear';
+import AddPhoto from 'material-ui/svg-icons/image/add-a-photo';
 import Link from 'material-ui/svg-icons/content/link';
 //import DropzoneComponent from 'react-dropzone-component/lib/react-dropzone';
 let Dropzone = require('react-dropzone');
@@ -498,7 +499,7 @@ closeMemberView = () => {
    label="Share"
 	data-action="share/whatsapp/share"
 	    linkButton={true}
-	href={currentMemory.webLink ? "whatsapp://send?text="+location.origin+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode : ''}
+	href={currentMemory.webLink ? 'whatsapp://send?text='+location.origin+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode : ''}
    primary={true}
 	disabled={currentMemory.webLink ? !currentMemory.webLink.enabled : true}
    />,
@@ -674,7 +675,7 @@ let myLinkElement;
 					{!uploaderStatus.isUploading &&
 
 						<FloatingActionButton style={window.innerWidth < 400 ? {position:'fixed',bottom:'10px',right:'20px',zIndex:'9'}:{position:'fixed',bottom:'60px',right:'40px',zIndex:'9'}} zDepth={2} onTouchTap={this.handleOpen}>
-							<ContentAdd tooltip={'add moments'} />
+							<AddPhoto tooltip={'add moments'} />
 						</FloatingActionButton>
 					}
 					<MediaQuery minWidth={400}>
