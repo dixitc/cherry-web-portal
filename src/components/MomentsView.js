@@ -491,22 +491,12 @@ closeMemberView = () => {
 
    const weblinkActions = [
    <FlatButton
-   label="Share"
+   	label="Share"
 	data-action="share/whatsapp/share"
-	    linkButton={true}
-	href={currentMemory.webLink ? 'whatsapp://send?text='+location.origin+location.pathname+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode : ''}
-   primary={true}
+	linkButton={true}
+	href={currentMemory.webLink ? 'whatsapp://send?text='+location.origin+location.pathname+'#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode : ''}
+   	primary={true}
 	disabled={currentMemory.webLink ? !currentMemory.webLink.enabled : true}
-   />,
-   <FlatButton
-   label="Copy"
-   primary={true}
-
-
-   disabled={currentMemory.webLink ? !currentMemory.webLink.enabled : true}
-   onClick={() => { if (window.clipboardData) { // Internet Explorer
-        window.clipboardData.setData('Text', 'text');
-    }}}
    />
 
    ];
@@ -602,7 +592,7 @@ let myLinkElement;
 
 	{currentMemory.webLink && currentMemory.webLink.enabled &&
 
-		<Subheader style={{wordWrap:'break-word',padding:'10px',lineHeight:'20px'}}>{location.origin+location.pathname+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode}</Subheader>
+		<Subheader style={{wordWrap:'break-word',padding:'10px',lineHeight:'20px'}}>{location.origin+location.pathname+'#/memories/public/'+encodeURIComponent(currentMemory.title)+'/'+currentMemory.webLink.shortCode}</Subheader>
 	}
 
 </Dialog>
