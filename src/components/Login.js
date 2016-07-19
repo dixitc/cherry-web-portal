@@ -1,7 +1,7 @@
 
 import React , {Component , PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {registerRequest ,registerUser, setErrorMessage , verifyUser } from '../actions/actions';
+import {registerRequest ,registerUser, setErrorMessage , verifyUser , updateUser } from '../actions/actions';
 import cc from '../constants/country-codes';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -16,6 +16,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import FileFolder from 'material-ui/svg-icons/file/folder';
 import FontIcon from 'material-ui/FontIcon';
+let Dropzone = require('react-dropzone');
 
 let AsYouTypeFormatter = require('google-libphonenumber').AsYouTypeFormatter;
 let formatter = new AsYouTypeFormatter('IN');
@@ -54,12 +55,16 @@ let formatter = new AsYouTypeFormatter('IN');
 					avatarFile : '',
                     formattedNumber: '',
 					otp:'',
+					username:'',
 					testCount : 0
 				};
 
                 this.handleChange = this.handleChange.bind(this);
                 this.altHandleChange = this.altHandleChange.bind(this);
+                this.onDrop = this.onDrop.bind(this);
                 this.handleOtp = this.handleOtp.bind(this);
+                this.handleAvatar = this.handleAvatar.bind(this);
+                this.handleUserName = this.handleUserName.bind(this);
                 this.setDialCode = this.setDialCode.bind(this);
             }
             formatNumber(number) {
@@ -73,6 +78,33 @@ let formatter = new AsYouTypeFormatter('IN');
 			handleOtp(e){
 				this.props.handleSetErrorMessage('');
 				this.setState({otp:e.target.value});
+			}
+			handleAvatar(e){
+				console.log(e);
+				console.log(e.target.value);
+				this.setState({avatarFile:e.target.value});
+			}
+			handleUserName(e){
+				this.props.handleSetErrorMessage('');
+				this.setState({username:e.target.value});
+			}
+			onDrop = (file) => {
+				console.log('FILES');
+				console.log(file);
+
+				//manually checking and restricting file type , more efficient implementation ?
+				/*let curatedFiles = files.filter((file) => {
+					if(file.type.split('/')[1] == 'jpeg' || file.type.split('/')[1] == 'png' || file.type.split('/')[1] == 'gif' || file.type.split('/')[1] == 'webm'){
+						file.imageSrc =  file.preview;
+						file.isSelected = true;
+						return file;
+					}
+				}) */
+				//console.log(curatedFiles);
+
+
+					this.setState({avatarFile : file[0]})
+
 			}
 			altHandleChange(e){
 				this.props.handleSetErrorMessage('');
@@ -119,8 +151,11 @@ let formatter = new AsYouTypeFormatter('IN');
                 formatter = new AsYouTypeFormatter((cc[index].code).toString());
             }
     	render(){
-    		const  {isRegistered , isFetching , handleRegisterUser , handleVerifyUser, handleSetErrorMessage , errorMessage , verificationId , location } = this.props;
-
+    		const  {isRegistered , isFetching , handleRegisterUser , handleUpdateUser ,handleVerifyUser, handleSetErrorMessage , errorMessage , verificationId , location , profile } = this.props;
+			if(profile.name){
+				console.log(profile.name);
+				//this.setState({username : profile.name})
+			}
 			let redirectRoute = this.state.redirectRoute;
 			if(location.state){
 				redirectRoute = location.state.nextPathname;
@@ -133,26 +168,30 @@ let formatter = new AsYouTypeFormatter('IN');
 
 
                     <Paper style={style.paper} zDepth={1}>
-                    <div >
-						{this.props.isAnonymous &&
+                    <div>
+						{isRegistered && this.props.isAnonymous &&
 							<div>
 							<div style={style.wrapperDiv}>
 
-								  <Avatar size={40} style={{display:'block',margin:'auto'}} icon={<FontIcon className="muidocs-icon-communication-voicemail" />} >
-									  <input style={style.avatarInput} type='file' accept='image/*' />
+								  <Avatar style={{display:'block',margin:'auto'}} src={this.state.avatarFile ? this.state.avatarFile.preview : ''}>
+									  <Dropzone onDrop={this.onDrop} style={{width:'100%',height:'100%'}} accept={'image/*'} multiple={false}>
+					  					  <div className={"filepicker dropzone dz-clickable dz-started"} style={{border:'none',background:'transparent'}}>
+
+					  					  </div>
+					  		            </Dropzone>
 									  </Avatar>
 								<div  style={style.inlineDiv}>
-									<TextField hintText={this.state.formattedNumber.length ? 'Enter your name' : ''}
+									<TextField hintText={this.props.profile.name ? this.props.profile.name : 'Enter a username'}
 										style={style.otpField}
-										onChange={this.handleOtp}
+										onChange={this.handleUserName}
 										errorText={errorMessage}
-										onEnterKeyDown={() => {handleVerifyUser(verificationId ,this.state.otp,'+'+this.state.dial_code.slice(1,this.state.dial_code.length)+ this.state.formattedNumber , redirectRoute)}}
-										value={this.state.otp}
+										onEnterKeyDown={() => {handleUpdateUser(this.state.username,this.state.avatarFile)}}
+										value={this.state.username}
 										errorStyle={style.errorStyle}
 										underlineFocusStyle={style.cherry}
 										floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
 										floatingLabelText="Username"
-										id="otpText"
+										id="nameText"
 									/>
 								</div>
 							</div>
@@ -169,8 +208,8 @@ let formatter = new AsYouTypeFormatter('IN');
 										labelColor='white'
 										disabled={false}
 										primary={true}
-										label={isRegistered ? 'CONTINUE' : 'GET OTP'}
-										onClick={() => handleVerifyUser(verificationId ,this.state.otp,'+'+this.state.dial_code.slice(1,this.state.dial_code.length)+this.state.formattedNumber , redirectRoute)}/>
+										label={'update'}
+										onClick={() => handleUpdateUser({name : this.state.username,image : this.state.avatarFile})}/>
 								}
 
 							</div>
@@ -218,7 +257,7 @@ let formatter = new AsYouTypeFormatter('IN');
                         </div>
                         }
 
-                        {isRegistered &&
+                        {isRegistered && !this.props.isAnonymous &&
                             <div>
                             <div style={style.wrapperDiv}>
 
@@ -292,6 +331,52 @@ let formatter = new AsYouTypeFormatter('IN');
 
 			<Paper style={style.smallPaper} zDepth={1}>
 			<div >
+				{isRegistered && this.props.isAnonymous &&
+					<div>
+					<div style={style.wrapperDiv}>
+
+						  <Avatar style={{display:'block',margin:'auto'}} src={this.state.avatarFile ? this.state.avatarFile.preview : ''}>
+							  <Dropzone onDrop={this.onDrop} style={{width:'100%',height:'100%'}} accept={'image/*'} multiple={false}>
+								  <div className={"filepicker dropzone dz-clickable dz-started"} style={{border:'none',background:'transparent'}}>
+
+								  </div>
+								</Dropzone>
+							  </Avatar>
+						<div  style={style.inlineDiv}>
+							<TextField hintText={this.props.profile.name ? this.props.profile.name : 'Enter a username'}
+								style={style.otpField}
+								onChange={this.handleUserName}
+								errorText={errorMessage}
+								onEnterKeyDown={() => {handleUpdateUser(this.state.username,this.state.avatarFile)}}
+								value={this.state.username}
+								errorStyle={style.errorStyle}
+								underlineFocusStyle={style.cherry}
+								floatingLabelStyle={(errorMessage) ? style.cherry : style.red}
+								floatingLabelText="Username"
+								id="nameText"
+							/>
+						</div>
+					</div>
+					<div>
+
+						{isFetching &&
+
+							<CircularProgress size={0.6}/>
+						}
+						{!isFetching &&
+
+							<RaisedButton
+								style={style.button}
+								labelColor='white'
+								disabled={false}
+								primary={true}
+								label={'update'}
+								onClick={() => handleUpdateUser({name : this.state.username,image : this.state.avatarFile})}/>
+						}
+
+					</div>
+				</div>
+				}
 				{!isRegistered &&
 					<div>
 					<div style={style.wrapperDiv}>
@@ -403,14 +488,15 @@ let formatter = new AsYouTypeFormatter('IN');
 
     const mapStateToProps = (state) => {
     	const { auth } = state;
-    	const{ isRegistered , errorMessage , isFetching , isAnonymous , verificationId } = auth;
+    	const{ isRegistered , errorMessage , isFetching , isAnonymous , verificationId , profile } = auth;
 
     	return {
     		isRegistered,
 			isAnonymous,
     		errorMessage,
     		isFetching,
-            verificationId
+            verificationId,
+			profile
 
     	}
     }
@@ -439,6 +525,9 @@ let formatter = new AsYouTypeFormatter('IN');
     		},
     		handleSetErrorMessage : (msg) => {
     			dispatch(setErrorMessage(msg))
+    		},
+    		handleUpdateUser : (data) => {
+    			dispatch(updateUser(data))
     		}
     	}
     }

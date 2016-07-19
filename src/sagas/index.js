@@ -266,17 +266,21 @@ function updateUserInfoApi(params){
 	const token = user.authToken;
 
 	console.log(params);
+	console.log(user);
+	let data = new FormData()
+	data.append('image', params.image)
+	data.append('name' , params.name)
+	data.append('returnImage', 'true')
 
-	const url = apiUrl+'/v1/profile/'+params.userId+'/updateUserInfo.json';
+	const url = apiUrl+'/v1/profile/'+user.profile.id+'/updateUserInfo.json';
 	const myHeaders = new Headers({
-	    'authToken': token,
-	    'Content-Type': 'application/x-www-form-urlencoded'
+	    'authToken': token
 
 	});
 	let config = {
 		method : 'POST',
 		headers : myHeaders,
-		body: 'momentIds=' + params.momentIds
+		body: data
 	}
 	return fetch(url,config)
 	.then((response) => response.json())
@@ -379,8 +383,8 @@ function getUser(){
 	return JSON.parse(localStorage.getItem('cherryToken'))
 }
 
-function setUser(action){
-	localStorage.setItem('cherryToken',JSON.stringify(action.data));
+function setUser(updatedUser){
+	localStorage.setItem('cherryToken',JSON.stringify(updatedUser));
 }
 
 
@@ -487,16 +491,34 @@ function* toggleWebLink(action){
 	//return action.data.moment;
 }
 
+
+//a function that handles cleanup after LOGOUT_USER is called
+function* updateUser(action){
+	console.log('sagas : updateUser');
+	console.log(action.data);
+	let updateUserResponse =	yield call(updateUserInfoApi , action.data);
+	let user  = getUser();
+	user.profile.name = action.data.name;
+	user.profile.photo = updateUserResponse.imageUrl;
+	console.log(user);
+	setUser(user)
+	console.log(updateUserResponse);
+	hashHistory.push('/memories');
+//	yield put(actions.setWebLink( {memoryId : action.data.memoryId , shortCode : shortCode , enabled : enabled}))
+	//return action.data.moment;
+}
+
 //a function that handles cleanup after LOGOUT_USER is called
 function* createMemory(action){
 	const user = getUser();
 	console.log('sagas : createMemory');
 	console.log(action.data.moments);
+	console.log(user);
 	const  payload = {};
 	payload.memory = action.data.memory;
 	//const files = action.data.files
 	payload.memory.members = [{
-		identifier : '%2b'+'915555555551',
+		identifier : user.profile.identifier,
 		addedBy:user.profile.id,
 		permission:'ADMIN',
 		profile : {
@@ -598,6 +620,12 @@ function* watchToggleWebLink(){
 	yield* takeEvery('TOGGLE_WEBLINK', toggleWebLink);
 }
 
+//watcher function for updating user info at signup for now
+function* watchUpdateUser(){
+	console.log('updating ingo ');
+	yield* takeEvery('UPDATE_USER', updateUser);
+}
+
 //watcher function for like some Moment
 /* function* watchUploadImage(){
 	yield* take('UPLOAD_IMAGE', uploadImage);
@@ -612,6 +640,7 @@ export default function* root() {
   , watchFetchPublicMoments()
   , watchVerifySuccess()
   , watchLogOut()
+  , watchUpdateUser()
   , watchToggleWebLink()
   , watchFetchMoments()
   , watchCreateMemory()

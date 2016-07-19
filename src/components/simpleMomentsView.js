@@ -196,6 +196,7 @@ class MySimpleMomentsView extends Component {
 		if(this.state.lightboxIsOpen){
 
 			simpleLightBox =  <Lightbox
+				discourageDownloads={false}
 				mainSrc={images[this.state.currentImage % images.length].src}
 				nextSrc={images[((this.state.currentImage + 1) % images.length)].src}
 				prevSrc={images[((this.state.currentImage + images.length - 1) % images.length)].src}
@@ -215,7 +216,7 @@ class MySimpleMomentsView extends Component {
 				{currentMemory.isPresent &&
 					<div>
 								<AppBar
-									style={{zIndex:2}}
+									style={{zIndex:'2'}}
 									className={'smooth-transit'}
 									style={{backgroundColor:'#383737'}}
 									title={<span className='brand'>{currentMemory.title}</span>}

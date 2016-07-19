@@ -416,6 +416,8 @@ closeMemberView = () => {
 
 		let newFiles = this.state.files;
 		newFiles[index].isSelected = !newFiles[index].isSelected;
+		//here you make the choice to keep or get rid of previously selected files
+		//right now we get rid of previous files and only keep the new files
 		this.setState({files:newFiles})
 		e.stopPropagation();
     	e.nativeEvent.stopImmediatePropagation();
@@ -465,14 +467,7 @@ closeMemberView = () => {
 		//populating moments
 	    const momentChildren =   moments.moments.map((moment, i) => {
 
-	            return (<MomentView moment={moment} showDetail={true} key={moment.id} onTouchStart={(event) => {this.onTouchStart(moment.imageUrl+'&mom=true', event)}}
-				 onClick={(e) => {console.log('open lightbox');this.openLightbox(i, e) }}
-				onTouchEnd={(event) => {this.onTouchEnd(moment.src, event)}}
-				 handleLikeCLick={() => handleLike({
-	                memoryId: moment.memoryId,
-	                momentId: moment.id,
-	                like: !moment.hasLiked
-	            })}/>)
+	            return (<MomentView moment={moment} showDetail={true} style={{zIndex:'1000'}} key={moment.id} onClick={(e) => {this.openLightbox(i, e) }} handleLikeCLick={() => handleLike({memoryId: moment.memoryId,momentId: moment.id,like: !moment.hasLiked})}/>)
 
 	        })
 
@@ -499,7 +494,7 @@ closeMemberView = () => {
    label="Share"
 	data-action="share/whatsapp/share"
 	    linkButton={true}
-	href={currentMemory.webLink ? 'whatsapp://send?text='+location.origin+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode : ''}
+	href={currentMemory.webLink ? 'whatsapp://send?text='+location.origin+location.pathname+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode : ''}
    primary={true}
 	disabled={currentMemory.webLink ? !currentMemory.webLink.enabled : true}
    />,
@@ -534,15 +529,17 @@ let myLinkElement;
 				<MediaQuery maxWidth={400}>
 
 					<AppBar
+						className={'smooth-transit'}
 						style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35',boxShadow:'none'}}
 						titleStyle={{height:'60px'}}
-						className={'smooth-transit'}
 						title={<span className='brand'>{currentMemory.title}</span>}
 						primary={true}
 
 						iconElementLeft={myIconElement}
 
-							   iconElementRight={<IconButton onClick={this.openWeblinkNew}><Link color={currentMemory.webLink && currentMemory.webLink.enabled ? '#FF5722':'white'} /> </IconButton>}
+							   iconElementRight={<IconButton onClick={this.openWeblinkNew}>
+							   <Link color={'#FF5722'} />
+						   </IconButton>}
 						/>
 
 
@@ -550,9 +547,9 @@ let myLinkElement;
 				</MediaQuery>
 				<MediaQuery minWidth={400}>
 					<AppBar
+						className={'smooth-transit'}
 						style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35'}}
 						titleStyle={{height:'60px'}}
-						className={'smooth-transit'}
 						title={<span className='brand'>{currentMemory.title}</span>}
 						primary={true}
 
@@ -605,7 +602,7 @@ let myLinkElement;
 
 	{currentMemory.webLink && currentMemory.webLink.enabled &&
 
-		<Subheader style={{wordWrap:'break-word',padding:'10px',lineHeight:'20px'}}>{location.origin+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode}</Subheader>
+		<Subheader style={{wordWrap:'break-word',padding:'10px',lineHeight:'20px'}}>{location.origin+location.pathname+'/#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode}</Subheader>
 	}
 
 </Dialog>
@@ -694,28 +691,10 @@ let myLinkElement;
 
 
 	                        </GridTile>
+							{momentChildren}
 						</GridList>
 
 
-						<ResponsiveReactGridLayout
-							className={'layout'}
-							rowHeight={this.state.currentRowHeight}
-							margin = {[this.state.Xmargin , this.state.Ymargin]}
-							breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-							cols={{lg: 16, md: 12, sm: 12, xs: 1, xxs: 1}}
-							onBreakpointChange={this.breakPointChanged}
-							isDraggable={false}>
-
-
-							{moments.moments.map((moment , i) => {
-								return (
-									<div onClick={(event) => {this.openLightbox(i, event)}} key={moment.id}  _grid={this.generateDimensions(i , this.state.currentBreakpoint)} style={{backgroundImage:'url('+moment.imageUrl+')',cursor:'pointer'}} className='center-cropped'>
-
-									</div>
-								)
-							})}
-
-						</ResponsiveReactGridLayout>
 					</MediaQuery>
 					<MediaQuery maxWidth={600}>
 						<GridList cols={3} padding={2} cellHeight={100} style={styles.gridList}>

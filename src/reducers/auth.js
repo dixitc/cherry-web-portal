@@ -13,7 +13,7 @@ const initAuth = {
     lastUpdated: null,
 	errorMessage : '',
     verificationId:'',
-    profile: myToken ? myToken.profile : {}
+    profile: myToken ? myToken.profile : {name:'',photo:''}
 }
 
 
@@ -73,9 +73,10 @@ const authReducer = (state = initAuth, action) => {
             console.log('reducer: authReducer VERIFY_SUCCESS');
             //set user and authToken on success
 			console.log(action.data.profile.name ? 'asdf' : 'fdsa');
+			let truth = action.data.profile.name ? false : true;
             return Object.assign({} , state , {
             	isFetching : false,
-				isAnonymous : true,
+				isAnonymous : truth,
             	isAuthenticated : true,
             	authToken : action.data.authToken,
             	profile : action.data.profile,

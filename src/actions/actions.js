@@ -327,12 +327,15 @@ const updateUser = (payload) => {
 							action:'VERIFY_SUCCESS'
 						}
 						customGa.event(gaPayload);
-						if(redirectRoute == ''){
-						//	hashHistory.replace('/memories');
-						}else{
-							console.log('redirectRoute');
-							console.log(redirectRoute);
-					//		hashHistory.replace(redirectRoute);
+						if(json.profile.name){
+
+							if(redirectRoute == ''){
+									hashHistory.replace('/memories');
+							}else{
+								console.log('redirectRoute');
+								console.log(redirectRoute);
+										hashHistory.replace(redirectRoute);
+							}
 						}
                     } else {
 						console.log('CHECK ERROR MESSAGE');

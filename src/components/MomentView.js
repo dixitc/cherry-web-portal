@@ -60,10 +60,8 @@ const MomentView = ({ moment , handleLikeCLick ,onTouchStart,onTouchEnd, onClick
 			cols={1}
 			rows={1}
 			key={moment.id}
-
-			onTouchStart={onTouchStart}
-			onTouchMove={onTouchMove}
-			onTouchEnd={onTouchEnd}
+			onClick={onClick}
+		
 			title={
 
 		<ListItem
