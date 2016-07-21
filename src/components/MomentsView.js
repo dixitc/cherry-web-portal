@@ -434,6 +434,7 @@ closeMemberView = () => {
             let rObj = {};
 			if(moment.image){
 				if(moment.imageUrl && window.innerWidth < 400){
+					console.log('on a mobile screen');
 					var a = moment.imageUrl
 					var b = a.split('sz=w');
 					var c = b[1].split('&');

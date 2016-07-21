@@ -171,14 +171,29 @@ class MySimpleMomentsView extends Component {
 
 		let momentChildren;
 
-		//Populating Lightbox
 		let images = moments.moments.map((moment) => {
-			let rObj = {};
-			rObj['src'] = moment.image.CURRENT_IMAGE;
-			rObj['owner'] = moment.owner.name;
+            let rObj = {};
+			if(moment.image){
+				if(moment.imageUrl && window.innerWidth < 400){
+					console.log('on a mobile screen');
+					var a = moment.imageUrl
+					var b = a.split('sz=w');
+					var c = b[1].split('&');
+					c[0] = window.innerWidth;
+					b[1] = c.join('&');
+					rObj['src'] = b.join('sz=w')
+				}else{
 
-			return rObj;
-		});
+					rObj['src'] = moment.image.CURRENT_IMAGE;
+				}
+			}
+			if(moment.owner){
+				rObj['owner'] = moment.owner.name;
+			}
+
+            return rObj;
+        });
+
 		if(moments.moments){
 			//populating moments
 			 momentChildren = moments.moments.map((moment, i) => {
@@ -216,11 +231,11 @@ class MySimpleMomentsView extends Component {
 				{currentMemory.isPresent &&
 					<div>
 								<AppBar
-									style={{zIndex:'2'}}
 									className={'smooth-transit'}
-									style={{backgroundColor:'#383737'}}
+									style={{backgroundColor:'#383737',zIndex:'2'}}
 									title={<span className='brand'>{currentMemory.title}</span>}
 									primary={true}
+
 									iconElementLeft={<span style={{width:'20px',height:'50px'}}></span>}/>
 
 				<div className={'momentsContainer'}>
