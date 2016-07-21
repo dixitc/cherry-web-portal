@@ -28,12 +28,12 @@ module.exports = {
   module: {
 	  	noParse: ['/node_modules/google-libphonenumber/dist/*'],
 		loaders: [
-				{
-					test: /\.js$/,
-					exclude: /node_modules/,
-					loaders: ['react-hot', 'babel'],
-					include: path.join(__dirname, 'src')
-				},  {
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loaders: ['react-hot', 'babel', WebpackStripLoader.loader('console.log')],
+				include: path.join(__dirname, 'src')
+			},   {
 					test: /\.(png|jpg)$/,
 					loader: 'url-loader?limit=8192',
 					include: path.join(__dirname, 'src/images')
