@@ -518,25 +518,25 @@ let myLinkElement;
         return (
             <div className={'momentsContainer'}>
 				<MediaQuery maxWidth={400}>
+					<Headroom style={{height:'60px'}}>
+						<AppBar
+							className={'smooth-transit'}
+							style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35',boxShadow:'none'}}
+							titleStyle={{height:'60px'}}
+							title={<span className='brand'>{currentMemory.title}</span>}
+							iconElementLeft={myIconElement}
+							iconElementRight={<IconButton onClick={this.openWeblinkNew} iconStyle={currentMemory.webLink && currentMemory.webLink.enabled ? {fill:'#FF5722'}:{fill:'white'}}>
+								<Link />
+							</IconButton>}
 
-					<AppBar
-						className={'smooth-transit'}
-						style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35',boxShadow:'none'}}
-						titleStyle={{height:'60px'}}
-						title={<span className='brand'>{currentMemory.title}</span>}
-						primary={true}
-
-						iconElementLeft={myIconElement}
-
-							   iconElementRight={<IconButton onClick={this.openWeblinkNew}>
-							   <Link color={'#FF5722'} />
-						   </IconButton>}
 						/>
 
-
-
+					</Headroom>
 				</MediaQuery>
+
+
 				<MediaQuery minWidth={400}>
+
 					<AppBar
 						className={'smooth-transit'}
 						style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35'}}
@@ -546,8 +546,8 @@ let myLinkElement;
 
 						iconElementLeft={myIconElement}
 
-						iconElementRight={ <IconButton className='smooth-transit' onClick={this.openWeblinkNew} >
-						<Link color={currentMemory.webLink && currentMemory.webLink.enabled ? '#FF5722':'white'}  />
+						iconElementRight={ <IconButton className='smooth-transit' onClick={this.openWeblinkNew} iconStyle={currentMemory.webLink && currentMemory.webLink.enabled ? {fill:'#FF5722'}:{fill:'white'}}>
+						<Link />
 					</IconButton>}
 					/>
 

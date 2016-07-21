@@ -53,8 +53,8 @@ class AuthenticatedComponent extends React.Component {
 		const { handleLogout , handleFetchMemories , memories , auth , title , uploaderStatus} = this.props;
 
 		const { currentMemory } = memories;
-		let myIconElement;
 		let myChildren;
+		let myIconElement;
 		if(title === 'Memories'){
 			myIconElement = <IconButton className='smooth-transit' style={{opacity:0,cursor:'default'}} ><ArrowBack /></IconButton>
 		}else{

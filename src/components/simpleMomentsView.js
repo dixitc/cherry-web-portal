@@ -20,6 +20,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ImageLoader from 'react-imageloader';
 import MediaQuery from 'react-responsive';
 import dummyImg from '../images/selfie-placeholder.jpg';
+import Headroom from 'react-headroom';
 
 const mystyle = {
 	listItem : {
@@ -230,13 +231,38 @@ class MySimpleMomentsView extends Component {
 			<div>
 				{currentMemory.isPresent &&
 					<div>
-								<AppBar
-									className={'smooth-transit'}
-									style={{backgroundColor:'#383737',zIndex:'2'}}
-									title={<span className='brand'>{currentMemory.title}</span>}
-									primary={true}
+						<MediaQuery maxWidth={400}>
+			<Headroom style={{height:'60px'}}>
+							<AppBar
+								className={'smooth-transit'}
+								style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35',boxShadow:'none'}}
+								titleStyle={{height:'60px'}}
+								title={<span className='brand'>{currentMemory.title}</span>}
+								primary={true}
 
-									iconElementLeft={<span style={{width:'20px',height:'50px'}}></span>}/>
+								iconElementLeft={<span style={{width:'20px',height:'50px'}}></span>}
+								/>
+
+						</Headroom>
+
+
+						</MediaQuery>
+						<MediaQuery minWidth={400}>
+
+							<AppBar
+								className={'smooth-transit'}
+								style={{zIndex:'10',height:'60px',position:'fixed',top:'0',backgroundColor:'#252B35'}}
+								titleStyle={{height:'60px'}}
+								title={<span className='brand'>{currentMemory.title}</span>}
+								primary={true}
+
+							iconElementLeft={<span style={{width:'20px',height:'50px'}}></span>}
+							/>
+
+
+
+					</MediaQuery>
+				
 
 				<div className={'momentsContainer'}>
 
