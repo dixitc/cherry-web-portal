@@ -7,7 +7,16 @@ import { browserHistory ,  hashHistory } from 'react-router';
 
 
 /************************APIS*******************/
-// NEED TO HANDLE ERROR STATES
+// NEED TO HANDLE ERROR STATES WITH SNACKBAR MESSAGES
+
+/*
+What is this ?
+
+official definition : redux-saga is a library that aims to make side effects
+ (i.e. asynchronous things like data fetching and impure things like accessing the browser cache) in React/Redux applications easier and better.
+
+Cherry handles all API calls here except for register and verify user OTP
+*/
 
 function fetchMemoriesApi (token) {
 	const url = apiUrl+'/v2/memory/allmemories.json';
@@ -534,8 +543,11 @@ function* createMemory(action){
 	}else{
 		payload.moments = []
 	}
+	//call uploader with uploadText creating memory
 	const createMemoryResponse = yield call(createMemoryApi , payload)
 	console.log(createMemoryResponse);
+
+	//in a perfect world should call addMoments either directly the function or action based on sagas best practice
 	if(createMemoryResponse.moments.length > 0){
 		yield createMemoryResponse.moments.map((moment,i) => call(uploadImage , {data:{moment:moment,momentId:moment.id,file:action.data.files[i]}}))
 		let momentIds = '';

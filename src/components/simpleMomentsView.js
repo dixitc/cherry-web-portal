@@ -214,8 +214,8 @@ class MySimpleMomentsView extends Component {
 			simpleLightBox =  <Lightbox
 				discourageDownloads={false}
 				mainSrc={images[this.state.currentImage % images.length].src}
-				nextSrc={images[((this.state.currentImage + 1) % images.length)].src}
-				prevSrc={images[((this.state.currentImage + images.length - 1) % images.length)].src}
+				nextSrc={this.state.currentImage + 1 == images.length  ? undefined :  images[((this.state.currentImage + 1) % images.length)].src}
+				prevSrc={this.state.currentImage == 0 ? undefined :  images[((this.state.currentImage + images.length - 1) % images.length)].src}
 				onMovePrevRequest={this.gotoPrevious}
 				onMoveNextRequest={this.gotoNext}
 				onCloseRequest={this.closeLightbox}/>
