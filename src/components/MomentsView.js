@@ -653,7 +653,8 @@ closeMemberView = () => {
 						prevSrc={this.state.currentImage == 0 ? undefined :  images[((this.state.currentImage + images.length - 1) % images.length)].src}
 						onMovePrevRequest={this.gotoPrevious}
 						onMoveNextRequest={this.gotoNext}
-						onCloseRequest={this.closeLightbox}/>
+						onCloseRequest={this.closeLightbox}
+						imageTitle={<span className={"light-text"}>{this.state.currentImage+1+'/'+images.length}</span>}/>
 				}
 
                 <div className={'full-width'}>
