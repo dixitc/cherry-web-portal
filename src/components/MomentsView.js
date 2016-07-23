@@ -322,11 +322,11 @@ closeMemberView = () => {
     gotoPrevious() {
 		if(this.state.currentImage !== 0){
 	        this.setState({
-
-					currentImage: this.state.currentImage - 1
-	        });
+				currentImage: this.state.currentImage - 1
+			});
 		}
-    }
+	}
+
     gotoNext() {
 		if(this.state.currentImage + 1 !== this.props.moments.moments.length){
 			this.setState({
@@ -429,7 +429,6 @@ closeMemberView = () => {
 		//Populating Lightbox
 		console.log('LOGGING MOMENTS ON RENDER');
 		console.log(moments.moments);
-		console.log(currentMemory);
         let images = moments.moments.map((moment) => {
             let rObj = {};
 			if(moment.image){
@@ -454,6 +453,8 @@ closeMemberView = () => {
         });
 
 
+		console.log(this.state.currentImage);
+		console.log(images.length);
 
 		if(currentMemory.isFullyLoaded){
 			bottomElement = <FlatButton label="No more moments" disabled={true} /> ;
@@ -467,53 +468,49 @@ closeMemberView = () => {
 
 		//populating moments
 	    const momentChildren =   moments.moments.map((moment, i) => {
+			return (<MomentView moment={moment} showDetail={true} style={{zIndex:'1000'}} key={moment.id} onClick={(e) => {this.openLightbox(i, e) }} handleLikeCLick={() => handleLike({memoryId: moment.memoryId,momentId: moment.id,like: !moment.hasLiked})}/>)
+		})
 
-	            return (<MomentView moment={moment} showDetail={true} style={{zIndex:'1000'}} key={moment.id} onClick={(e) => {this.openLightbox(i, e) }} handleLikeCLick={() => handleLike({memoryId: moment.memoryId,momentId: moment.id,like: !moment.hasLiked})}/>)
+		//imagesloader preloader
+		const preloader = () => {
+		  return <div style={{height:'100%',width:'100%'}}><CircularProgress /></div>;
+		}
 
-	        })
+		const actions = [
+			<FlatButton
+			label="Cancel"
+			primary={true}
+			onTouchTap={this.handleClose}
+			/>,
+			<FlatButton
+			disabled={this.state.files.length > 0 ? false : true}
+			label="Upload"
+			primary={true}
+			onClick={this.createAndUploadMoments}/>
+		];
 
-			//imagesloader preloader
-			const preloader = () => {
-			  return <div style={{height:'100%',width:'100%'}}><CircularProgress /></div>;
-			}
-			const actions = [
-	 <FlatButton
-	   label="Cancel"
-	   primary={true}
-	   onTouchTap={this.handleClose}
-	 />,
-	 <FlatButton
-		disabled={this.state.files.length > 0 ? false : true}
-	   label="Upload"
-	   primary={true}
-	   onClick={this.createAndUploadMoments}/>
+		const weblinkActions = [
+			<FlatButton
+			label="Share"
+			data-action="share/whatsapp/share"
+			linkButton={true}
+			href={currentMemory.webLink ? 'whatsapp://send?text='+location.origin+location.pathname+'#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode : ''}
+			primary={true}
+			disabled={currentMemory.webLink ? !currentMemory.webLink.enabled : true}
+			/>
+		];
 
-   ];
+		const componentConfig = {
+			iconFiletypes: ['.jpg', '.png', '.gif'],
+			showFiletypeIcon: true,
+			postUrl: null
+		};
 
-   const weblinkActions = [
-   <FlatButton
-   	label="Share"
-	data-action="share/whatsapp/share"
-	linkButton={true}
-	href={currentMemory.webLink ? 'whatsapp://send?text='+location.origin+location.pathname+'#/memories/public/'+currentMemory.title+'/'+currentMemory.webLink.shortCode : ''}
-   	primary={true}
-	disabled={currentMemory.webLink ? !currentMemory.webLink.enabled : true}
-   />
+		let myIconElement;
+		let myLinkElement;
 
-   ];
-
-   const componentConfig = {
-    iconFiletypes: ['.jpg', '.png', '.gif'],
-    showFiletypeIcon: true,
-    postUrl: null
-};
-let myIconElement;
-let myLinkElement;
-
-	myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
-	myLinkElement =  <IconButton onClick={this.openWeblink}>
-<Link />
-</IconButton>
+		myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
+		myLinkElement =  <IconButton onClick={this.openWeblink}><Link /></IconButton>
 
         return (
             <div className={'momentsContainer'}>
@@ -652,8 +649,8 @@ let myLinkElement;
                 {this.state.lightboxIsOpen &&
 					<Lightbox
 						mainSrc={images[this.state.currentImage % images.length].src}
-						nextSrc={images[((this.state.currentImage + 1) % images.length)].src}
-						prevSrc={images[((this.state.currentImage + images.length - 1) % images.length)].src}
+						nextSrc={this.state.currentImage + 1 == images.length  ? undefined :  images[((this.state.currentImage + 1) % images.length)].src}
+						prevSrc={this.state.currentImage == 0 ? undefined :  images[((this.state.currentImage + images.length - 1) % images.length)].src}
 						onMovePrevRequest={this.gotoPrevious}
 						onMoveNextRequest={this.gotoNext}
 						onCloseRequest={this.closeLightbox}/>
@@ -726,7 +723,7 @@ let myLinkElement;
 						</GridList>
 					</MediaQuery>
 
-					<div style={{marginBottom: 100,textAlign:'center'}}>
+					<div style={(window.innerWidth > 400) ? {marginBottom: '100px',textAlign:'center'} : {marginBottom: '45px',textAlign:'center'}}>
 						{bottomElement}
 					</div>
 

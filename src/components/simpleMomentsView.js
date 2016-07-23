@@ -262,7 +262,7 @@ class MySimpleMomentsView extends Component {
 
 
 					</MediaQuery>
-				
+
 
 				<div className={'momentsContainer'}>
 
@@ -357,7 +357,7 @@ class MySimpleMomentsView extends Component {
 			</MediaQuery>
 			{!currentMemory.isFetching &&
 
-				<div style={{marginBottom: 100,textAlign:'center'}}>
+				<div style={window.innerWidth > 400 ? {marginBottom: '100px',textAlign:'center'} : {marginBottom: '45px',textAlign:'center'}}>
 					{bottomElement}
 
 				</div>

@@ -219,7 +219,22 @@ class MyMemoriesGrid extends Component {
 			default:
 				x = 0;
 		}
+		if(window.innerWidth < 400){
+			console.log("dimensions");
+			console.log({
+				x : x,
+				y : (Math.floor(index/numOfElements)*rowHeight),
+				w : numOfCols/numOfElements,
+				h : rowHeight
+			});
+			return {
+				x : 0,
+				y : (Math.floor(index)*rowHeight),
+				w : numOfCols/numOfElements,
+				h : rowHeight
 
+			}
+		}
 		return {
 			x : x,
 			y : (Math.floor(index/numOfElements)*rowHeight),
@@ -252,7 +267,11 @@ if(title === 'Memories'){
 }else{
 	myIconElement = <IconButton className='smooth-transit' onClick={this.backToMemories}><ArrowBack /></IconButton>
 }
-		let memoryChildren = memories.memories.map((memory , i) => {
+let thesorted;
+thesorted = memories.memories.sort(function(x, y){
+	return y.time - x.time;
+});
+		let memoryChildren = thesorted.map((memory , i) => {
 
 			if(memory.coverUrl){
 
@@ -269,6 +288,9 @@ if(title === 'Memories'){
 				)
 			}
 		})
+		console.log("memoryChldren");
+		console.log(thesorted);
+		console.log(memories.memories);
 		if(memories.memories.length == 0){
 			memoryChildren = <p>No memories</p>
 			console.log('REQUEST COMPLETED : NO MEMORIES PRESENT');

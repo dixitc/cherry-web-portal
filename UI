@@ -1,13 +1,41 @@
-moment UI
-
-MEMORIESVIEW UI
-MOMENTSVIEW UI
-IMAGE SIZES
-AMAZING PLACEHOLDER IMAGES
+ALL YOU NEED TO KNOW ABOUT CHERRY WEB APP
 
 
-PAGINATION DONE
+Comprehensive list of issues and bugs
 
-UI - move to autoresponsive grid or react grid in momentsView ???
-	add page transitions .custom page slider or react transition group ???
-	use css-modules to handle css .
+ Clean up code cruft regarding media queries
+ Add unit tests at least for all reducers
+ Add technical documentation
+
+
+
+
+Bugs and issues
+
+End of images in imageview screen (DONE)
+
+Add memory , memory should be added to the top (DONE : temporary fix for mobile devices)
+
+Moments GridView is not smooth in mobile (consider using react-grid to see if it improves performance)
+Memory creation progress bar and refine uploading moments progress bar
+Join cherry in weblink page
+Copy option in weblink dialog
+disable scrolling in background for imageview
+Headroom is not working smoothly on mobile devices
+Change add moments preview screen to better reflect general practice and native app
+Going back from moments to memories page (To fetch or not to fetch memories again , that is the question )
+Appropriate message on accessing unavailable or unauthorized memories
+Handle authToken mismatch (Actually you need to have a check for authToken validity everytime)
+
+
+
+
+
+Comprehensive list of cherry features to be built or deployed in production
+
+1. HTTPS everywhere
+2. progressive web app
+3. Instagram style moments views update (MAJOR FEATURE)
+4. Smooth appearing of images (instagram-like)
+5. Snackbar should just work (In a perfect world the undo button in the snackbar should undo the last dispatched action ,
+	no idea how this could work for network actions maybe like becomes unlike and create becomes delete and so on)
