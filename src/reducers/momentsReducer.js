@@ -20,7 +20,7 @@ const momentsReducer = (state = initState, action) => {
     switch (action.type) {
 		case 'UPLOADING_MOMENTS':
 			//console.log('reducer: momentsReducer FETCH_MOMENTS');
-			return Object.assign({}, state, {uploaderStatus : {...state.uploaderStatus,isUploading : true,toUploadCount:action.data.toUploadCount,finishedUploadCount:0}});
+			return Object.assign({}, state, {uploaderStatus : {...state.uploaderStatus,isUploading : true,toUploadCount:action.data.toUploadCount,finishedUploadCount:0 , uploadText : action.data.uploadText}});
 			return state;
 		case 'IMAGE_FINISHED_UPLOADING':
 			//return state;

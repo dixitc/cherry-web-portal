@@ -16,7 +16,7 @@ End of images in imageview screen (DONE)
 
 Add memory , memory should be added to the top (DONE : temporary fix for mobile devices)
 
-In sagas improve create memory flow by call addMoments action/function after uploading memory meta-data
+In sagas improve create memory flow by call addMoments action/function after uploading memory meta-data (or not , take a look)
 Memory creation progress bar and refine uploading moments progress bar
 
 Change add moments preview screen to better reflect general practice and native app
@@ -24,7 +24,7 @@ After adding new Moments the moments are not displayed properly on return (that 
 Moments GridView is not smooth in mobile (consider using react-grid to see if it improves performance)
 Join cherry in weblink page
 Copy option in weblink dialog
-disable scrolling in background for imageview
+disable scrolling in background for imageview screen (can contribute to the library https://github.com/fritz-c/react-image-lightbox/issues/6)
 Headroom is not working smoothly on mobile devices
 Going back from moments to memories page (To fetch or not to fetch memories again , that is the question )
 Appropriate message on accessing unavailable or unauthorized memories
@@ -39,6 +39,7 @@ Comprehensive list of cherry features to be built or deployed in production
 1. HTTPS everywhere
 2. progressive web app
 3. Instagram style moments views update (MAJOR FEATURE)
-4. Smooth appearing of images (instagram-like)
+4. Smooth fade-in of images (instagram-like)
 5. Snackbar should just work (In a perfect world the undo button in the snackbar should undo the last dispatched action ,
 	no idea how this could work for network actions maybe like becomes unlike and create becomes delete and so on)
+6. Shit needs to be Gzipped in prod

@@ -22,8 +22,8 @@ function fetchMemoriesApi (token) {
 	const url = apiUrl+'/v2/memory/allmemories.json';
 
 	const myHeaders = new Headers({
-  'authToken' : token
-});
+		'authToken' : token
+	});
 	let config = {
       method: 'GET',
       headers :  myHeaders
@@ -40,6 +40,8 @@ function fetchMemoriesApi (token) {
 function* fetchMemories(action){
 
 	//check and serve from cache if they exist
+	//MAJOR WARNING
+	/*Need to sort out this mess for offline first progressive web app*/
 	let cacheUrl = apiUrl+'/v2/memory/allmemories.json'
 	console.log(cacheUrl);
 	caches.match(cacheUrl).then(function(response){
@@ -58,23 +60,18 @@ function* fetchMemories(action){
 			return data;
 		}
 
-
-  }).catch(function(err) {
-	  console.log(err);
-
-
+	}).catch(function(err) {
+		console.log(err);
 	})
 
-
 	const memories = yield call(fetchMemoriesApi , action.token);
-
 	if(memories.length > 0){
 		yield put(actions.purgeMemories());
 	}
 
-
 	yield put(actions.receiveMemories(memories));
 }
+
 
 //params : [ memoryId , authToken ]
 function fetchMomentsApi (params) {
@@ -90,6 +87,7 @@ function fetchMomentsApi (params) {
       method: 'GET',
       headers :  myHeaders
 	}
+	//need to get some shit done now
 	return fetch(url , config)
 	.then((response) => response.json())
 	.then((json) => {
@@ -116,9 +114,8 @@ function fetchPublicMemoryApi (params) {
 }
 
 
-//params : [ shortCode ]
+//params : [ memoryId ,page , rp(pagination count)]
 function fetchPublicMomentsApi (params) {
-
 
 	const { page , rp } = params;
 	const url = apiUrl+'/v2/weblink/'+params.memoryId+'/getMoments.json?page='+page+'&rp='+rp;
@@ -182,11 +179,6 @@ function toggleWebLinkApi(params){
 
 
 function uploadImageApi(params){
-	/*setTimeout(() => {
-		console.log(i+'th image successfully uploaded');
-
-		return {uploaded:true};
-	},1000)*/
 	const user = getUser();
 	const token = user.authToken;
 	console.log(params.file);
@@ -434,11 +426,11 @@ function* likeMoment(action){
 //a function that comprehensively handles adding new moments flow
 //as well as updating state for according ui changes
 function* addMoments(action){
+	console.log('sagas : addMoments');
 	console.log(action);
 	const user = getUser();
-	console.log('USERUSERUSERUSER');
 	console.log(user);
-	yield put(actions.uploadingMoments({toUploadCount:action.data.files.length}));
+	yield put(actions.uploadingMoments({toUploadCount:action.data.files.length , uploadText : 'Adding moments'}));
 	let addMomentsResponse = yield call(addMomentsApi , action.data);
 	console.log(addMomentsResponse);
 	/*for (var i = 0; i < addMomentsResponse.moments.length; i++) {
@@ -446,6 +438,10 @@ function* addMoments(action){
 		console.log(imageId);
 		addMomentsResponse.moments[i].image.id = imageId.imageId
 	}*/
+	//MAJOR IMPLEMENTATION WARNING
+	/*Here uploadImage might be getting called in parallel , this might notbe what we want use forloop
+	for sequential upload
+	refer here  https://github.com/yelouafi/redux-saga/issues/333#issuecomment-232882952*/
 	yield addMomentsResponse.moments.map((moment,i) => call(uploadImage , {data:{moment:moment,momentId:moment.id,file:action.data.files[i]}}))
 	let momentIds = '';
 	addMomentsResponse.moments.map((moment,i) => {
@@ -471,9 +467,9 @@ function* addMoments(action){
 	yield put(actions.momentsFinishedUploading())
 }
 
-//a function that handles cleanup after LOGOUT_USER is called
+//a function that handles uploading a single Image
 function* uploadImage(action){
-	console.log('in HERE');
+	console.log('sagas : uploadImage');
 	const  payload  = action.data;
 	//const files = action.data.files
 	let imageId =	yield call(uploadImageApi , action.data);
@@ -483,7 +479,7 @@ function* uploadImage(action){
 	return action.data.moment;
 }
 
-//a function that handles cleanup after LOGOUT_USER is called
+//a function that handles toggling weblink for a particular memory
 function* toggleWebLink(action){
 	console.log('sagas : getweblink');
 	let webLinkResponse =	yield call(toggleWebLinkApi , action.data);
@@ -501,7 +497,7 @@ function* toggleWebLink(action){
 }
 
 
-//a function that handles cleanup after LOGOUT_USER is called
+//a function that handles updating user profile name and photo
 function* updateUser(action){
 	console.log('sagas : updateUser');
 	console.log(action.data);
@@ -517,15 +513,18 @@ function* updateUser(action){
 	//return action.data.moment;
 }
 
-//a function that handles cleanup after LOGOUT_USER is called
+//a function that handles the entire process of creating a new memory
+//as well as updating state for according ui changes (NOT DONE : update uplaoder status)
 function* createMemory(action){
-	const user = getUser();
 	console.log('sagas : createMemory');
-	console.log(action.data.moments);
+	const user = getUser();
+	console.log(action);
 	console.log(user);
 	const  payload = {};
 	payload.memory = action.data.memory;
 	//const files = action.data.files
+
+	//strangely enough need to manually add current user to members
 	payload.memory.members = [{
 		identifier : user.profile.identifier,
 		addedBy:user.profile.id,
@@ -535,6 +534,7 @@ function* createMemory(action){
 		},
 		localName : user.profile.name
 	}];
+
 	if(action.data.moments.length > 0){
 		console.log('lol');
 		payload.returnMoments = true;
@@ -544,14 +544,18 @@ function* createMemory(action){
 		payload.moments = []
 	}
 	//call uploader with uploadText creating memory
+	yield put(actions.uploadingMoments({toUploadCount:action.data.files.length , uploadText : 'Creating memory'}));
 	const createMemoryResponse = yield call(createMemoryApi , payload)
 	console.log(createMemoryResponse);
 
-	//in a perfect world should call addMoments either directly the function or action based on sagas best practice
+	//in a perfect world should call addMoments either the function directly or action based on sagas best practice
 	if(createMemoryResponse.moments.length > 0){
+		//call uploader with images count and whatnot
+		//yield put(actions.uploadingMoments({toUploadCount:action.data.files.length , uploadText : 'Uploading images'}));
 		yield createMemoryResponse.moments.map((moment,i) => call(uploadImage , {data:{moment:moment,momentId:moment.id,file:action.data.files[i]}}))
-		let momentIds = '';
 
+		let momentIds = '';
+		//generating the data we need to publish moments
 		createMemoryResponse.moments.map((moment,i) => {
 			if(i == createMemoryResponse.moments.length - 1){
 				momentIds = momentIds + (moment.id).toString()
@@ -559,12 +563,15 @@ function* createMemory(action){
 				momentIds = momentIds + (moment.id).toString() + ','
 			}
 		})
+
 		console.log(' IMAGES UPLOADED');
 		console.log(createMemoryResponse.moments);
+		//none of this works if you don't PUBLISH THE MOMENTS
 		yield call(publishMomentsApi , {momentIds:momentIds,memoryId:action.data.memory.id})
 	}
+	//disable uploader UI nad insert memory on top
+	yield put(actions.momentsFinishedUploading())
 	yield put(actions.createMemorySuccess(createMemoryResponse))
-
 }
 
 
@@ -628,13 +635,11 @@ function* watchCreateMemory(){
 
 //watcher function for creating new memory
 function* watchToggleWebLink(){
-	console.log('agagin toggling');
 	yield* takeEvery('TOGGLE_WEBLINK', toggleWebLink);
 }
 
 //watcher function for updating user info at signup for now
 function* watchUpdateUser(){
-	console.log('updating ingo ');
 	yield* takeEvery('UPDATE_USER', updateUser);
 }
 
@@ -646,18 +651,17 @@ function* watchUpdateUser(){
 
 export default function* root() {
 
-
-  yield [watchFetchMemories()
-  , watchFetchPublicMemory()
-  , watchFetchPublicMoments()
-  , watchVerifySuccess()
-  , watchLogOut()
-  , watchUpdateUser()
-  , watchToggleWebLink()
-  , watchFetchMoments()
-  , watchCreateMemory()
-  , watchLikeMoment()
-  , watchAddMoments()
-  , watchUploadImage()
-]
+	yield [watchFetchMemories()
+	  , watchFetchPublicMemory()
+	  , watchFetchPublicMoments()
+	  , watchVerifySuccess()
+	  , watchLogOut()
+	  , watchUpdateUser()
+	  , watchToggleWebLink()
+	  , watchFetchMoments()
+	  , watchCreateMemory()
+	  , watchLikeMoment()
+	  , watchAddMoments()
+	  , watchUploadImage()
+	]
 }

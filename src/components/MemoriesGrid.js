@@ -243,7 +243,7 @@ class MyMemoriesGrid extends Component {
 		}
 	}
 	render(){
-		const{ memories , title , auth , handleLogout} = this.props;
+		const{ memories , title , auth , handleLogout , uploaderStatus} = this.props;
 		const layout = {
 			lg : []
 		};
@@ -464,9 +464,11 @@ thesorted = memories.memories.sort(function(x, y){
 					{memoryChildren}
 
 	         	</ResponsiveReactGridLayout>
-				<FloatingActionButton style={window.innerWidth < 400 ? {position:'fixed',bottom:'10px',right:'20px',zIndex:'9'}:{position:'fixed',bottom:'60px',right:'40px',zIndex:'9'}} zDepth={2} onTouchTap={this.handleOpen}>
-					<ContentAdd tooltip={'create memory'} />
-				</FloatingActionButton>
+				{!uploaderStatus.isUploading &&
+					<FloatingActionButton style={window.innerWidth < 400 ? {position:'fixed',bottom:'10px',right:'20px',zIndex:'9'}:{position:'fixed',bottom:'60px',right:'40px',zIndex:'9'}} zDepth={2} onTouchTap={this.handleOpen}>
+						<ContentAdd tooltip={'create memory'} />
+					</FloatingActionButton>
+				}
 			</div>
 		)
 	}
@@ -486,9 +488,11 @@ MyMemoriesGrid.propTypes = {
 const mapStateToProps = (state) => {
 	const { auth , title } = state;
 	const memories = state.memories;
+	const uploaderStatus = state.moments.uploaderStatus;
 	return {
 		memories,
 		auth,
+		uploaderStatus,
         title
 	}
 }

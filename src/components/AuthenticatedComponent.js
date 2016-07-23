@@ -89,7 +89,7 @@ class AuthenticatedComponent extends React.Component {
 
 	<Paper style={{position:'fixed',bottom:'0px',width:'90%',left:'5%',zIndex:'3',background:'white'}} zDepth={4}>
 
-			<ListItem style={{height:'50px'}} className={'fader'} innerDivStyle={{fontSize:'14px',paddingTop:'16px'}} primaryText={<span style={{fontSize:'14px'}}>{uploaderStatus.finishedUploadCount == 0 ? 'Moments being added' : 'Images uploading'}</span>} innerDivStyle={{paddingTop:'20px'}}>
+			<ListItem style={{height:'50px'}} className={'fader'} innerDivStyle={{fontSize:'14px',paddingTop:'16px'}} primaryText={<span style={{fontSize:'14px'}}>{uploaderStatus.uploadText}</span>} innerDivStyle={{paddingTop:'20px'}}>
 			</ListItem>
 
 		{uploaderStatus.finishedUploadCount != 0 &&
