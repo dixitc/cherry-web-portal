@@ -13,12 +13,13 @@ Comprehensive list of issues and bugs
 Bugs and issues
 
 End of images in imageview screen (DONE)
+Memory creation progress bar and refine uploading moments progress bar (DONE)
 
 Add memory , memory should be added to the top (DONE : temporary fix for mobile devices)
 
 In sagas improve create memory flow by call addMoments action/function after uploading memory meta-data (or not , take a look)
-Memory creation progress bar and refine uploading moments progress bar
 
+On create memory return need to set coverMoment on memoriesGrid screen
 Change add moments preview screen to better reflect general practice and native app
 After adding new Moments the moments are not displayed properly on return (that is filling their container based on landscape or portrait logic)
 Moments GridView is not smooth in mobile (consider using react-grid to see if it improves performance)
@@ -29,6 +30,7 @@ Headroom is not working smoothly on mobile devices
 Going back from moments to memories page (To fetch or not to fetch memories again , that is the question )
 Appropriate message on accessing unavailable or unauthorized memories
 Handle authToken mismatch (Actually you need to have a check for authToken validity everytime)
+In grid image display landscape and portrait break if the image is perfectly square 
 
 
 
