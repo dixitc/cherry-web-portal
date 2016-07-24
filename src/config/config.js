@@ -11,8 +11,9 @@
 //const apiUrl = 'http://127.0.0.1:8123/cherry.triconlabs.com/'; //(without oauth)
 
 //CURRENT
-//const apiUrl = 'http://172.16.1.174:8080/memrousel';
+const apiUrl = 'http://172.16.1.174:8080/memrousel';
+//const apiUrl = 'http://localhost:8080/memrousel';
 //const apiUrl = ' https://dixitcy.in:8443/memrousel';
-const apiUrl = 'http://cherry.triconlabs.com'; //(without oauth . PROD VERSION)
+//const apiUrl = 'http://cherry.triconlabs.com'; //(without oauth . PROD VERSION)
 
 export default apiUrl ;

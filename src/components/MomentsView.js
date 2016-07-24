@@ -10,6 +10,7 @@ import IconButton from 'material-ui/IconButton';
 import MomentView from './MomentView';
 import { likeMoment , setTitle , addMoments , uploadImage , publishMoments} from '../actions/actions';
 import Avatar from 'material-ui/Avatar';
+import Checkbox from 'material-ui/Checkbox';
 import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -595,7 +596,7 @@ closeMemberView = () => {
 
 </Dialog>
 				<Dialog
-		          title={<ListItem primaryText={'Add your moments '}  rightIconButton={<IconButton  onClick={ this.handleClose} style={{top:'8px'}} tooltip="Close"><Clear /></IconButton>} secondaryText={this.state.files.length > 0 ? (this.state.files.filter((file)=>{return file.isSelected})).length + ((this.state.files.filter((file)=>{return file.isSelected})).length == 1 ? ' moment':' moments') : ''} />}
+		          title={<ListItem primaryText={'Add your moments '}  rightIconButton={<IconButton  onClick={ this.handleClose} style={{top:'8px',border:'none'}} tooltip="Close"><Clear /></IconButton>} innerDivStyle={{border:'none'}} secondaryText={this.state.files.length > 0 ? (this.state.files.filter((file)=>{return file.isSelected})).length + ((this.state.files.filter((file)=>{return file.isSelected})).length == 1 ? ' moment':' moments') : ''} />}
 				  titleStyle={{border:'none',padding:'0px'}}
 				  bodyStyle={{padding:'0px 2px',border:'none'}}
 				  contentStyle={{border:'none',width:'90%',margin:'0px auto'}}
@@ -617,28 +618,37 @@ closeMemberView = () => {
 
 			        return (
 				            <div className={"dz-preview dz-processing dz-image-preview dz-success dz-complete"} onClick={(event) => {this.fileSelect(i, event)}} style={{background: 'transparent'}}>
-				                <Badge badgeContent={file.isSelected
-				                    ? <Done style={{height:'20px',width:'20px',fill:'#1B4CEC'}} color={'white'}/>
-								: <span></span>} secondary={true} badgeStyle={file.isSelected ? {
-				                    top: 12,
-				                    right: 12,
-				                    zIndex: 10,
-									backgroundColor:'rgba(34, 255, 89, 0.49)'
-				                } : {
-				                    top: 12,
-				                    right: 12,
-				                    zIndex: 10,
-									backgroundColor:'rgba(255, 87, 34, 0.34)'
-				                }}
-								>
 
-				                    <Paper zIndex={3} className={"dz-image center-cropped"}  style={{
+								<div>
+
+									<Checkbox
+										label={'&nbsp;'}
+										labelPosition="left"
+										labelStyle={{color:'transparent',width:'calc(100% - 53px)'}}
+										iconStyle={{
+											fill: '#fff',
+											position:'absolute'
+										}}
+										style={{position:'absolute',zIndex:'11'}}
+										checked={file.isSelected}
+										/>
+									<Paper zIndex={3} className={"dz-image center-cropped"}  style={file.isSelected ? {
 				                        backgroundImage: 'url(' + file.imageSrc + ')',
 				                        borderRadius: '0px'
-				                    }}></Paper>
+				                    } :
+									{
+										backgroundImage: 'url(' + file.imageSrc + ')',
+										borderRadius: '0px',
+										mozFilter:'blur(2px) grayscale(70%)',
+										filter:'blur(2px) grayscale(70%)',
+										webkitFilter:'blur(2px) grayscale(70%)'
+									}}>
 
-				                    <div className={"dz-details"}></div>
-				                </Badge>
+									</Paper>
+
+								</div>
+
+
 				            </div>
 			        	)
 			    	})
